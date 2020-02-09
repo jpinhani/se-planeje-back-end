@@ -12,5 +12,17 @@ module.exports = {
      DespesaModel.insertDespesa(resquest.body).then(result => {
       return response.json(result)
      })
-  }
+  },
+
+  updateDespesa(request, response){
+    DespesaModel.updateDespesa(resquest.body).then(result => {
+     return response.json(result)
+    })
+  },
+
+ deleteDespesa(request, response){
+  DespesaModel.deleteDespesa(resquest.body).then(result => {
+   return response.json(result)
+  })
+ }
 }
