@@ -15,7 +15,8 @@ module.exports = {
   insertNatureza(body) {
     
   	return new Promise((resolve, reject) => {
-			const sql = `insert into natureza values('${body.idUser}','${body.descrNatureza}', '${body.status}')`
+      const sql = `insert into NATUREZA values (null, '${body.idUser}','${body.descrNatureza}', '${body.status}')`
+      console.log(sql)
       connection.query(sql, function(error, result, fields) {
         if (error)
           reject(error)

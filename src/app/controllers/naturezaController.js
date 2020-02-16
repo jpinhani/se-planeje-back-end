@@ -9,19 +9,26 @@ module.exports = {
   },
 
   insertNatureza(request, response){
-     NaturezaModel.insertNatureza(resquest.body).then(result => {
-      return response.json(result)
-     })
+    try {
+      NaturezaModel.insertNatureza(request.body).then(result => {
+        return response.json(result)
+       })
+    } catch (error) {
+        return response.status(400).json(error)
+    }
+
+
+    
   },
 
   updateNatureza(request, response){
-    NaturezaModel.updateNatureza(resquest.body).then(result => {
+    NaturezaModel.updateNatureza(request.body).then(result => {
      return response.json(result)
     })
   },
 
  deleteNatureza(request, response){
-  NaturezaModel.deleteNatureza(resquest.body).then(result => {
+  NaturezaModel.deleteNatureza(request.body).then(result => {
    return response.json(result)
   })
  }
