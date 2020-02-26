@@ -24,9 +24,8 @@ module.exports = {
   },
 
   insertCartao(body) {
-
     return new Promise((resolve, reject) => {
-      const sql = `INSERT INTO CARTAO VALUES('${body.idUser}','${body.cartao}', '${body.dtVencimento}','${body.diaCompra}','${body.status})`
+      const sql = `INSERT INTO CARTAO VALUES (null,'${body.idUser}','${body.cartao}', '${body.dtVencimento}','${body.diaCompra}','${body.status}')`
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
