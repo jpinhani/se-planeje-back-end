@@ -14,7 +14,7 @@ module.exports = {
 
   getCartao(cartaoId) {
     return new Promise((resolve, reject) => {
-      const sql = `SELECT * FROM CARTAO WHERE ID = ${cartaoId}`
+      const sql = `SELECT * FROM CARTAO WHERE CARTAO LIKE '%${cartaoId}%'`
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
