@@ -23,6 +23,7 @@ module.exports = {
   },
 
   updateCartao(request, response) {
+    request.body.id = request.params.id
     CartaoModel.updateCartao(request.body).then(result => {
       return response.json(result)
     })

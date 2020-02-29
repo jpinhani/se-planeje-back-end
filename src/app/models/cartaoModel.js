@@ -37,7 +37,15 @@ module.exports = {
   updateCartao(body) {
 
     return new Promise((resolve, reject) => {
-      const sql = `UPDATE CARTAO SET CARTAO = '${body.cartao}', DT_VENCIMENTO ='${body.dtVencimento}', DIA_COMPRA ='${body.diaCompra}',ID_NATUREZA ='${body.idNatureza}' where ID='${body.cartaoID}' and ID_USER = '${body.idUser}' )`
+      const sql = `
+        UPDATE CARTAO SET 
+        CARTAO = '${body.cartao}', 
+        DT_VENCIMENTO = '${body.dtVencimento}', 
+        DIA_COMPRA ='${body.diaCompra}' 
+        WHERE ID = '${body.id}' 
+        AND ID_USER = '${body.idUser}'
+      `
+      
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
