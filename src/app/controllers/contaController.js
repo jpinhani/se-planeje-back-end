@@ -40,6 +40,7 @@ module.exports = {
   },
 
   deleteConta(request, response) {
+    request.body.id = request.params.id
     ContaModel.deleteConta(request.body).then(result => {
       return response.json(result)
     })

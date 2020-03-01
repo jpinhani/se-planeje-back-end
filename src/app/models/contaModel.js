@@ -54,7 +54,8 @@ module.exports = {
   deleteConta(body) {
 
     return new Promise((resolve, reject) => {
-      const sql = `DELETE FROM CONTA WHERE ID='${body.naturezaId}' and ID_USER = '${body.idUser}')`
+      const sql = `DELETE FROM CONTA WHERE ID='${body.id}'`
+      console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
