@@ -5,6 +5,7 @@ const userRoute = require('./app/routes/userRoute')
 const despesaRoute = require('./app/routes/despesaRoute')
 const cartaoRoute = require('./app/routes/cartaoRoute')
 const contaRoute = require('./app/routes/contaRoute')
+const categoriaRoute = require('./app/routes/categoriaRoute')
 const receitaRoute = require('./app/routes/receitaRoute')
 const app = express()
 
@@ -17,5 +18,6 @@ app.use(despesaRoute)
 app.use(cartaoRoute)
 app.use(contaRoute)
 app.use(receitaRoute)
+app.use(categoriaRoute)
 
 module.exports = app 
