@@ -4,7 +4,6 @@ module.exports = {
 
   getCategoriaComboDepencia(request, response) {
     try {
-      // console.log('controler')
       CategoriaModel.getCategoriaComboDepencia(request.params.iduser, request.params.tipo, request.params.nivel).then(result => {
         return response.json(result)
       })
@@ -15,7 +14,6 @@ module.exports = {
 
   getCategoriaAll(request, response) {
     try {
-      // console.log('controler')
       CategoriaModel.getCategoriaAll(request.params.id).then(result => {
         return response.json(result)
       })
@@ -26,23 +24,11 @@ module.exports = {
 
 
   getCategoria(request, response) {
-    switch (request.params.id.length) {
-      // console.log(length(request.params.id))
-      case 1:
-        CategoriaModel.getCategoriaAll(request.params.iduser).then(result => {
-          return response.json(result)
-        })
-        break;
-
-      default:
-        CategoriaModel.getCategoria(request.params.iduser, request.params.id).then(result => {
-          return response.json(result)
-        })
-        break;
-    }
-
-
+    CategoriaModel.getCategoria(request.params.iduser, request.params.id).then(result => {
+      return response.json(result)
+    })
   },
+
 
   insertCategoria(request, response) {
     try {
