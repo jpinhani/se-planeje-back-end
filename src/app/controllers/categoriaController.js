@@ -26,9 +26,22 @@ module.exports = {
 
 
   getCategoria(request, response) {
-    CategoriaModel.getCategoria(request.params.iduser, request.params.id).then(result => {
-      return response.json(result)
-    })
+    switch (request.params.id.length) {
+      // console.log(length(request.params.id))
+      case 1:
+        CategoriaModel.getCategoriaAll(request.params.iduser).then(result => {
+          return response.json(result)
+        })
+        break;
+
+      default:
+        CategoriaModel.getCategoria(request.params.iduser, request.params.id).then(result => {
+          return response.json(result)
+        })
+        break;
+    }
+
+
   },
 
   insertCategoria(request, response) {
