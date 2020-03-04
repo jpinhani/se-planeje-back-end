@@ -2,6 +2,17 @@ const CategoriaModel = require('../models/categoriaModel')
 
 module.exports = {
 
+  getCategoriaComboDepencia(request, response) {
+    try {
+      // console.log('controler')
+      CategoriaModel.getCategoriaComboDepencia(request.params.iduser, request.params.tipo, request.params.nivel).then(result => {
+        return response.json(result)
+      })
+    } catch (error) {
+      return response.status(400).json(error)
+    }
+  },
+
   getCategoriaAll(request, response) {
     try {
       // console.log('controler')

@@ -1,6 +1,22 @@
 const connection = require('../../database/index')
 
 module.exports = {
+  getCategoriaComboDepencia(userID, tipo, nivel) {
+    return new Promise((resolve, reject) => {
+      const sql = `SELECT
+                      * FROM CATEGORIA A
+                            WHERE A.NIVEL = ${nivel}-1
+                              AND A.ID_USER = ${userID}
+                              AND A.TIPO = ${tipo}
+                              AND A.ENTRADA = 1`
+      console.log(sql)
+      connection.query(sql, function (error, result, fields) {
+        if (error)
+          reject(error)
+        resolve(result)
+      })
+    })
+  },
 
   getCategoriaAll(userID) {
     return new Promise((resolve, reject) => {
