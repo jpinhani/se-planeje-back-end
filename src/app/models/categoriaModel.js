@@ -4,7 +4,7 @@ module.exports = {
   getCategoriaComboDepencia(userID, tipo, nivel) {
     return new Promise((resolve, reject) => {
       const sql = `SELECT
-                      * FROM CATEGORIA A
+                    A.* FROM CATEGORIA A
                             WHERE A.NIVEL = ${nivel}-1
                               AND A.ID_USER = ${userID}
                               AND A.TIPO = ${tipo}
@@ -21,8 +21,25 @@ module.exports = {
   getCategoriaAll(userID) {
     return new Promise((resolve, reject) => {
       const sql = `SELECT
+                      B.ID IDPAI,
                       B.DESCR_CATEGORIA PAI,
-                      A.* FROM CATEGORIA A 
+                      A.ID,
+                      A.ID_USER,
+                      A.DEPENDENCIA,
+                      A.DESCR_CATEGORIA,
+                      A.NIVEL,
+                      CASE WHEN A.TIPO = 1 THEN
+                         'DESPESA' 
+                           WHEN A.TIPO = 2 THEN
+                          'RECEITA' END TIPODESCR,
+                      A.TIPO,
+                      A.AGREGACAO,
+                      CASE WHEN A.ENTRADA = '0' THEN
+                       'Conta de Input' 
+                           WHEN A.ENTRADA = '1' THEN
+                       'Conta de Consolidação' END ENTRADADESCR,
+                      A.ENTRADA,
+                      A.STATUS FROM CATEGORIA A 
                            LEFT OUTER JOIN CATEGORIA B ON (A.DEPENDENCIA = B.ID)
                            WHERE A.ID_USER = '${userID}'
                             ORDER BY A.DEPENDENCIA`
@@ -38,8 +55,25 @@ module.exports = {
   getCategoria(userID, categoriaID) {
     return new Promise((resolve, reject) => {
       const sql = `SELECT
+                      B.ID IDPAI,
                       B.DESCR_CATEGORIA PAI,
-                      A.* FROM CATEGORIA A 
+                      A.ID,
+                      A.ID_USER,
+                      A.DEPENDENCIA,
+                      A.DESCR_CATEGORIA,
+                      A.NIVEL,
+                      CASE WHEN A.TIPO = 1 THEN
+                         'DESPESA' 
+                           WHEN A.TIPO = 2 THEN
+                          'RECEITA' END TIPODESCR,
+                      A.TIPO,
+                      A.AGREGACAO,
+                      CASE WHEN A.ENTRADA = '0' THEN
+                       'Conta de Input' 
+                           WHEN A.ENTRADA = '1' THEN
+                       'Conta de Consolidação' END ENTRADADESCR,
+                      A.ENTRADA,
+                      A.STATUS FROM CATEGORIA A 
                            LEFT OUTER JOIN CATEGORIA B ON (A.DEPENDENCIA = B.ID)
                            WHERE A.ID_USER = '${userID}'
                              AND A.DESCR_CATEGORIA LIKE '%${categoriaID}%'
@@ -53,7 +87,7 @@ module.exports = {
     })
   },
 
-  insertConta(body) {
+  insertCategoria(body) {
 
     return new Promise((resolve, reject) => {
       const sql = `INSERT INTO CATEGORIA
@@ -75,10 +109,19 @@ module.exports = {
     })
   },
 
-  updateConta(body) {
+  updateCategoria(body) {
 
     return new Promise((resolve, reject) => {
-      const sql = `UPDATE CONTA SET DESCR_CONTA = '${body.descrConta}', STATUS ='${body.status}' where ID='${body.naturezaID}' and ID_USER = '${body.idUser}' )`
+      const sql = `UPDATE CATEGORIA SET
+                              DEPENDENCIA = '${body.dependencia}', 
+                              DESCR_CATEGORIA = '${body.descrCategoria}', 
+                              NIVEL = '${body.nivel}',
+                              TIPO = '${body.tipo}',
+                              AGREGACAO = '${body.agregacao}',
+                              ENTRADA = '${body.entrada}',
+                              STATUS ='${body.status}' 
+                        WHERE ID='${body.id}'`
+      console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
@@ -87,10 +130,10 @@ module.exports = {
     })
   },
 
-  deleteConta(body) {
+  deleteCategoria(body) {
 
     return new Promise((resolve, reject) => {
-      const sql = `DELETE FROM CONTA WHERE ID='${body.id}'`
+      const sql = `DELETE FROM CATEGORIA WHERE ID='${body.id}'`
       console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
