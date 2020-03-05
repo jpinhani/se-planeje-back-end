@@ -9,6 +9,7 @@ module.exports = {
                               AND A.ID_USER = ${userID}
                               AND A.TIPO = ${tipo}
                               AND A.ENTRADA = 1`
+
       console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
@@ -41,7 +42,7 @@ module.exports = {
                       A.ENTRADA,
                       A.STATUS FROM CATEGORIA A 
                            LEFT OUTER JOIN CATEGORIA B ON (A.DEPENDENCIA = B.ID)
-                           WHERE A.ID_USER = '${userID}'
+                           WHERE A.ID_USER = '${userID}' AND A.ID > 3
                             ORDER BY A.DEPENDENCIA`
       console.log(sql)
       connection.query(sql, function (error, result, fields) {
@@ -76,7 +77,7 @@ module.exports = {
                       A.STATUS FROM CATEGORIA A 
                            LEFT OUTER JOIN CATEGORIA B ON (A.DEPENDENCIA = B.ID)
                            WHERE A.ID_USER = '${userID}'
-                             AND A.DESCR_CATEGORIA LIKE '%${categoriaID}%'
+                             AND A.DESCR_CATEGORIA LIKE '%${categoriaID}%' AND A.ID > 3
                             ORDER BY A.DEPENDENCIA`
       console.log(sql)
       connection.query(sql, function (error, result, fields) {
