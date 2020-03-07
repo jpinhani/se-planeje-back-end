@@ -1,6 +1,24 @@
 const connection = require('../../database/index')
 
 module.exports = {
+
+
+  getVerifyDependencia(categoriaID) {
+    return new Promise((resolve, reject) => {
+      const sql = `SELECT
+                      COUNT(A.ID) Verify FROM CATEGORIA A
+                        WHERE A.DEPENDENCIA = '${categoriaID}'`
+
+      console.log(sql)
+      connection.query(sql, function (error, result, fields) {
+        console.log('Resultado esperado:', result)
+        if (error)
+          reject(error)
+        resolve(result)
+      })
+    })
+  },
+
   getCategoriaComboDepencia(userID, tipo, nivel) {
     return new Promise((resolve, reject) => {
       const sql = `SELECT

@@ -51,8 +51,23 @@ module.exports = {
 
   deleteCategoria(request, response) {
     request.body.id = request.params.id
-    CategoriaModel.deleteCategoria(request.body).then(result => {
-      return response.json(result)
+
+    CategoriaModel.getVerifyDependencia(request.params.id).then(result => {
+      console.log('XXXXXXXXXXXXXXXXXXXXX', result)
+      // return response.json(result)
+
+
+      switch (result) {
+        case 0:
+          CategoriaModel.deleteCategoria(request.body).then(result => {
+            return response.json(result)
+          })
+          break;
+
+        default: console.log("Não entrou")
+          break;
+      }
     })
+
   }
 }
