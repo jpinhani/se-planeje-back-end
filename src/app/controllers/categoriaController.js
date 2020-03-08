@@ -38,9 +38,17 @@ module.exports = {
     } catch (error) {
       return response.status(400).json(error)
     }
+  },
 
+  insertCategoriaDefault(request, response) {
+    try {
+      CategoriaModel.insertCategoriaDefault(request.body).then(result => {
+        return response.json(result)
+      })
 
-
+    } catch (error) {
+      return response.status(400).json(error)
+    }
   },
 
   updateCategoria(request, response) {
@@ -53,21 +61,20 @@ module.exports = {
     request.body.id = request.params.id
 
     CategoriaModel.getVerifyDependencia(request.params.id).then(result => {
-      console.log('XXXXXXXXXXXXXXXXXXXXX', result)
-      // return response.json(result)
 
-
-      switch (result) {
+      switch (result[0].Verify) {
         case 0:
           CategoriaModel.deleteCategoria(request.body).then(result => {
             return response.json(result)
           })
           break;
 
-        default: console.log("Não entrou")
+        default: return response.json({
+          message: 'Não é possivel excluir categorias que possuel niveis Abaixo',
+          error: true
+        })
           break;
       }
     })
-
   }
 }

@@ -11,7 +11,7 @@ module.exports = {
 
       console.log(sql)
       connection.query(sql, function (error, result, fields) {
-        console.log('Resultado esperado:', result)
+        // console.log('Resultado esperado:', result[0].Verify)
         if (error)
           reject(error)
         resolve(result)
@@ -24,7 +24,7 @@ module.exports = {
       const sql = `SELECT
                     A.* FROM CATEGORIA A
                             WHERE A.NIVEL = ${nivel}-1
-                              AND A.ID_USER = ${userID}
+                              AND A.ID_USER IN (${userID},0)
                               AND A.TIPO = ${tipo}
                               AND A.ENTRADA = 1`
 
@@ -60,7 +60,7 @@ module.exports = {
                       A.ENTRADA,
                       A.STATUS FROM CATEGORIA A 
                            LEFT OUTER JOIN CATEGORIA B ON (A.DEPENDENCIA = B.ID)
-                           WHERE A.ID_USER = '${userID}' AND A.ID > 3
+                           WHERE  A.ID_USER IN (${userID},0) AND A.ID > 3
                             ORDER BY A.DEPENDENCIA`
       console.log(sql)
       connection.query(sql, function (error, result, fields) {
@@ -94,7 +94,7 @@ module.exports = {
                       A.ENTRADA,
                       A.STATUS FROM CATEGORIA A 
                            LEFT OUTER JOIN CATEGORIA B ON (A.DEPENDENCIA = B.ID)
-                           WHERE A.ID_USER = '${userID}'
+                           WHERE  A.ID_USER IN (${userID},0)
                              AND A.DESCR_CATEGORIA LIKE '%${categoriaID}%' AND A.ID > 3
                             ORDER BY A.DEPENDENCIA`
       console.log(sql)
@@ -127,6 +127,168 @@ module.exports = {
       })
     })
   },
+
+  insertCategoriaDefault(body) {
+
+    return new Promise((resolve, reject) => {
+      const sql = `INSERT INTO CATEGORIA
+                         VALUES (NULL,'${body.idUser}',2,'HABITAÇÃO',3,1,'+',1,'Ativo'),
+                                (NULL,'${body.idUser}',2,'EDUCAÇÃO',3,1,'+',1,'Ativo'),
+                                (NULL,'${body.idUser}',2,'SAÚDE',3,1,'+',1,'Ativo'),
+                                (NULL,'${body.idUser}',2,'LAZER',3,1,'+',1,'Ativo'),
+                                (NULL,'${body.idUser}',2,'TRANSPORTE',3,1,'+',1,'Ativo'),
+                                (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'IPTU',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'ALUGUEL',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'CONDOMINIO',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'ENERGIA',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'INTERNET',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'GAS',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'SERVIÇOS DE ASSINATURAS',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'SUPERMERCADO',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'FEIRA',4,1,'+',0,'Ativo'),
+                                (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'IPTU',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                      WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                        AND A.ID_USER = ${body.idUser}),'ALUGUEL',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'CONDOMINIO',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'ENERGIA',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'INTERNET',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'GAS',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'SERVIÇOS DE ASSINATURAS',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'SUPERMERCADO',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'FEIRA',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'EDUCAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'FACULDADE',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'EDUCAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'ESCOLA',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'EDUCAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'CRECHE',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'EDUCAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'CURSOS',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'EDUCAÇÃO'
+                                    AND A.ID_USER = ${body.idUser}),'LIVROS',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
+                                    AND A.ID_USER = ${body.idUser}),'PLANO DE SAÚDE',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
+                                    AND A.ID_USER = ${body.idUser}),'MEDICOS',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
+                                    AND A.ID_USER = ${body.idUser}),'DENTISTA',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
+                                    AND A.ID_USER = ${body.idUser}),'OUTROS SAÚDE',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
+                                    AND A.ID_USER = ${body.idUser}),'PLANO DE SAÚDE',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
+                                    AND A.ID_USER = ${body.idUser}),'MEDICOS',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
+                                    AND A.ID_USER = ${body.idUser}),'DENTISTA',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
+                                    AND A.ID_USER = ${body.idUser}),'OUTROS SAÚDE',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
+                                    AND A.ID_USER = ${body.idUser}),'PLANO DE SAÚDE',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
+                                    AND A.ID_USER = ${body.idUser}),'MEDICOS',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
+                                    AND A.ID_USER = ${body.idUser}),'DENTISTA',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
+                                    AND A.ID_USER = ${body.idUser}),'OUTROS SAÚDE',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                      WHERE A.DESCR_CATEGORIA = 'LAZER'
+                                        AND A.ID_USER = ${body.idUser}),'FESTAS',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                      WHERE A.DESCR_CATEGORIA = 'LAZER'
+                                        AND A.ID_USER = ${body.idUser}),'RESTAURANTES',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                      WHERE A.DESCR_CATEGORIA = 'LAZER'
+                                        AND A.ID_USER = ${body.idUser}),'CINEMA',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                      WHERE A.DESCR_CATEGORIA = 'LAZER'
+                                        AND A.ID_USER = ${body.idUser}),'BARZINHOS',4,1,'+',0,'Ativo'),                                    
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                          WHERE A.DESCR_CATEGORIA = 'LAZER'
+                                            AND A.ID_USER = ${body.idUser}),'OUTROS LAZER',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                      WHERE A.DESCR_CATEGORIA = 'TRANSPORTE'
+                                        AND A.ID_USER = ${body.idUser}),'MANUTENÇÃO DE CARROS',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                      WHERE A.DESCR_CATEGORIA = 'TRANSPORTE'
+                                        AND A.ID_USER = ${body.idUser}),'REVISÕES DE CARRO',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                      WHERE A.DESCR_CATEGORIA = 'TRANSPORTE'
+                                        AND A.ID_USER = ${body.idUser}),'IPVA',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                      WHERE A.DESCR_CATEGORIA = 'TRANSPORTE'
+                                        AND A.ID_USER = ${body.idUser}),'PEDAGIOS',4,1,'+',0,'Ativo'),                                    
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                          WHERE A.DESCR_CATEGORIA = 'TRANSPORTE'
+                                            AND A.ID_USER = ${body.idUser}),'MULTAS',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                          WHERE A.DESCR_CATEGORIA = 'TRANSPORTE'
+                                            AND A.ID_USER = ${body.idUser}),'TRANSPORTE PUBLICO',4,1,'+',0,'Ativo'),
+                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
+                                          WHERE A.DESCR_CATEGORIA = 'TRANSPORTE'
+                                            AND A.ID_USER = ${body.idUser}),'FRETADO',4,1,'+',0,'Ativo')`
+
+      connection.query(sql, function (error, result, fields) {
+        console.log('sql', sql)
+        if (error)
+          reject(error)
+        resolve(result)
+      })
+    })
+  },
+
+
 
   updateCategoria(body) {
 
