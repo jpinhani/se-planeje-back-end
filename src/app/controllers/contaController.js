@@ -34,6 +34,7 @@ module.exports = {
   },
 
   updateConta(request, response) {
+    request.body.id = request.params.id
     ContaModel.updateConta(request.body).then(result => {
       return response.json(result)
     })

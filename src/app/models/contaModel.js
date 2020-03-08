@@ -42,7 +42,11 @@ module.exports = {
   updateConta(body) {
 
     return new Promise((resolve, reject) => {
-      const sql = `UPDATE CONTA SET DESCR_CONTA = '${body.descrConta}', STATUS ='${body.status}' where ID='${body.naturezaID}' and ID_USER = '${body.idUser}' )`
+      const sql = `UPDATE CONTA 
+                       SET DESCR_CONTA = '${body.descrConta}', 
+                           STATUS ='${body.status}' 
+                           WHERE ID='${body.id}'`
+      console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)

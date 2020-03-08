@@ -15,7 +15,7 @@ module.exports = {
   },
 
   insertCartao(request, response) {
-    request.body.cartao = request.body.cartao + ' '
+    request.body.cartao = request.body.cartao
     CartaoModel.insertCartao(request.body).then(result => {
       return response.json(result)
     })
