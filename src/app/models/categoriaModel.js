@@ -163,34 +163,7 @@ module.exports = {
                                     AND A.ID_USER = ${body.idUser}),'SUPERMERCADO',4,1,'+',0,'Ativo'),
                     (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
                                   WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
-                                    AND A.ID_USER = ${body.idUser}),'FEIRA',4,1,'+',0,'Ativo'),
-                                (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
-                                    AND A.ID_USER = ${body.idUser}),'IPTU',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                      WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
-                        AND A.ID_USER = ${body.idUser}),'ALUGUEL',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
-                                    AND A.ID_USER = ${body.idUser}),'CONDOMINIO',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
-                                    AND A.ID_USER = ${body.idUser}),'ENERGIA',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
-                                    AND A.ID_USER = ${body.idUser}),'INTERNET',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
-                                    AND A.ID_USER = ${body.idUser}),'GAS',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
-                                    AND A.ID_USER = ${body.idUser}),'SERVIÇOS DE ASSINATURAS',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
-                                    AND A.ID_USER = ${body.idUser}),'SUPERMERCADO',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'HABITAÇÃO'
-                                    AND A.ID_USER = ${body.idUser}),'FEIRA',4,1,'+',0,'Ativo'),
+                                    AND A.ID_USER = ${body.idUser}),'FEIRA',4,1,'+',0,'Ativo'),                                
                     (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
                                   WHERE A.DESCR_CATEGORIA = 'EDUCAÇÃO'
                                     AND A.ID_USER = ${body.idUser}),'FACULDADE',4,1,'+',0,'Ativo'),
@@ -206,30 +179,6 @@ module.exports = {
                     (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
                                   WHERE A.DESCR_CATEGORIA = 'EDUCAÇÃO'
                                     AND A.ID_USER = ${body.idUser}),'LIVROS',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
-                                    AND A.ID_USER = ${body.idUser}),'PLANO DE SAÚDE',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
-                                    AND A.ID_USER = ${body.idUser}),'MEDICOS',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
-                                    AND A.ID_USER = ${body.idUser}),'DENTISTA',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
-                                    AND A.ID_USER = ${body.idUser}),'OUTROS SAÚDE',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
-                                    AND A.ID_USER = ${body.idUser}),'PLANO DE SAÚDE',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
-                                    AND A.ID_USER = ${body.idUser}),'MEDICOS',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
-                                    AND A.ID_USER = ${body.idUser}),'DENTISTA',4,1,'+',0,'Ativo'),
-                    (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
-                                  WHERE A.DESCR_CATEGORIA = 'SAÚDE'
-                                    AND A.ID_USER = ${body.idUser}),'OUTROS SAÚDE',4,1,'+',0,'Ativo'),
                     (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
                                   WHERE A.DESCR_CATEGORIA = 'SAÚDE'
                                     AND A.ID_USER = ${body.idUser}),'PLANO DE SAÚDE',4,1,'+',0,'Ativo'),
