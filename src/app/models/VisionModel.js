@@ -13,6 +13,21 @@ module.exports = {
     })
   },
 
+  getVisionBySimilarName(user, name) {
+    return new Promise((resolve, reject) => {
+      const SQL = `
+        SELECT * FROM VISAO 
+        WHERE ( ID_USER = '${user}' )
+        AND   ( VISAO LIKE '%${name}' )
+      `
+      connection.query(SQL, function(error, result, fields) {
+        if (error)
+          reject(error)
+        resolve(result)
+			})
+    })
+  },
+
   insertVision(vision) {
     return new Promise((resolve, reject) => {
       const { 

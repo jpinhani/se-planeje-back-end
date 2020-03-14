@@ -7,6 +7,15 @@ module.exports = {
     })
   },
 
+  getVisionBySimilarName(request, response) {
+    VisionModel.getVisionBySimilarName(
+      request.params.id, 
+      request.params.name
+    ).then(result => {
+      return response.json(result)
+    })
+  },
+
   insertVision(request, response) {        
     VisionModel.insertVision(request.body).then(result => {
       return response.json(result)
