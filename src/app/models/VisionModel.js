@@ -51,7 +51,6 @@ module.exports = {
         )
       `
 
-      console.log(SQL)
       connection.query(SQL, function(error, result, fields) {
         if (error)
           reject(error)
