@@ -2,9 +2,9 @@ const connection = require('../../database/index')
 
 module.exports = {
 
-  getVision() {
+  getVision(user) {
     return new Promise((resolve, reject) => {
-			const SQL = `SELECT * FROM VISAO`
+			const SQL = `SELECT * FROM VISAO WHERE ID_USER = '${user}'`
       connection.query(SQL, function(error, result, fields) {
         if (error)
           reject(error)
