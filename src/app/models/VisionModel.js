@@ -18,7 +18,7 @@ module.exports = {
       const SQL = `
         SELECT * FROM VISAO 
         WHERE ( ID_USER = '${user}' )
-        AND   ( VISAO LIKE '%${name}' )
+        AND   ( VISAO LIKE '%${name}%' )
       `
       connection.query(SQL, function(error, result, fields) {
         if (error)
