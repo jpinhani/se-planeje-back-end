@@ -63,9 +63,22 @@ module.exports = {
   },
 
   insertDespesa(body) {
-
     return new Promise((resolve, reject) => {
-      const sql = `insert into despesa values('${body.idUser}','${body.description}', '${body.numParcela}','${body.status}','${body.idNatureza}','${body.vlReal}','${body.vlPrevisto}','${body.dtInicio}','${body.dtReal}','${body.idConta}','${body.idCartao}','${body.idFatura}')`
+      const sql = `INSERT INTO DESPESA VALUES 
+                                    ( null,
+                                     '${body.idUser}',
+                                     '${body.categoria}',
+                                       null,
+                                     '${body.cartao}',
+                                     '${body.descrDespesa}', 
+                                     '${body.parcela}',
+                                       null,
+                                       null,
+                                     '${body.valorPrevisto}',
+                                     '${body.dataPrevista}',
+                                       null,
+                                     '${body.status}')`
+      console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)

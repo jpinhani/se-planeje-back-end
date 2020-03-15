@@ -1,3 +1,4 @@
+const Moment = require('moment')
 const DespesaModel = require('../models/despesaModel')
 
 module.exports = {
@@ -57,19 +58,51 @@ module.exports = {
   },
 
   insertDespesa(request, response) {
-    DespesaModel.insertDespesa(resquest.body).then(result => {
-      return response.json(result)
-    })
+    const numparcelas = request.body.parcela
+    let linhas = 0
+    let erro = 0
+    let num = 1
+    if (numparcelas > 1) {
+
+      for (let par = 0; par < numparcelas; par++) {
+        let date = Moment(request.body.dataPrevista)
+        if (par > 0) {
+          date.add(1, 'month');
+        }
+        request.body.dataPrevista = date.format("YYYY-MM-DD")
+        request.body.parcela = num
+
+        DespesaModel.insertDespesa(request.body).then(result => {
+
+          if (result.status === 200) {
+            linhas = linha + 1
+          } else { erro = erro + 1 }
+
+        })
+        num = num + 1
+      }
+    } else {
+
+      DespesaModel.insertDespesa(request.body).then(result => {
+        return response.json(result)
+      })
+    } if (erro === 0) {
+      return response.json(200)
+    } else {
+      return response.json(erro)
+    }
   },
 
+
+
   updateDespesa(request, response) {
-    DespesaModel.updateDespesa(resquest.body).then(result => {
+    DespesaModel.updateDespesa(request.body).then(result => {
       return response.json(result)
     })
   },
 
   deleteDespesa(request, response) {
-    DespesaModel.deleteDespesa(resquest.body).then(result => {
+    DespesaModel.deleteDespesa(request.body).then(result => {
       return response.json(result)
     })
   }
