@@ -2,7 +2,16 @@ const VisionModel = require('../models/visionModel')
 
 module.exports = {
   getVision(request, response) {        
-    VisionModel.getVision().then(result => {
+    VisionModel.getVision(request.params.id).then(result => {
+      return response.json(result)
+    })
+  },
+
+  getVisionBySimilarName(request, response) {
+    VisionModel.getVisionBySimilarName(
+      request.params.id, 
+      request.params.name
+    ).then(result => {
       return response.json(result)
     })
   },
