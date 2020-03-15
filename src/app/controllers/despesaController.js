@@ -1,6 +1,18 @@
 const DespesaModel = require('../models/despesaModel')
 
 module.exports = {
+  getCartao(request, response) {
+    DespesaModel.getCartao(request.params.idUser).then(result => {
+      return response.json(result)
+    })
+  },
+
+  getCategory(request, response) {
+    DespesaModel.getCategory(request.params.idUser).then(result => {
+      return response.json(result)
+    })
+  },
+
   getDespesaAll(request, response) {
     DespesaModel.getDespesaAll(request.params.idUser).then(result => {
 

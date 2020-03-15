@@ -1,6 +1,39 @@
 const connection = require('../../database/index')
 
 module.exports = {
+  getCartao(idUser) {
+    return new Promise((resolve, reject) => {
+      const sql = `SELECT
+                       * FROM CARTAO A
+                        WHERE A.ID_USER = '${idUser}'`
+
+      console.log(sql)
+      connection.query(sql, function (error, result, fields) {
+        // console.log('Resultado esperado:', result[0].Verify)
+        if (error)
+          reject(error)
+        resolve(result)
+      })
+    })
+  },
+
+  getCategory(idUser) {
+    return new Promise((resolve, reject) => {
+      const sql = `SELECT
+                       * FROM CATEGORIA A
+                        WHERE A.ID_USER = '${idUser}'
+                          AND A.ENTRADA = 0`
+
+      console.log(sql)
+      connection.query(sql, function (error, result, fields) {
+        // console.log('Resultado esperado:', result[0].Verify)
+        if (error)
+          reject(error)
+        resolve(result)
+      })
+    })
+  },
+
   getDespesaAll(idUser) {
     return new Promise((resolve, reject) => {
       const sql = `SELECT 
