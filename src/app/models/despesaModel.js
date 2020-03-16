@@ -38,6 +38,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const sql = `SELECT 
                       A.ID,
+                      A.ID_GRUPO,
                       A.ID_USER,
                       A.ID_CATEGORIA,
                       B.DESCR_CATEGORIA,
@@ -66,6 +67,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const sql = `INSERT INTO DESPESA VALUES 
                                     ( null,
+                                     '${body.idGrupo}',
                                      '${body.idUser}',
                                      '${body.categoria}',
                                        null,
@@ -90,11 +92,53 @@ module.exports = {
   updateDespesa(body) {
 
     return new Promise((resolve, reject) => {
-      const sql = `update despesa set DESCRIPTION = '${body.description}', NUM_PARCELA ='${body.numParcela}', STATUS ='${body.status}',ID_NATUREZA ='${body.idNatureza}',VL_REAL ='${body.vlReal}',VL_PREVISTO ='${body.vlPrevisto}',DT_INICIO ='${body.dtInicio}',DT_REAL ='${body.dtReal}',ID_CONTA ='${body.idConta}',ID_CARTAO ='${body.idCartao}',ID_FATURA='${body.idFatura}' where ID='${body.despesaID}' and ID_USER = '${body.idUser}' )`
+      const sql = `UPDATE DESPESA SET
+                               ID_CATEGORIA = '${body.categoria}',
+                                  ID_CARTAO = '${body.cartao}', 
+                              DESCR_DESPESA = '${body.descrDespesa}',
+                                VL_PREVISTO = '${body.valorPrevisto}',
+                                DT_PREVISTO = '${body.dataPrevista}'
+                                  WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
+      console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
         resolve(result)
+      })
+    })
+  },
+
+  selectDespesaGroup(body) {
+
+    return new Promise((resolve, reject) => {
+      const sql = `SELECT 
+                      COUNT(*) registros FROM DESPESA A 
+                             WHERE A.ID_GRUPO = '${body.idGrupo}'
+                               AND A.ID_USER = '${body.idUser}'
+                               AND A.NUM_PARCELA >= '${body.parcela}'
+                               AND A.STATUS IN ('Esperando Pagamento','Fatura Pendente')`
+      console.log(sql)
+      connection.query(sql, function (error, result, fields) {
+        if (error)
+          reject(error)
+        resolve(result)
+      })
+    })
+  },
+
+  deleteDespesaGroup(body) {
+
+    return new Promise((resolve, reject) => {
+      const sql = `DELETE FROM DESPESA 
+                              WHERE ID_GRUPO = '${body.idGrupo}'
+                                AND ID_USER = '${body.idUser}'
+                                AND NUM_PARCELA >= '${body.parcela}'
+                                AND STATUS IN ('Esperando Pagamento','Fatura Pendente')`
+      console.log(sql)
+      connection.query(sql, function (error, result, fields) {
+        if (error)
+          reject(error)
+        resolve('ok')
       })
     })
   },

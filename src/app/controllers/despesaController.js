@@ -20,8 +20,8 @@ module.exports = {
       /* Trantado a Data para o Padrão Português*/
       const novosDados = result.map((data) => {
         const mm = data.DT_PREVISTO.getMonth() + 1;
-        const dd = result[0].DT_PREVISTO.getDate();
-        const yyyy = result[0].DT_PREVISTO.getFullYear();
+        const dd = data.DT_PREVISTO.getDate();
+        const yyyy = data.DT_PREVISTO.getFullYear();
         const dataNova = dd + '/' + mm + '/' + yyyy
 
         /* Trantado o VL_PREVISTO para o Padrão Real*/
@@ -38,9 +38,11 @@ module.exports = {
 
         const novaData = {
           ID: data.ID,
+          ID_GRUPO: data.ID_GRUPO,
           ID_USER: data.ID_USER,
           ID_CATEGORIA: data.ID_CATEGORIA,
           DESCR_CATEGORIA: data.DESCR_CATEGORIA,
+          ID_CARTAO: data.ID_CARTAO,
           CARTAO: data.CARTAO,
           DESCR_DESPESA: data.DESCR_DESPESA,
           NUM_PARCELA: data.NUM_PARCELA,
@@ -66,9 +68,17 @@ module.exports = {
 
       for (let par = 0; par < numparcelas; par++) {
         let date = Moment(request.body.dataPrevista)
+        let day = request.body.dayValue
         if (par > 0) {
-          date.add(1, 'month');
+          if (request.body.tipoParcela === 1) {
+            date.add(1, 'month');
+          } else if (request.body.tipoParcela === 2) {
+            date.add(15, 'days');
+          } else {
+            date.add(day, 'days');
+          }
         }
+
         request.body.dataPrevista = date.format("YYYY-MM-DD")
         request.body.parcela = num
 
@@ -95,10 +105,64 @@ module.exports = {
 
 
 
-  updateDespesa(request, response) {
-    DespesaModel.updateDespesa(request.body).then(result => {
-      return response.json(result)
-    })
+  async updateDespesa(request, response) {
+    request.body.id = request.params.id
+    let linhas = 0
+    let erro = 0
+    let numRegistros = 0
+    if (request.body.valueEdit === 'Apenas essa parcela será alterada') {
+
+      DespesaModel.updateDespesa(request.body).then(result => {
+        return response.json(result)
+      })
+    } else {
+      DespesaModel.selectDespesaGroup(request.body).then(result => {
+
+        numRegistros = result[0].registros
+        console.log('numRegistros', numRegistros)
+        DespesaModel.deleteDespesaGroup(request.body).then(deletes => {
+
+          if (deletes === 'ok') {
+            console.log("Entrou no Delete")
+            let num = request.body.parcela
+            numRegistrosNovo = numRegistros + num
+            for (let par = num; par < numRegistrosNovo; par++) {
+              let date = Moment(request.body.dataPrevista)
+              let day = request.body.dayValue
+              if (par > num) {
+                if (request.body.tipoParcela === 1) {
+                  date.add(1, 'month');
+                } else if (request.body.tipoParcela === 2) {
+                  date.add(15, 'days');
+                } else {
+                  date.add(day, 'days');
+                }
+              }
+
+              request.body.dataPrevista = date.format("YYYY-MM-DD")
+              request.body.parcela = par
+
+              DespesaModel.insertDespesa(request.body).then(result => {
+
+                if (result.status === 200) {
+                  linhas = linha + 1
+                } else { erro = erro + 1 }
+
+              })
+              // num = num + 1
+            }
+            if (erro === 0) {
+              return response.json(200)
+            } else {
+              return response.json(erro)
+            }
+          } else {
+            return response.json('Erro ao Deletar')
+          }
+
+        })
+      })
+    }
   },
 
   deleteDespesa(request, response) {
