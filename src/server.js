@@ -1,7 +1,7 @@
 const app = require('./app')
 
 const port = 3000;
-const hostname = 'mysql669.umbler.com';
+const hostname = 'http://seplaneje-com.umbler.net';
 
 
 app.listen(port, hostname, () => {
