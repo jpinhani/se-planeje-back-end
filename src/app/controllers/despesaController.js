@@ -119,11 +119,9 @@ module.exports = {
       DespesaModel.selectDespesaGroup(request.body).then(result => {
 
         numRegistros = result[0].registros
-        console.log('numRegistros', numRegistros)
         DespesaModel.deleteDespesaGroup(request.body).then(deletes => {
 
           if (deletes === 'ok') {
-            console.log("Entrou no Delete")
             let num = request.body.parcela
             numRegistrosNovo = numRegistros + num
             for (let par = num; par < numRegistrosNovo; par++) {
