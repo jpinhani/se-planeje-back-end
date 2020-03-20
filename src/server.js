@@ -5,6 +5,7 @@ const hostname = 'http://seplaneje-com.umbler.net';
 
 
 app.listen(port, () => {
-  console.log(`App running running at http://${port}`);
+  console.log(`App running running at ${port}`);
 
 })
+
