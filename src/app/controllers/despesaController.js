@@ -165,10 +165,19 @@ module.exports = {
 
   deleteDespesa(request, response) {
     request.body.id = request.params.id
-    DespesaModel.deleteDespesa(request.body).then(result => {
-      return response.json(result)
-    })
+
+    if (request.body.valueEdit === 'Deletar Despesa Selecionada') {
+
+      DespesaModel.deleteDespesa(request.body).then(result => {
+        return response.json(result)
+      })
+
+    } else {
+
+      DespesaModel.deleteDespesaGroup(request.body).then(result => {
+        return response.json(result)
+      })
+
+    }
   }
-
-
 }
