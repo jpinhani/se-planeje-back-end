@@ -164,6 +164,7 @@ module.exports = {
   },
 
   deleteDespesa(request, response) {
+    console.log('body', request.body)
     request.body.id = request.params.id
     console.log('body esta assim valueEdit', request.body)
     if (request.body.valueEdit === 'Deletar Despesa Selecionada') {
