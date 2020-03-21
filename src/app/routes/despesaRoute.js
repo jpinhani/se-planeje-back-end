@@ -7,7 +7,7 @@ router.get('/api/despesas/category/:idUser', despesaController.getCategory)
 router.get('/api/despesas/cartao/:idUser', despesaController.getCartao)
 router.post('/api/despesas', despesaController.insertDespesa)
 router.put('/api/despesas/:id', despesaController.updateDespesa)
-router.delete('/api/despesas/:id', despesaController.deleteDespesa)
+router.put('/api/despesas/teste/:id', despesaController.deleteDespesa)
 
 
 module.exports = router
