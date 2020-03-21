@@ -4,12 +4,12 @@ module.exports = {
 
   getVision(user) {
     return new Promise((resolve, reject) => {
-			const SQL = `SELECT * FROM VISAO WHERE ID_USER = '${user}'`
-      connection.query(SQL, function(error, result, fields) {
+      const SQL = `SELECT * FROM VISAO WHERE ID_USER = '${user}'`
+      connection.query(SQL, function (error, result, fields) {
         if (error)
           reject(error)
         resolve(result)
-			})
+      })
     })
   },
 
@@ -20,22 +20,22 @@ module.exports = {
         WHERE ( ID_USER = '${user}' )
         AND   ( VISAO LIKE '%${name}%' )
       `
-      connection.query(SQL, function(error, result, fields) {
+      connection.query(SQL, function (error, result, fields) {
         if (error)
           reject(error)
         resolve(result)
-			})
+      })
     })
   },
 
   insertVision(vision) {
     return new Promise((resolve, reject) => {
-      const { 
-        ID_USER, 
-        VISAO, 
-        DT_INICIO, 
-        DT_FIM, 
-        STATUS 
+      const {
+        ID_USER,
+        VISAO,
+        DT_INICIO,
+        DT_FIM,
+        STATUS
       } = vision
 
       const SQL = `
@@ -51,24 +51,24 @@ module.exports = {
         )
       `
 
-      connection.query(SQL, function(error, result, fields) {
+      connection.query(SQL, function (error, result, fields) {
         if (error)
           reject(error)
         resolve(result)
-			})
+      })
     })
   },
 
   updateVision(vision) {
-    const { 
+    const {
       ID,
-      ID_USER, 
-      VISAO, 
-      DT_INICIO, 
-      DT_FIM, 
-      STATUS 
+      ID_USER,
+      VISAO,
+      DT_INICIO,
+      DT_FIM,
+      STATUS
     } = vision
-    
+
     return new Promise((resolve, reject) => {
       const SQL = `
         UPDATE VISAO
@@ -80,23 +80,23 @@ module.exports = {
           STATUS = '${STATUS}'
         WHERE (ID = '${ID}')
       `
-      connection.query(SQL, function(error, result, fields) {
+      connection.query(SQL, function (error, result, fields) {
         if (error)
           reject(error)
         resolve(result)
-			})
+      })
     })
   },
 
   deleteVision(visionId) {
     return new Promise((resolve, reject) => {
       const SQL = `DELETE FROM VISAO WHERE ID = '${visionId}'`
-      
-      connection.query(SQL, function(error, result, fields) {
+
+      connection.query(SQL, function (error, result, fields) {
         if (error)
           reject(error)
         resolve(result)
-			})
+      })
     })
   }
 

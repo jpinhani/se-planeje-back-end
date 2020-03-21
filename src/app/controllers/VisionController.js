@@ -1,7 +1,7 @@
-const VisionModel = require('../models/visionModel')	
+const VisionModel = require('../models/visionModel')
 
 module.exports = {
-  getVision(request, response) {        
+  getVision(request, response) {
     VisionModel.getVision(request.params.id).then(result => {
       return response.json(result)
     })
@@ -9,26 +9,26 @@ module.exports = {
 
   getVisionBySimilarName(request, response) {
     VisionModel.getVisionBySimilarName(
-      request.params.id, 
+      request.params.id,
       request.params.name
     ).then(result => {
       return response.json(result)
     })
   },
 
-  insertVision(request, response) {        
+  insertVision(request, response) {
     VisionModel.insertVision(request.body).then(result => {
       return response.json(result)
     })
   },
 
-  updateVision(request, response) {        
+  updateVision(request, response) {
     VisionModel.updateVision(request.body).then(result => {
       return response.json(result)
     })
   },
 
-  deleteVision(request, response) {        
+  deleteVision(request, response) {
     VisionModel.deleteVision(request.params.id).then(result => {
       return response.json(result)
     })
