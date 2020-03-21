@@ -5,5 +5,6 @@ module.exports = mysql.createConnection({
   // port     : 41890,
   user: 'sysplaneje',
   password: 'master123',
-  database: 'bdsplan'
+  database: 'bdsplan',
+  multipleStatements: true
 }) 
