@@ -164,6 +164,7 @@ module.exports = {
   },
 
   deleteDespesa(request, response) {
+    request.body.id = request.params.id
     DespesaModel.deleteDespesa(request.body).then(result => {
       return response.json(result)
     })

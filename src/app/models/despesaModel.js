@@ -146,7 +146,8 @@ module.exports = {
   deleteDespesa(body) {
 
     return new Promise((resolve, reject) => {
-      const sql = `delete  from despesa where ID='${body.despesaId}' and ID_USER = '${body.idUser}')`
+      const sql = `DELETE FROM DESPESA WHERE ID='${body.id}'`
+      console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
