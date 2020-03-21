@@ -11,3 +11,4 @@ router.put(endpoint, visionController.updateVision)
 router.delete(`${endpoint}/:id`, visionController.deleteVision)
 
 module.exports = router
+
