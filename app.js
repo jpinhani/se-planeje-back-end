@@ -1,5 +1,5 @@
 const express = require('express')
-// const cors = require('cors')
+const cors = require('cors')
 const authRoute = require('./src/app/routes/authRoute')
 const userRoute = require('./src/app/routes/userRoute')
 const despesaRoute = require('./src/app/routes/despesaRoute')
@@ -10,7 +10,7 @@ const receitaRoute = require('./src/app/routes/receitaRoute')
 const visionRoute = require('./src/app/routes/visionRoute')
 const app = express()
 
-// app.use(cors())
+app.use(cors())
 app.use(express.json())
 
 app.use(authRoute)
