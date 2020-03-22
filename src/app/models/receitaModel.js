@@ -7,7 +7,8 @@ module.exports = {
       const sql = `SELECT
                        * FROM CATEGORIA A
                         WHERE A.ID_USER = '${idUser}'
-                          AND A.ENTRADA = 0`
+                          AND A.ENTRADA = 0
+                          AND A.TIPO = 2`
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)

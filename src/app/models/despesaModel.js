@@ -22,9 +22,8 @@ module.exports = {
       const sql = `SELECT
                        * FROM CATEGORIA A
                         WHERE A.ID_USER = '${idUser}'
-                          AND A.ENTRADA = 0`
-
-      console.log(sql)
+                          AND A.ENTRADA = 0
+                          AND A.TIPO = 1`
       connection.query(sql, function (error, result, fields) {
         // console.log('Resultado esperado:', result[0].Verify)
         if (error)
