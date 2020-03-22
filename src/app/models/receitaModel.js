@@ -32,7 +32,6 @@ module.exports = {
                       A.STATUS 
                             FROM RECEITA A
                                 LEFT OUTER JOIN CATEGORIA B ON (A.ID_CATEGORIA = B.ID)
-                                LEFT OUTER JOIN CARTAO C ON (A.ID_CARTAO = C.ID)
                             WHERE A.STATUS IN ('Esperando Pagamento') 
                               and A.ID_USER = ${idUser}`
       connection.query(sql, function (error, result, fields) {
