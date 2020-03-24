@@ -188,6 +188,7 @@ module.exports = {
       (request.body.valorPrevisto - request.body.valorReal) :
       (request.body.valorPrevisto)
 
+    console.log('novoPrevisto', novoPrevisto)
     if (request.body.valueEdit === 'Essa Despesa Esta Sendo Contabilizada' |
       novoPrevisto === request.body.valorPrevisto) {
 
