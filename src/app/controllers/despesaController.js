@@ -188,7 +188,7 @@ module.exports = {
       (request.body.valorPrevisto - request.body.valorReal) :
       (request.body.valorPrevisto)
 
-    console.log('novoPrevisto', novoPrevisto)
+
     if (request.body.valueEdit === 'Essa Despesa Esta Sendo Contabilizada' |
       novoPrevisto === request.body.valorPrevisto) {
 
@@ -201,5 +201,65 @@ module.exports = {
         return response.json(result)
       })
     }
+  },
+  getDespesaAllPaga(request, response) {
+    DespesaModel.getDespesaAllPaga(request.params.idUser).then(result => {
+
+      /* Trantado a Data para o Padrão Português*/
+      const novosDados = result.map((data) => {
+        const mm = data.DT_PREVISTO.getMonth() + 1;
+        const dd = data.DT_PREVISTO.getDate();
+        const yyyy = data.DT_PREVISTO.getFullYear();
+
+        const mmr = data.DT_REAL.getMonth() + 1;
+        const ddr = data.DT_REAL.getDate();
+        const yyyyr = data.DT_REAL.getFullYear();
+
+        const dataNova = dd + '/' + mm + '/' + yyyy
+        const dataNovaReal = ddr + '/' + mmr + '/' + yyyyr
+
+        /* Trantado o VL_PREVISTO para o Padrão Real*/
+        const vlPrevisto = data.VL_PREVISTO;
+        const vlReal = data.VL_REAL;
+        const formatter = new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        });
+
+        const novoPrevisto = formatter.format(vlPrevisto)
+        const Trat1 = novoPrevisto.toString().replace(".", " ")
+        const Trat2 = Trat1.toString().replace(",", ".")
+        const novoVlPrevisto = Trat2.toString().replace(" ", ",")
+
+        const novoReal = formatter.format(vlReal)
+        const Trat1r = novoReal.toString().replace(".", " ")
+        const Trat2r = Trat1r.toString().replace(",", ".")
+        const novoVlReal = Trat2r.toString().replace(" ", ",")
+
+        const novaData = {
+          ID: data.ID,
+          ID_GRUPO: data.ID_GRUPO,
+          ID_USER: data.ID_USER,
+          ID_CATEGORIA: data.ID_CATEGORIA,
+          DESCR_CATEGORIA: data.DESCR_CATEGORIA,
+          ID_CARTAO: data.ID_CARTAO,
+          CARTAO: data.CARTAO,
+          DESCR_DESPESA: data.DESCR_DESPESA,
+          NUM_PARCELA: data.NUM_PARCELA,
+          VL_PREVISTO: novoVlPrevisto,
+          VL_PREVISTO2: data.VL_PREVISTO,
+          VL_REAL: novoVlReal,
+          VL_REAL2: data.VL_REAL,
+          DT_PREVISTO: data.DT_PREVISTO,
+          DT_REAL: data.DT_REAL,
+          STATUS: data.STATUS,
+          DATANOVA: dataNova,
+          DATANOVAREAL: dataNovaReal
+        }
+
+        return novaData
+      });
+      return response.json(novosDados)
+    })
   }
-}//pagarDespesaMeta
+}
