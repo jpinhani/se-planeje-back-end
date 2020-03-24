@@ -164,7 +164,7 @@ module.exports = {
                                   STATUS = '${body.status}'
                                      WHERE ID='${body.id}'
                                        AND ID_USER = '${body.idUser}'`
-
+      console.log('Entrou no pagarMeta')
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
