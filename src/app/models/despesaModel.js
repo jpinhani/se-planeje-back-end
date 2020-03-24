@@ -9,7 +9,6 @@ module.exports = {
 
       console.log(sql)
       connection.query(sql, function (error, result, fields) {
-        // console.log('Resultado esperado:', result[0].Verify)
         if (error)
           reject(error)
         resolve(result)
@@ -25,7 +24,6 @@ module.exports = {
                           AND A.ENTRADA = 0
                           AND A.TIPO = 1`
       connection.query(sql, function (error, result, fields) {
-        // console.log('Resultado esperado:', result[0].Verify)
         if (error)
           reject(error)
         resolve(result)
@@ -151,6 +149,65 @@ module.exports = {
         if (error)
           reject(error)
         resolve(result)
+      })
+    })
+  },
+
+  pagarDespesaMeta(body) {
+
+    return new Promise((resolve, reject) => {
+      const sql = `UPDATE DESPESA 
+                              SET ID_CONTA = '${body.idConta}',
+                                  DESCR_DESPESA = '${body.descrDespesa}',
+                                  VL_REAL = '${body.valorReal}',
+                                  DT_REAL = '${body.dataReal}',
+                                  STATUS = '${body.status}'
+                                     WHERE ID='${body.id}'
+                                       AND ID_USER = '${body.idUser}'`
+
+      connection.query(sql, function (error, result, fields) {
+        if (error)
+          reject(error)
+        resolve(result)
+      })
+    })
+  },
+
+  pagarDespesaMetaAmortizacao(body) {
+
+    return new Promise((resolve, reject) => {
+      const sql1 = `INSERT INTO DESPESA VALUES 
+                                    ( null,
+                                     '${body.idGrupo}',
+                                     '${body.idUser}',
+                                     '${body.categoria}',
+                                       null,
+                                     '${body.cartao}',
+                                     '${body.descrDespesa}', 
+                                     '${body.parcela}',
+                                     '${body.valorReal}',
+                                     '${body.dataReal}',
+                                     '${body.valorReal}',
+                                     '${body.dataPrevista}',
+                                       null,
+                                     '${body.status}')`
+
+
+      const sql2 = `UPDATE DESPESA 
+                              SET VL_PREVISTO = '${body.novoPrevisto}'
+                                     WHERE ID='${body.id}'
+                                       AND ID_USER = '${body.idUser}'`
+
+      connection.query(sql1, function (error, result, fields) {
+        if (error) {
+          reject(error)
+        } else {
+          connection.query(sql2, function (error, result, fields) {
+            if (error)
+              reject(error)
+            resolve(result)
+          })
+        }
       })
     })
   }

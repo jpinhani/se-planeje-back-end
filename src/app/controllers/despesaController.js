@@ -180,5 +180,25 @@ module.exports = {
       })
 
     }
+  },
+  pagarDespesaMeta(request, response) {
+    request.body.id = request.params.id
+
+    const novoPrevisto = (request.body.valorPrevisto - request.body.valorReal) > 0 ?
+      (request.body.valorPrevisto - request.body.valorReal) :
+      (request.body.valorPrevisto)
+
+    if (request.body.valueEdit === 'Essa Despesa Esta Sendo Contabilizada' |
+      novoPrevisto === request.body.valorPrevisto) {
+
+      DespesaModel.pagarDespesaMeta(request.body).then(result => {
+        return response.json(result)
+      })
+    } else {
+      request.body.novoPrevisto = novoPrevisto
+      DespesaModel.pagarDespesaMetaAmortizacao(request.body).then(result => {
+        return response.json(result)
+      })
+    }
   }
-}
+}//pagarDespesaMeta
