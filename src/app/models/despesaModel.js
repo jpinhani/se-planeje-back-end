@@ -199,9 +199,11 @@ module.exports = {
                                        AND ID_USER = '${body.idUser}'`
 
       connection.query(sql1, function (error, result, fields) {
+        console.log('Entrou no Insert', sql1)
         if (error) {
           reject(error)
         } else {
+          console.log('Entrou no Update', sql2)
           connection.query(sql2, function (error, result, fields) {
             if (error)
               reject(error)
