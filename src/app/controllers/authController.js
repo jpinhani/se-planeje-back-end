@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken')
 module.exports = {
   async signIn(request, response) {
 
-    const bearerToken = await jwt.sign("BAE39995479EB", { expiresIn: "1h" });
+    const id = 1
+    const bearerToken = await jwt.sign({ id }, "BAE39995479EB", { expiresIn: "1h" });
 
     const { email, password } = request.body
 
