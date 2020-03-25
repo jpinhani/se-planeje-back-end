@@ -246,14 +246,22 @@ module.exports = {
   getDespesaAllFatura(idUser) {
     return new Promise((resolve, reject) => {
       const sql = `SELECT
-                      CONCAT(A.CARTAO,' - ',A.FATURA) AS ID,
-                      A.CARTAO,
-                      A.FATURA
-                            FROM DETALHE_FATURA A
-                              WHERE A.ID_USER = ${idUser}
-                              GROUP BY A.CARTAO,
-                                        A.FATURA
-                                        ORDER BY 3,2`
+                        CONCAT(A.CARTAO,' - ',A.FATURA) AS ID,
+                        A.CARTAO,
+                        A.FATURA,
+                        A.STATUS,
+                        SUM(A.VL_REAL) VL_REAL,
+                        SUM(A.VL_PREVISTO) VL_PREVISTO,
+                        SUM(CASE WHEN A.VL_REAL IS NULL THEN
+                          A.VL_PREVISTO
+                          ELSE A.VL_REAL END
+                      ) VL_FORECAST
+                              FROM DETALHE_FATURA A
+                                WHERE A.ID_USER = '${idUser}' AND  A.STATUS IN ('Fatura Pendente', 'Fatura Pronta Para Pagamento')
+                                GROUP BY 
+                                          A.CARTAO,
+                                          A.FATURA
+                                          ORDER BY 3,2`
 
       connection.query(sql, function (error, result, fields) {
         if (error)
