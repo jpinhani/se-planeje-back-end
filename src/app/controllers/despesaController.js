@@ -267,4 +267,10 @@ module.exports = {
       return response.json(result)
     })
   },
+  getDespesaAllFaturaDetalhe(request, response) {
+    DespesaModel.getDespesaAllFaturaDetalhe(request.params.idUser).then(result => {
+      return response.json(result)
+    })
+  }
 }
+
