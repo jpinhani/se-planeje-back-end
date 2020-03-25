@@ -1,7 +1,7 @@
 const connection = require('../../database/index')
 
 module.exports = {
-
+  //teste
   getVision(user) {
     return new Promise((resolve, reject) => {
       const SQL = `SELECT * FROM VISAO WHERE ID_USER = '${user}'`

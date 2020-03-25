@@ -12,3 +12,4 @@ router.delete(`${endpoint}/:id`, visionController.deleteVision)
 
 module.exports = router
 
+//teste
