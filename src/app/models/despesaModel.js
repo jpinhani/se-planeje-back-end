@@ -164,7 +164,6 @@ module.exports = {
                                   STATUS = '${body.status}'
                                      WHERE ID='${body.id}'
                                        AND ID_USER = '${body.idUser}'`
-      console.log('Entrou no pagarMeta')
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
@@ -236,6 +235,25 @@ module.exports = {
                                   LEFT OUTER JOIN CONTA D ON (A.ID_CONTA = D.ID)
                               WHERE A.STATUS IN ('Pagamento Realizado','Fatura Pronta Para Pagamento')
                               AND A.ID_USER = ${idUser}`
+      connection.query(sql, function (error, result, fields) {
+        if (error)
+          reject(error)
+        resolve(result)
+      })
+    })
+  },
+
+  getDespesaAllFatura(idUser) {
+    return new Promise((resolve, reject) => {
+      const sql = `SELECT
+                      CONCAT(A.CARTAO,' - ',A.FATURA) AS ID,
+                      A.CARTAO,
+                      A.FATURA
+                            FROM DETALHE_FATURA A
+                              WHERE A.ID_USER = ${idUser}
+                              GROUP BY A.CARTAO,
+                                        A.FATURA
+                                        ORDER BY 3,2`
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)

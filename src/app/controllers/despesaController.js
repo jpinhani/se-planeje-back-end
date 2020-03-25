@@ -261,5 +261,10 @@ module.exports = {
       });
       return response.json(novosDados)
     })
-  }
+  },
+  getDespesaAllFatura(request, response) {
+    DespesaModel.getDespesaAllFatura(request.params.idUser).then(result => {
+      return response.json(result)
+    })
+  },
 }
