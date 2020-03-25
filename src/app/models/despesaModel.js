@@ -266,6 +266,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const sql = `SELECT
                       CONCAT(A.CARTAO,' - ',A.FATURA) AS ID,
+                      A.ID, ID_DESPESA,
                       A.CARTAO,
                       A.DESCR_DESPESA,
                       A.FATURA,
