@@ -22,7 +22,7 @@ module.exports = {
     const bearerToken = await jwt.sign({ idToken }, "BAE39995479EB", { expiresIn: "1h" });
 
     return response.json({
-      user: user.ID,
+      user: user,
       token: bearerToken
     })
   }
