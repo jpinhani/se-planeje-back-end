@@ -1,13 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const categoriaController = require('../controllers/categoriaController')
+const login = require('../middleware/login')
 
 router.get('/api/categorias/search/:id/:iduser', categoriaController.getCategoria)
 router.get('/api/categorias/comboDependencia/:iduser/:tipo/:nivel', categoriaController.getCategoriaComboDepencia)
 router.get('/api/categorias/:id', categoriaController.getCategoriaAll)
-router.post('/api/categorias/', categoriaController.insertCategoria)
-router.post('/api/categorias/default', categoriaController.insertCategoriaDefault)
-router.put('/api/categorias/', categoriaController.updateCategoria)
-router.delete('/api/categorias/:id', categoriaController.deleteCategoria)
+
+router.post('/api/categorias/', login, categoriaController.insertCategoria)
+router.post('/api/categorias/default', login, categoriaController.insertCategoriaDefault)
+router.put('/api/categorias/', login, categoriaController.updateCategoria)
+router.delete('/api/categorias/:id', login, categoriaController.deleteCategoria)
 
 module.exports = router
