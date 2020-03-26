@@ -12,9 +12,9 @@ router.put('/api/despesas/:id', login, despesaController.updateDespesa)
 router.put('/api/despesas/delete/:id', login, despesaController.deleteDespesa)
 
 router.put('/api/despesas/pagar/:id', login, despesaController.pagarDespesaMeta)
-router.get('/api/despesas/paga/:idUser', login, despesaController.getDespesaAllPaga)
 
-router.get('/api/despesas/fatura/:idUser', login, despesaController.getDespesaAllFatura)
-router.get('/api/despesas/faturadetalhe/:idUser', login, despesaController.getDespesaAllFaturaDetalhe)
+router.get('/api/despesas/paga/:idUser', despesaController.getDespesaAllPaga)
+router.get('/api/despesas/fatura/:idUser', despesaController.getDespesaAllFatura)
+router.get('/api/despesas/faturadetalhe/:idUser', despesaController.getDespesaAllFaturaDetalhe)
 module.exports = router
 
