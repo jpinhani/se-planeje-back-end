@@ -91,6 +91,15 @@ module.exports = {
     })
   },
 
+  deleteDespesaReal(request, response) {
+
+
+    DespesaModel.updateDespesaReal(request.body).then(result => {
+
+      return response.json(result)
+    })
+  },
+
   insertDespesa(request, response) {
     const numparcelas = request.body.parcela
     let linhas = 0
