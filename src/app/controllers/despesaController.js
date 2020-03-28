@@ -269,7 +269,48 @@ module.exports = {
   },
   getDespesaAllFaturaDetalhe(request, response) {
     DespesaModel.getDespesaAllFaturaDetalhe(request.params.idUser).then(result => {
-      return response.json(result)
+
+      const novosDados = result.map((data) => {
+
+        const dataFatura = Moment(data.FATURA, "DD/MM/YYYY").format("DD-MM-YYYY");
+
+
+        /* Trantado o VL_PREVISTO para o Padrão Real*/
+        const vlPrevisto = data.VL_PREVISTO;
+        const vlReal = data.VL_REAL;
+        const formatter = new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        });
+
+        const novoPrevisto = formatter.format(vlPrevisto)
+        const Trat1 = novoPrevisto.toString().replace(".", " ")
+        const Trat2 = Trat1.toString().replace(",", ".")
+        const novoVlPrevisto = Trat2.toString().replace(" ", ",")
+
+        const novoReal = formatter.format(vlReal)
+        const Trat1r = novoReal.toString().replace(".", " ")
+        const Trat2r = Trat1r.toString().replace(",", ".")
+        const novoVlReal = Trat2r.toString().replace(" ", ",")
+
+        const novaData = {
+          ID: data.ID,
+          ID_DESPESA: data.ID_DESPESA,
+          CARTAO: data.CARTAO,
+          DESCR_DESPESA: data.DESCR_DESPESA,
+          FATURA: dataFatura,
+          VL_PREVISTO: novoVlPrevisto,
+          VL_PREVISTO2: data.VL_PREVISTO,
+          VL_REAL: novoVlReal,
+          VL_REAL2: data.VL_REAL,
+          NUM_PARCELA: data.NUM_PARCELA,
+          STATUS: data.STATUS
+        }
+
+        return novaData
+      })
+
+      return response.json(novosDados)
     })
   }
 }

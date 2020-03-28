@@ -1,6 +1,11 @@
 const app = require('./app')
 
-const port = process.env.PORT || 3000;
+//PRD
+// const port = process.env.PORT || 3000;
+
+//DEV
+const port = process.env.PORT || 8082
+
 // const hostname = 'http://seplaneje-com.umbler.net';
 
 
