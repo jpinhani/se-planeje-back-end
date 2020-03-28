@@ -59,6 +59,38 @@ module.exports = {
     })
   },
 
+  insertDespesaReal(request, response) {
+    const date = Moment(request.body.dataReal)
+    request.body.dataReal = date.format("YYYY-MM-DD")
+
+    const cartao = request.body.cartao.length === 0 ? null : request.body.cartao
+    request.body.cartao = cartao
+
+    const conta = request.body.conta.length === 0 ? null : request.body.conta
+    request.body.conta = conta
+
+    DespesaModel.insertDespesaReal(request.body).then(result => {
+
+      return response.json(result)
+    })
+  },
+
+  updateDespesaReal(request, response) {
+    const date = Moment(request.body.dataReal)
+    request.body.dataReal = date.format("YYYY-MM-DD")
+
+    const cartao = request.body.cartao.length === 0 ? null : request.body.cartao
+    request.body.cartao = cartao
+
+    const conta = request.body.conta.length === 0 ? null : request.body.conta
+    request.body.conta = conta
+
+    DespesaModel.updateDespesaReal(request.body).then(result => {
+
+      return response.json(result)
+    })
+  },
+
   insertDespesa(request, response) {
     const numparcelas = request.body.parcela
     let linhas = 0
@@ -102,8 +134,6 @@ module.exports = {
       return response.json(erro)
     }
   },
-
-
 
   async updateDespesa(request, response) {
     request.body.id = request.params.id
@@ -207,15 +237,17 @@ module.exports = {
 
       /* Trantado a Data para o Padrão Português*/
       const novosDados = result.map((data) => {
-        const mm = data.DT_PREVISTO.getMonth() + 1;
-        const dd = data.DT_PREVISTO.getDate();
-        const yyyy = data.DT_PREVISTO.getFullYear();
+
+        const mm = data.DT_PREVISTO !== null ? data.DT_PREVISTO.getMonth() + 1 : null;
+        const dd = data.DT_PREVISTO !== null ? data.DT_PREVISTO.getDate() : null;
+        const yyyy = data.DT_PREVISTO !== null ? data.DT_PREVISTO.getFullYear() : null;
+
 
         const mmr = data.DT_REAL.getMonth() + 1;
         const ddr = data.DT_REAL.getDate();
         const yyyyr = data.DT_REAL.getFullYear();
 
-        const dataNova = dd + '/' + mm + '/' + yyyy
+        const dataNova = data.DT_PREVISTO !== null ? dd + '/' + mm + '/' + yyyy : null
         const dataNovaReal = ddr + '/' + mmr + '/' + yyyyr
 
         /* Trantado o VL_PREVISTO para o Padrão Real*/
@@ -242,6 +274,8 @@ module.exports = {
           ID_USER: data.ID_USER,
           ID_CATEGORIA: data.ID_CATEGORIA,
           DESCR_CATEGORIA: data.DESCR_CATEGORIA,
+          ID_CONTA: data.ID_CONTA,
+          DESCR_CONTA: data.DESCR_CONTA,
           ID_CARTAO: data.ID_CARTAO,
           CARTAO: data.CARTAO,
           DESCR_DESPESA: data.DESCR_DESPESA,

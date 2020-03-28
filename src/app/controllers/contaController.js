@@ -4,7 +4,6 @@ module.exports = {
 
   getContaAll(request, response) {
     try {
-      console.log('controler')
       ContaModel.getContaAll(request.params.id).then(result => {
         return response.json(result)
       })

@@ -86,6 +86,32 @@ module.exports = {
     })
   },
 
+  insertDespesaReal(body) {
+    return new Promise((resolve, reject) => {
+      const sql = `INSERT INTO DESPESA VALUES 
+                                    ( null,
+                                     '${body.idGrupo}',
+                                     '${body.idUser}',
+                                     '${body.categoria}',
+                                      '${body.conta}',
+                                      '${body.cartao}',
+                                     '${body.descrDespesa}', 
+                                     '${body.parcela}',
+                                     '${body.valorReal}',
+                                     '${body.dataReal}',
+                                      null,
+                                      null,
+                                      null,
+                                     '${body.status}')`
+      console.log(sql)
+      connection.query(sql, function (error, result, fields) {
+        if (error)
+          reject(error)
+        resolve(result)
+      })
+    })
+  },
+
   updateDespesa(body) {
 
     return new Promise((resolve, reject) => {
@@ -95,6 +121,26 @@ module.exports = {
                               DESCR_DESPESA = '${body.descrDespesa}',
                                 VL_PREVISTO = '${body.valorPrevisto}',
                                 DT_PREVISTO = '${body.dataPrevista}'
+                                  WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
+      console.log(sql)
+      connection.query(sql, function (error, result, fields) {
+        if (error)
+          reject(error)
+        resolve(result)
+      })
+    })
+  },
+
+  updateDespesaReal(body) {
+
+    return new Promise((resolve, reject) => {
+      const sql = `UPDATE DESPESA SET
+                               ID_CATEGORIA = '${body.categoria}',
+                                  ID_CARTAO = '${body.cartao}', 
+                                  ID_CONTA = '${body.conta}',
+                              DESCR_DESPESA = '${body.descrDespesa}',
+                                VL_REAL = '${body.valorReal}',
+                                DT_REAL = '${body.dataReal}'
                                   WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
       console.log(sql)
       connection.query(sql, function (error, result, fields) {
