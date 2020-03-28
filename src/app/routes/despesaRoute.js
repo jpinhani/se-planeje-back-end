@@ -14,6 +14,7 @@ router.put('/api/despesas/delete/:id', login, despesaController.deleteDespesa)
 router.put('/api/despesas/pagar/:id', login, despesaController.pagarDespesaMeta)
 router.post('/api/despesas/real', login, despesaController.insertDespesaReal)
 router.put('/api/despesas/real/:id', login, despesaController.updateDespesaReal)
+router.put('/api/despesas/delete/real/:id', login, despesaController.deleteDespesaReal)
 
 
 router.get('/api/despesas/paga/:idUser', despesaController.getDespesaAllPaga)
