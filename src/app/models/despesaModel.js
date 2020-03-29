@@ -137,16 +137,82 @@ module.exports = {
       const sql = `UPDATE DESPESA SET
                                ID_CATEGORIA = '${body.categoria}',
                                   ID_CARTAO = '${body.cartao}', 
-                                  ID_CONTA = '${body.conta}',
+                                   ID_CONTA = '${body.conta}',
                               DESCR_DESPESA = '${body.descrDespesa}',
-                                VL_REAL = '${body.valorReal}',
-                                DT_REAL = '${body.dataReal}'
+                                    VL_REAL = '${body.valorReal}',
+                                    DT_REAL = '${body.dataReal}',
+                                     STATUS = '${body.status}'
                                   WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
       console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
         resolve(result)
+      })
+    })
+  },
+
+
+  delteDespesaMetaReal(body) {
+
+    return new Promise((resolve, reject) => {
+
+      const cont = `SELECT
+                        COUNT(ID) AS QTD FROM DESPESA
+                                         WHERE  ID_USER = '${body.idUser}'
+                                         AND ID_GRUPO = '${body.idGrupo}'
+                                         AND DT_PREVISTO = '${body.dataPrevista}'
+                                         AND STATUS IN ('Esperando Pagamento','Fatura Pendente')`
+      console.log(cont)
+      connection.query(cont, function (error, result) {
+        console.log(result[0].QTD)
+        if (error) {
+          reject(error)
+        } else if (result[0].QTD > 0) {
+          const amort1 = `DELETE FROM DESPESA
+                                                  WHERE ID='${body.id}' 
+                                                    AND ID_USER = '${body.idUser}'`
+
+          const amort2 = `UPDATE DESPESA SET
+                                  VL_PREVISTO = VL_PREVISTO + ${body.valorReal}
+                                      WHERE 
+                                         ID_USER = '${body.idUser}'
+                                        AND ID_GRUPO = '${body.idGrupo}'
+                                        AND DT_PREVISTO = '${body.dataPrevista}'
+                                        AND STATUS IN ('Esperando Pagamento','Fatura Pendente')`
+
+          console.log(amort1)
+          console.log(amort2)
+          connection.query(amort1, function (error) {
+            if (error) {
+              reject(error)
+            } else {
+              connection.query(amort2, function (error, result) {
+                if (error)
+                  reject(error)
+                resolve(result)
+              })
+            }
+
+          })
+        } else {
+          const sql = `UPDATE DESPESA SET
+                                    ID_CATEGORIA = '${body.ID_CATEGORIA}',
+                                      ID_CARTAO = '${body.ID_CARTAO}', 
+                                        ID_CONTA = null,
+                                        VL_REAL =  null,
+                                        DT_REAL =  null,
+                                          STATUS = '${body.status}'
+                                      WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
+          console.log(sql)
+          connection.query(sql, function (error, result, fields) {
+            if (error)
+              reject(error)
+            resolve(result)
+          })
+
+
+        }
       })
     })
   },

@@ -92,12 +92,31 @@ module.exports = {
   },
 
   deleteDespesaReal(request, response) {
+    request.body.id = request.body.ID
+    request.body.idUser = request.body.ID_USER
+    request.body.valorReal = request.body.VL_REAL2
+    request.body.idGrupo = request.body.ID_GRUPO
+    request.body.status = request.body.STATUS === 'Fatura Pronta Para Pagamento'
+      ? 'Fatura Pendente'
+      : 'Esperando Pagamento'
 
+    // const date = Moment(request.body.DT_PREVISTO)
+    // request.body.dataPrevista = date.format("YYYY-MM-DD")
+    request.body.dataPrevista = request.body.DT_PREVISTO === null
+      ? null
+      : Moment(request.body.DT_PREVISTO).format("YYYY-MM-DD")
 
-    DespesaModel.updateDespesaReal(request.body).then(result => {
+    if (request.body.dataPrevista === null) {
+      DespesaModel.deleteDespesa(request.body).then(result => {
+        return response.json(result)
+      })
+    } else {
 
-      return response.json(result)
-    })
+      DespesaModel.delteDespesaMetaReal(request.body).then(result => {
+
+        return response.json(result)
+      })
+    }
   },
 
   insertDespesa(request, response) {
