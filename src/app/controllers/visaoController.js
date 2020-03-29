@@ -1,4 +1,4 @@
-const VisionModel = require('../models/visionModel')
+const VisionModel = require('../models/visaoModel')
 
 module.exports = {
   getVision(request, response) {
@@ -17,6 +17,7 @@ module.exports = {
   },
 
   insertVision(request, response) {
+    console.log('ENTROU')
     VisionModel.insertVision(request.body).then(result => {
       return response.json(result)
     })
@@ -34,4 +35,3 @@ module.exports = {
     })
   }
 }
-//teste
