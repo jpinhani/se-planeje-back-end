@@ -12,9 +12,12 @@ module.exports = {
     })
   },
 
-  getUserByEmail(email) {
+  getUserByEmail(email, password) {
     return new Promise((resolve, reject) => {
-      const sql = `SELECT * FROM USER WHERE EMAIL = '${email}'`
+      const sql = `SELECT 
+                       * FROM USER 
+                             WHERE EMAIL = '${email}'
+                               AND PASSWORD = md5('${password}')`
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)

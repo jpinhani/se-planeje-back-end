@@ -66,9 +66,9 @@ module.exports = {
                                     ( null,
                                      '${body.idGrupo}',
                                      '${body.idUser}',
-                                     '${body.categoria}',
+                                      ${body.categoria},
                                        null,
-                                     '${body.cartao}',
+                                      ${body.cartao},
                                      '${body.descrDespesa}', 
                                      '${body.parcela}',
                                        null,
@@ -92,9 +92,9 @@ module.exports = {
                                     ( null,
                                      '${body.idGrupo}',
                                      '${body.idUser}',
-                                     '${body.categoria}',
-                                      '${body.conta}',
-                                      '${body.cartao}',
+                                      ${body.categoria},
+                                      ${body.conta},
+                                      ${body.cartao},
                                      '${body.descrDespesa}', 
                                      '${body.parcela}',
                                      '${body.valorReal}',
@@ -116,8 +116,8 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
       const sql = `UPDATE DESPESA SET
-                               ID_CATEGORIA = '${body.categoria}',
-                                  ID_CARTAO = '${body.cartao}', 
+                               ID_CATEGORIA =  ${body.categoria},
+                                  ID_CARTAO =  ${body.cartao}, 
                               DESCR_DESPESA = '${body.descrDespesa}',
                                 VL_PREVISTO = '${body.valorPrevisto}',
                                 DT_PREVISTO = '${body.dataPrevista}'
@@ -134,20 +134,96 @@ module.exports = {
   updateDespesaReal(body) {
 
     return new Promise((resolve, reject) => {
+
+      const cont = `SELECT
+                    COUNT(ID) AS QTD,
+                    VL_PREVISTO AS META FROM DESPESA
+                       WHERE  ID_USER = '${body.idUser}'
+                       AND ID_GRUPO = '${body.idGrupo}'
+                       AND DT_PREVISTO = '${body.dataPrevista}'
+                       AND STATUS IN ('Esperando Pagamento','Fatura Pendente')`
+
       const sql = `UPDATE DESPESA SET
-                               ID_CATEGORIA = '${body.categoria}',
-                                  ID_CARTAO = '${body.cartao}', 
-                                   ID_CONTA = '${body.conta}',
+                               ID_CATEGORIA =  ${body.categoria},
+                                  ID_CARTAO =  ${body.cartao}, 
+                                   ID_CONTA =  ${body.conta},
                               DESCR_DESPESA = '${body.descrDespesa}',
                                     VL_REAL = '${body.valorReal}',
                                     DT_REAL = '${body.dataReal}',
                                      STATUS = '${body.status}'
                                   WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
-      console.log(sql)
-      connection.query(sql, function (error, result, fields) {
-        if (error)
+      console.log(cont)
+      connection.query(cont, function (error, result, fields) {
+        if (error) {
           reject(error)
-        resolve(result)
+        } else if (result[0].QTD > 0 && result[0].META + (body.valorCorrigir) > 0) {
+          const sql2 = `UPDATE DESPESA SET
+                                    ID_CATEGORIA =  ${body.categoria},
+                                      ID_CARTAO =  ${body.cartao}, 
+                                        ID_CONTA =  ${body.conta},
+                                  DESCR_DESPESA = '${body.descrDespesa}',
+                                        VL_REAL = '${body.valorReal}',
+                                        VL_PREVISTO = '${body.valorReal}',
+                                        DT_REAL = '${body.dataReal}',
+                                          STATUS = '${body.status}'
+                                      WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
+
+          const amort2 = `UPDATE DESPESA SET
+                                  VL_PREVISTO = VL_PREVISTO + (${body.valorCorrigir})
+                                      WHERE 
+                                         ID_USER = '${body.idUser}'
+                                        AND ID_GRUPO = '${body.idGrupo}'
+                                        AND DT_PREVISTO = '${body.dataPrevista}'
+                                        AND STATUS IN ('Esperando Pagamento','Fatura Pendente')`
+          connection.query(sql2, function (error) {
+            if (error) {
+              reject(error)
+            } else {
+              connection.query(amort2, function (error, result) {
+                if (error)
+                  reject(error)
+                resolve(result)
+              })
+            }
+          })
+        } else if (result[0].QTD > 0 && result[0].META + (body.valorCorrigir) <= 0) {
+          const sql3 = `UPDATE DESPESA SET
+                                      ID_CATEGORIA =  ${body.categoria},
+                                        ID_CARTAO =  ${body.cartao}, 
+                                          ID_CONTA =  ${body.conta},
+                                    DESCR_DESPESA = '${body.descrDespesa}',
+                                          VL_REAL = '${body.valorReal}',
+                                          VL_PREVISTO = VL_PREVISTO + ${result[0].META},
+                                          DT_REAL = '${body.dataReal}',
+                                            STATUS = '${body.status}'
+                                        WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
+
+          const amort3 = `DELETE
+                                FROM DESPESA
+                                  WHERE  ID_USER = '${body.idUser}'
+                                  AND ID_GRUPO = '${body.idGrupo}'
+                                  AND DT_PREVISTO = '${body.dataPrevista}'
+                                  AND STATUS IN ('Esperando Pagamento','Fatura Pendente')`
+
+          connection.query(sql3, function (error, result) {
+            if (error) {
+              reject(error)
+            } else {
+              connection.query(amort3, function (error, result) {
+                if (error)
+                  reject(error)
+                resolve(result)
+              })
+            }
+          })
+        }
+        else {
+          connection.query(sql, function (error, result) {
+            if (error)
+              reject(error)
+            resolve(result)
+          })
+        }
       })
     })
   },
@@ -163,9 +239,7 @@ module.exports = {
                                          AND ID_GRUPO = '${body.idGrupo}'
                                          AND DT_PREVISTO = '${body.dataPrevista}'
                                          AND STATUS IN ('Esperando Pagamento','Fatura Pendente')`
-      console.log(cont)
       connection.query(cont, function (error, result) {
-        console.log(result[0].QTD)
         if (error) {
           reject(error)
         } else if (result[0].QTD > 0) {
@@ -181,8 +255,6 @@ module.exports = {
                                         AND DT_PREVISTO = '${body.dataPrevista}'
                                         AND STATUS IN ('Esperando Pagamento','Fatura Pendente')`
 
-          console.log(amort1)
-          console.log(amort2)
           connection.query(amort1, function (error) {
             if (error) {
               reject(error)
@@ -197,8 +269,8 @@ module.exports = {
           })
         } else {
           const sql = `UPDATE DESPESA SET
-                                    ID_CATEGORIA = '${body.ID_CATEGORIA}',
-                                      ID_CARTAO = '${body.ID_CARTAO}', 
+                                    ID_CATEGORIA =  ${body.ID_CATEGORIA},
+                                      ID_CARTAO =   ${body.ID_CARTAO}, 
                                         ID_CONTA = null,
                                         VL_REAL =  null,
                                         DT_REAL =  null,
@@ -269,7 +341,8 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
       const sql = `UPDATE DESPESA 
-                              SET ID_CONTA = '${body.idConta}',
+                              SET ID_CONTA =  ${body.idConta},
+                                  ID_CARTAO = ${body.cartao},
                                   DESCR_DESPESA = '${body.descrDespesa}',
                                   VL_REAL = '${body.valorReal}',
                                   DT_REAL = '${body.dataReal}',
@@ -291,9 +364,9 @@ module.exports = {
                                     ( null,
                                      '${body.idGrupo}',
                                      '${body.idUser}',
-                                     '${body.categoria}',
-                                       null,
-                                     '${body.cartao}',
+                                      ${body.categoria},
+                                      ${body.idConta},
+                                      ${body.cartao},
                                      '${body.descrDespesa}', 
                                      '${body.parcela}',
                                      '${body.valorReal}',

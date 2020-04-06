@@ -79,12 +79,16 @@ module.exports = {
     const date = Moment(request.body.dataReal)
     request.body.dataReal = date.format("YYYY-MM-DD")
 
+    const datePrev = Moment(request.body.dataPrevista)
+    request.body.dataPrevista = datePrev.format("YYYY-MM-DD")
+
     const cartao = request.body.cartao.length === 0 ? null : request.body.cartao
     request.body.cartao = cartao
 
     const conta = request.body.conta.length === 0 ? null : request.body.conta
     request.body.conta = conta
 
+    console.log('dataPrevista', request.body.dataPrevista)
     DespesaModel.updateDespesaReal(request.body).then(result => {
 
       return response.json(result)
@@ -100,8 +104,7 @@ module.exports = {
       ? 'Fatura Pendente'
       : 'Esperando Pagamento'
 
-    // const date = Moment(request.body.DT_PREVISTO)
-    // request.body.dataPrevista = date.format("YYYY-MM-DD")
+
     request.body.dataPrevista = request.body.DT_PREVISTO === null
       ? null
       : Moment(request.body.DT_PREVISTO).format("YYYY-MM-DD")
