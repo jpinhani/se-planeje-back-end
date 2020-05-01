@@ -33,7 +33,7 @@ module.exports = {
 
   getDespesaAll(idUser) {
     return new Promise((resolve, reject) => {
-      const sql = `SELECT 
+      const sql = ` SELECT 
                       A.ID,
                       A.ID_GRUPO,
                       A.ID_USER,
@@ -45,12 +45,33 @@ module.exports = {
                       A.NUM_PARCELA,
                       A.VL_PREVISTO,
                       A.DT_PREVISTO,
-                      A.STATUS 
+                      A.STATUS,
+                     IFNULL(CASE WHEN 
+                      ((A.DT_PREVISTO < CAST(CONCAT(YEAR(A.DT_PREVISTO),'-',MONTH(A.DT_PREVISTO),'-',C.DIA_COMPRA) AS DATE))
+				          AND (A.DT_PREVISTO IS NOT NULL))
+                         THEN
+                     CAST(CONCAT(YEAR(A.DT_PREVISTO),'-',MONTH(A.DT_PREVISTO),'-',C.DT_VENCIMENTO) AS DATE)
+                         WHEN
+                    ((A.DT_PREVISTO >= CAST(CONCAT(YEAR(A.DT_PREVISTO),'-',MONTH(A.DT_PREVISTO),'-',C.DIA_COMPRA) AS DATE))
+                         AND (MONTH(A.DT_PREVISTO) < 12)
+                         AND (A.DT_PREVISTO IS NOT NULL))
+                        THEN
+                     CAST(CONCAT(YEAR(A.DT_PREVISTO),'-',(MONTH(A.DT_PREVISTO) + 1),'-',C.DT_VENCIMENTO) AS DATE)
+                         WHEN
+                    ((A.DT_PREVISTO >= CAST(CONCAT(YEAR(A.DT_PREVISTO),'-',MONTH(A.DT_PREVISTO),'-',C.DIA_COMPRA) AS DATE))
+						 AND (MONTH(A.DT_PREVISTO) = 12)
+                         AND (A.DT_PREVISTO IS NOT NULL))
+                        THEN
+                     CAST(CONCAT((YEAR(A.DT_PREVISTO) + 1),'-',1,'-',C.DT_VENCIMENTO) AS DATE)
+                     END,A.DT_PREVISTO) AS DT_VISAO
                             FROM DESPESA A
-                                LEFT OUTER JOIN CATEGORIA B ON (A.ID_CATEGORIA = B.ID)
-                                LEFT OUTER JOIN CARTAO C ON (A.ID_CARTAO = C.ID)
+                                LEFT OUTER JOIN CATEGORIA B ON (A.ID_CATEGORIA = B.ID 
+															AND A.ID_USER = B.ID_USER)
+                                LEFT OUTER JOIN CARTAO C ON (A.ID_CARTAO = C.ID
+													     AND A.ID_USER = C.ID_USER )
                             WHERE A.STATUS IN ('Esperando Pagamento','Fatura Pendente') 
-                              and A.ID_USER = ${idUser}`
+                              and A.ID_USER = ${idUser}
+                                 ORDER BY A.DT_PREVISTO`
       console.log('sqllll', sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
@@ -76,7 +97,8 @@ module.exports = {
                                      '${body.valorPrevisto}',
                                      '${body.dataPrevista}',
                                        null,
-                                     '${body.status}')`
+                                     '${body.status}',
+                                     null)`
       console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
@@ -102,7 +124,8 @@ module.exports = {
                                       null,
                                       null,
                                       null,
-                                     '${body.status}')`
+                                     '${body.status}',
+                                     null)`
       console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
@@ -349,6 +372,7 @@ module.exports = {
                                   STATUS = '${body.status}'
                                      WHERE ID='${body.id}'
                                        AND ID_USER = '${body.idUser}'`
+      console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
@@ -374,19 +398,21 @@ module.exports = {
                                      '${body.valorReal}',
                                      '${body.dataPrevista}',
                                        null,
-                                     '${body.status}')`
+                                     '${body.status}',
+                                     null)`
 
 
       const sql2 = `UPDATE DESPESA 
                               SET VL_PREVISTO = '${body.novoPrevisto}'
                                      WHERE ID='${body.id}'
                                        AND ID_USER = '${body.idUser}'`
-
-      connection.query(sql1, function (error, result, fields) {
+      console.log(sql1)
+      console.log(sql2)
+      connection.query(sql1, function (error) {
         if (error) {
           reject(error)
         } else {
-          connection.query(sql2, function (error, result, fields) {
+          connection.query(sql2, function (error, result) {
             if (error)
               reject(error)
             resolve(result)
@@ -413,11 +439,29 @@ module.exports = {
                         A.VL_REAL,
                         A.DT_PREVISTO,
                         A.DT_REAL,
-                        A.STATUS 
+                        A.STATUS ,
+                         IFNULL(CASE WHEN 
+                      ((A.DT_REAL < CAST(CONCAT(YEAR(A.DT_REAL),'-',MONTH(A.DT_REAL),'-',C.DIA_COMPRA) AS DATE))
+				          AND (A.DT_REAL IS NOT NULL))
+                         THEN
+                     CAST(CONCAT(YEAR(A.DT_REAL),'-',MONTH(A.DT_REAL),'-',C.DT_VENCIMENTO) AS DATE)
+                         WHEN
+                    ((A.DT_REAL >= CAST(CONCAT(YEAR(A.DT_REAL),'-',MONTH(A.DT_REAL),'-',C.DIA_COMPRA) AS DATE))
+                         AND (MONTH(A.DT_REAL) < 12)
+                         AND (A.DT_REAL IS NOT NULL))
+                        THEN
+                     CAST(CONCAT(YEAR(A.DT_REAL),'-',(MONTH(A.DT_REAL) + 1),'-',C.DT_VENCIMENTO) AS DATE)
+                         WHEN
+                    ((A.DT_REAL >= CAST(CONCAT(YEAR(A.DT_REAL),'-',MONTH(A.DT_REAL),'-',C.DIA_COMPRA) AS DATE))
+						 AND (MONTH(A.DT_REAL) = 12)
+                         AND (A.DT_REAL IS NOT NULL))
+                        THEN
+                     CAST(CONCAT((YEAR(A.DT_REAL) + 1),'-',1,'-',C.DT_VENCIMENTO) AS DATE)
+                     END,A.DT_REAL) AS DT_VISAO
                               FROM DESPESA A
-                                  LEFT OUTER JOIN CATEGORIA B ON (A.ID_CATEGORIA = B.ID)
-                                  LEFT OUTER JOIN CARTAO C ON (A.ID_CARTAO = C.ID)
-                                  LEFT OUTER JOIN CONTA D ON (A.ID_CONTA = D.ID)
+                                  LEFT OUTER JOIN CATEGORIA B ON (A.ID_CATEGORIA = B.ID AND A.ID_USER = B.ID_USER)
+                                  LEFT OUTER JOIN CARTAO C ON (A.ID_CARTAO = C.ID AND A.ID_USER = C.ID_USER)
+                                  LEFT OUTER JOIN CONTA D ON (A.ID_CONTA = D.ID AND A.ID_USER = D.ID_USER)
                               WHERE A.STATUS IN ('Pagamento Realizado','Fatura Pronta Para Pagamento')
                               AND A.ID_USER = ${idUser}`
       connection.query(sql, function (error, result, fields) {
@@ -468,14 +512,39 @@ module.exports = {
                       A.NUM_PARCELA,
                       A.STATUS
                             FROM DETALHE_FATURA A
-                              WHERE A.ID_USER = ${idUser}`
+                              WHERE A.ID_USER = ${idUser} AND  A.STATUS IN('Fatura Pendente', 'Fatura Pronta Para Pagamento')`
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
         resolve(result)
       })
     })
-  }
+  },
 
+  insertDespesaFatura(body) {
+    return new Promise((resolve, reject) => {
+      const sql = `UPDATE DESPESA D
+        SET  D.ID_CONTA = ${body.conta}, 
+             D.ID_FATURA = '${body.id}',
+             D.STATUS = 'Fatura Paga',
+             D.DT_CREDITO = D.DT_REAL,
+             D.DT_REAL = '${body.dataReal}'
+        WHERE D.ID IN (
+                SELECT
+                TEMP.ID
+                FROM(
+                  SELECT A.ID
+					    FROM DETALHE_FATURA A
+                              WHERE A.ID_USER = ${body.idUser}  AND  A.STATUS IN('Fatura Pronta Para Pagamento')
+                                AND CONCAT(A.CARTAO,' - ',A.FATURA) = '${body.id}') TEMP )`
+
+      console.log(sql)
+      connection.query(sql, function (error, result, fields) {
+        if (error)
+          reject(error)
+        resolve(result)
+      })
+    })
+  },
 }
 

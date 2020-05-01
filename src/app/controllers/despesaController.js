@@ -50,7 +50,8 @@ module.exports = {
           VL_PREVISTO2: data.VL_PREVISTO,
           DT_PREVISTO: data.DT_PREVISTO,
           STATUS: data.STATUS,
-          DATANOVA: dataNova
+          DATANOVA: dataNova,
+          DT_VISAO: data.DT_VISAO
         }
 
         return novaData
@@ -121,6 +122,13 @@ module.exports = {
       })
     }
   },
+
+  insertDespesaFatura(request, response) {
+    DespesaModel.insertDespesaFatura(request.body).then(result => {
+      return response.json(result)
+    })
+  },
+
 
   insertDespesa(request, response) {
     const numparcelas = request.body.parcela
@@ -319,7 +327,8 @@ module.exports = {
           DT_REAL: data.DT_REAL,
           STATUS: data.STATUS,
           DATANOVA: dataNova,
-          DATANOVAREAL: dataNovaReal
+          DATANOVAREAL: dataNovaReal,
+          DT_VISAO: data.DT_VISAO
         }
 
         return novaData

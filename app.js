@@ -8,6 +8,7 @@ const contaRoute = require('./src/app/routes/contaRoute')
 const categoriaRoute = require('./src/app/routes/categoriaRoute')
 const receitaRoute = require('./src/app/routes/receitaRoute')
 const visaoRoute = require('./src/app/routes/visaoRoute')
+const faturaRoute = require('./src/app/routes/faturaRoute')
 
 const app = express()
 
@@ -22,5 +23,6 @@ app.use(contaRoute)
 app.use(receitaRoute)
 app.use(categoriaRoute)
 app.use(visaoRoute)
+app.use(faturaRoute)
 
 module.exports = app 

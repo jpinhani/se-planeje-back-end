@@ -4,7 +4,8 @@ module.exports = {
   //teste
   getVision(user) {
     return new Promise((resolve, reject) => {
-      const SQL = `SELECT * FROM VISAO WHERE ID_USER = '${user}'`
+      const SQL = `SELECT * FROM VISAO WHERE ID_USER = '${user}' ORDER BY DT_INICIO`
+      console.log(SQL)
       connection.query(SQL, function (error, result, fields) {
         if (error)
           reject(error)
