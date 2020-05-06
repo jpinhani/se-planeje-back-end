@@ -201,7 +201,7 @@ module.exports = {
                         A.DT_PREVISTO,
                         A.DT_REAL,
                         A.STATUS 
-                              FROM DESPESA A
+                              FROM RECEITA A
                                   LEFT OUTER JOIN CATEGORIA B ON (A.ID_CATEGORIA = B.ID AND A.ID_USER = B.ID_USER)
                                   LEFT OUTER JOIN CONTA D ON (A.ID_CONTA = D.ID AND A.ID_USER = D.ID_USER)
                               WHERE A.STATUS IN ('Pagamento Realizado')
