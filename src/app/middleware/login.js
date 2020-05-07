@@ -10,7 +10,8 @@ module.exports = (req, res, next) => {
         req.usuario = decode;
         next();
     } catch (error) {
-        return res.status(401).send({ mensagem: 'Falha na Autenticação do Token' })
+        // return res.status(401).send({ mensagem: 'Falha na Autenticação do Token' }).json(error)
+        return res.status(401).json(error)
     }
 
 }
