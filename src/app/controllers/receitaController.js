@@ -276,9 +276,6 @@ module.exports = {
     const datePrev = Moment(request.body.dataPrevista)
     request.body.dataPrevista = datePrev.format("YYYY-MM-DD")
 
-    const conta = request.body.conta.length === 0 ? null : request.body.conta
-    request.body.conta = conta
-
     ReceitaModel.updateReceitaReal(request.body).then(result => {
 
       return response.json(result)

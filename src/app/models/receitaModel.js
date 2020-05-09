@@ -330,5 +330,63 @@ module.exports = {
         }
       })
     })
+  },
+
+
+  delteReceitaMetaReal(body) {
+
+    return new Promise((resolve, reject) => {
+
+      const cont = `SELECT
+                        COUNT(ID) AS QTD FROM RECEITA
+                                         WHERE  ID_USER = '${body.idUser}'
+                                         AND ID_GRUPO = '${body.idGrupo}'
+                                         AND DT_PREVISTO = '${body.dataPrevista}'
+                                         AND STATUS IN ('Esperando Pagamento')`
+      connection.query(cont, function (error, result) {
+        if (error) {
+          reject(error)
+        } else if (result[0].QTD > 0) {
+          const amort1 = `DELETE FROM RECEITA
+                                                  WHERE ID='${body.id}' 
+                                                    AND ID_USER = '${body.idUser}'`
+
+          const amort2 = `UPDATE RECEITA SET
+                                  VL_PREVISTO = VL_PREVISTO + ${body.valorReal}
+                                      WHERE 
+                                         ID_USER = '${body.idUser}'
+                                        AND ID_GRUPO = '${body.idGrupo}'
+                                        AND DT_PREVISTO = '${body.dataPrevista}'
+                                        AND STATUS IN ('Esperando Pagamento')`
+
+          connection.query(amort1, function (error) {
+            if (error) {
+              reject(error)
+            } else {
+              connection.query(amort2, function (error, result) {
+                if (error)
+                  reject(error)
+                resolve(result)
+              })
+            }
+
+          })
+        } else {
+          const sql = `UPDATE RECEITA SET
+                                    ID_CATEGORIA =  ${body.ID_CATEGORIA},
+                                        ID_CONTA = null,
+                                        VL_REAL =  null,
+                                        DT_REAL =  null,
+                                          STATUS = '${body.status}'
+                                      WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
+          console.log(sql)
+          connection.query(sql, function (error, result, fields) {
+            if (error)
+              reject(error)
+            resolve(result)
+          })
+        }
+      })
+    })
   }
 }
