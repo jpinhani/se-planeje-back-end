@@ -526,7 +526,11 @@ module.exports = {
       const sql = `UPDATE DESPESA D
         SET  D.ID_CONTA = ${body.conta}, 
              D.ID_FATURA = '${body.id}',
-             D.STATUS = 'Fatura Paga',
+             D.STATUS = (CASE 
+                          WHEN D.STATUS = 'Fatura Pronta Para Pagamento' THEN
+                              'Fatura Paga'
+                          WHEN D.STATUS = 'Fatura Pendente' THEN
+                              'Fatura Economizada' END),
              D.DT_CREDITO = D.DT_REAL,
              D.DT_REAL = '${body.dataReal}'
         WHERE D.ID IN (
@@ -535,7 +539,7 @@ module.exports = {
                 FROM(
                   SELECT A.ID
 					    FROM DETALHE_FATURA A
-                              WHERE A.ID_USER = ${body.idUser}  AND  A.STATUS IN('Fatura Pronta Para Pagamento')
+                              WHERE A.ID_USER = ${body.idUser}  AND  A.STATUS IN('Fatura Pronta Para Pagamento','Fatura Pendente')
                                 AND CONCAT(A.CARTAO,' - ',A.FATURA) = '${body.id}') TEMP )`
 
       console.log(sql)

@@ -38,5 +38,27 @@ module.exports = {
         resolve(result)
       })
     })
+  },
+  deleteDespesaFatura(body) {
+    return new Promise((resolve, reject) => {
+      const sql = `UPDATE DESPESA A
+        SET  A.ID_CONTA = null, 
+             A.ID_FATURA = null,
+             A.STATUS = CASE WHEN A.STATUS = 'Fatura Paga' THEN
+                         'Fatura Pronta Para Pagamento' ELSE
+                         'Fatura Pendente' END,
+             A.DT_REAL = A.DT_CREDITO, 
+             A.DT_CREDITO = NULL
+					WHERE A.ID_FATURA = '${body.id}'
+								AND A.ID_USER = ${body.idUser}
+                                AND A.STATUS IN ('Fatura Paga','Fatura Economizada')`
+
+      console.log(sql)
+      connection.query(sql, function (error, result, fields) {
+        if (error)
+          reject(error)
+        resolve(result)
+      })
+    })
   }
 }

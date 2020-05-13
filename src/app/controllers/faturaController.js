@@ -77,6 +77,12 @@ module.exports = {
 
       return response.json(novosDados)
     })
+  },
+  deleteDespesaFatura(request, response) {
+
+    FaturaModel.deleteDespesaFatura(request.body).then(result => {
+      return response.json(result)
+    })
   }
 }
 
