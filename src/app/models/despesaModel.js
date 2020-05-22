@@ -72,7 +72,6 @@ module.exports = {
                             WHERE A.STATUS IN ('Esperando Pagamento','Fatura Pendente') 
                               and A.ID_USER = ${idUser}
                                  ORDER BY A.DT_PREVISTO`
-      console.log('sqllll', sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
@@ -99,7 +98,6 @@ module.exports = {
                                        null,
                                      '${body.status}',
                                      null)`
-      console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
@@ -126,7 +124,6 @@ module.exports = {
                                       null,
                                      '${body.status}',
                                      null)`
-      console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
@@ -145,7 +142,6 @@ module.exports = {
                                 VL_PREVISTO = '${body.valorPrevisto}',
                                 DT_PREVISTO = '${body.dataPrevista}'
                                   WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
-      console.log(sql)
       connection.query(sql, function (error, result, fields) {
         if (error)
           reject(error)
