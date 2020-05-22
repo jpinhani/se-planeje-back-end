@@ -58,10 +58,10 @@ module.exports = {
                           ID_CONTACREDITO = '${body.idContaCredito}', 
                           DESCR_TRANSFERENCIA ='${body.descrTransferencia}',
                           DATA_TRANSFERENCIA ='${body.dataTransferencia}',
-                          VALOR ='${body.valor}',
+                          VALOR ='${body.valor}'
                               WHERE ID = '${body.id}' 
                                 AND ID_USER = '${body.idUser}'`
-
+      console.log(sql)
       connection.query(sql, function (error, result) {
         if (error)
           reject(error)
