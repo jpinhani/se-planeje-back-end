@@ -1,4 +1,4 @@
-const connection = require('../../database/index')
+const mysql = require('../../database/index')
 
 module.exports = {
   getfaturaAll(userID) {
@@ -11,14 +11,18 @@ module.exports = {
                           FROM DESPESA A
                                     WHERE A.STATUS = 'Fatura Paga' AND A.ID_USER = ${userID}
                                       GROUP BY A.ID_FATURA`
-      console.log(sql)
-      connection.query(sql, function (error, result) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result) {
+          connection.release();
+          if (error)
+            reject(error)
+          resolve(result)
+        });
+      });
     })
   },
+
   getfaturaDetalhe(userID) {
     return new Promise((resolve, reject) => {
       const sql = `SELECT
@@ -31,14 +35,18 @@ module.exports = {
                         FROM DESPESA A
                                   WHERE A.STATUS = 'Fatura Paga' AND A.ID_USER = ${userID}
                                      ORDER BY A.DT_CREDITO`
-      console.log(sql)
-      connection.query(sql, function (error, result) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result) {
+          connection.release();
+          if (error)
+            reject(error)
+          resolve(result)
+        });
+      });
     })
   },
+
   deleteDespesaFatura(body) {
     return new Promise((resolve, reject) => {
       const sql = `UPDATE DESPESA A
@@ -53,12 +61,14 @@ module.exports = {
 								AND A.ID_USER = ${body.idUser}
                                 AND A.STATUS IN ('Fatura Paga','Fatura Economizada')`
 
-      console.log(sql)
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          if (error)
+            reject(error)
+          resolve(result)
+        });
+      });
     })
   }
 }

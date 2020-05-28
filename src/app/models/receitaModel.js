@@ -1,4 +1,4 @@
-const connection = require('../../database/index')
+const mysql = require('../../database/index')
 
 module.exports = {
 
@@ -9,11 +9,14 @@ module.exports = {
                         WHERE A.ID_USER = '${idUser}'
                           AND A.ENTRADA = 0
                           AND A.TIPO = 2`
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          if (error)
+            reject(error)
+          resolve(result)
+        });
+      });
     })
   },
 
@@ -34,11 +37,14 @@ module.exports = {
                                 LEFT OUTER JOIN CATEGORIA B ON (A.ID_CATEGORIA = B.ID)
                             WHERE A.STATUS IN ('Esperando Pagamento') 
                               and A.ID_USER = ${idUser}`
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          if (error)
+            reject(error)
+          resolve(result)
+        });
+      });
     })
   },
 
@@ -57,11 +63,14 @@ module.exports = {
                                      '${body.valorPrevisto}',
                                      '${body.dataPrevista}',
                                      '${body.status}')`
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          if (error)
+            reject(error)
+          resolve(result)
+        });
+      });
     })
   },
 
@@ -74,11 +83,14 @@ module.exports = {
                                 VL_PREVISTO = '${body.valorPrevisto}',
                                 DT_PREVISTO = '${body.dataPrevista}'
                                   WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          if (error)
+            reject(error)
+          resolve(result)
+        });
+      });
     })
   },
 
@@ -91,11 +103,14 @@ module.exports = {
                                AND A.ID_USER = '${body.idUser}'
                                AND A.NUM_PARCELA >= '${body.parcela}'
                                AND A.STATUS IN ('Esperando Pagamento')`
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          if (error)
+            reject(error)
+          resolve(result)
+        });
+      });
     })
   },
 
@@ -107,11 +122,14 @@ module.exports = {
                                 AND ID_USER = '${body.idUser}'
                                 AND NUM_PARCELA >= '${body.parcela}'
                                 AND STATUS IN ('Esperando Pagamento')`
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve('ok')
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          if (error)
+            reject(error)
+          resolve('ok')
+        });
+      });
     })
   },
 
@@ -119,11 +137,14 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
       const sql = `DELETE FROM RECEITA WHERE ID='${body.id}'`
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          if (error)
+            reject(error)
+          resolve(result)
+        });
+      });
     })
   },
 
@@ -138,12 +159,14 @@ module.exports = {
                                   STATUS = '${body.status}'
                                      WHERE ID='${body.id}'
                                        AND ID_USER = '${body.idUser}'`
-      console.log(sql)
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          if (error)
+            reject(error)
+          resolve(result)
+        });
+      });
     })
   },
 
@@ -169,21 +192,27 @@ module.exports = {
                               SET VL_PREVISTO = '${body.novoPrevisto}'
                                      WHERE ID='${body.id}'
                                        AND ID_USER = '${body.idUser}'`
-      console.log(sql1)
-      console.log(sql2)
-      connection.query(sql1, function (error) {
-        if (error) {
-          reject(error)
-        } else {
-          connection.query(sql2, function (error, result) {
-            if (error)
-              reject(error)
-            resolve(result)
-          })
-        }
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql1, function (error) {
+          connection.release();
+          if (error) {
+            reject(error)
+          } else {
+            mysql.getConnection((error, connection) => {
+              connection.query(sql2, function (error, result) {
+                connection.release();
+                if (error)
+                  reject(error)
+                resolve(result)
+              });
+            });
+          }
+        });
+      });
     })
   },
+
+
   getReceitaAllPaga(idUser) {
     return new Promise((resolve, reject) => {
       const sql = `SELECT 
@@ -206,11 +235,14 @@ module.exports = {
                                   LEFT OUTER JOIN CONTA D ON (A.ID_CONTA = D.ID AND A.ID_USER = D.ID_USER)
                               WHERE A.STATUS IN ('Pagamento Realizado')
                               AND A.ID_USER = ${idUser}`
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          if (error)
+            reject(error)
+          resolve(result)
+        });
+      });
     })
   },
 
@@ -229,12 +261,14 @@ module.exports = {
                                       null,
                                       null,
                                      '${body.status}')`
-      console.log(sql)
-      connection.query(sql, function (error, result) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result) {
+          connection.release();
+          if (error)
+            reject(error)
+          resolve(result)
+        });
+      });
     })
   },
 
@@ -258,12 +292,15 @@ module.exports = {
                                     DT_REAL = '${body.dataReal}',
                                      STATUS = '${body.status}'
                                   WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
-      console.log(cont)
-      connection.query(cont, function (error, result, fields) {
-        if (error) {
-          reject(error)
-        } else if (result[0].QTD > 0 && result[0].META + (body.valorCorrigir) > 0) {
-          const sql2 = `UPDATE RECEITA SET
+
+      mysql.getConnection((error, connection) => {
+        connection.query(cont, function (error, result, fields) {
+          connection.release();
+          if (error) {
+            reject(error)
+          } else if (result[0].QTD > 0 && result[0].META + (body.valorCorrigir) > 0) {
+
+            const sql2 = `UPDATE RECEITA SET
                                     ID_CATEGORIA =  ${body.categoria},
                                         ID_CONTA =  ${body.conta},
                                   DESCR_RECEITA = '${body.descrDespesa}',
@@ -273,26 +310,34 @@ module.exports = {
                                           STATUS = '${body.status}'
                                       WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
 
-          const amort2 = `UPDATE RECEITA SET
+            const amort2 = `UPDATE RECEITA SET
                                   VL_PREVISTO = VL_PREVISTO + (${body.valorCorrigir})
                                       WHERE 
                                          ID_USER = '${body.idUser}'
                                         AND ID_GRUPO = '${body.idGrupo}'
                                         AND DT_PREVISTO = '${body.dataPrevista}'
                                         AND STATUS IN ('Esperando Pagamento')`
-          connection.query(sql2, function (error) {
-            if (error) {
-              reject(error)
-            } else {
-              connection.query(amort2, function (error, result) {
-                if (error)
+
+            mysql.getConnection((error, connection) => {
+              connection.query(sql2, function (error) {
+                connection.release();
+                if (error) {
                   reject(error)
-                resolve(result)
-              })
-            }
-          })
-        } else if (result[0].QTD > 0 && result[0].META + (body.valorCorrigir) <= 0) {
-          const sql3 = `UPDATE RECEITA SET
+                } else {
+                  mysql.getConnection((error, connection) => {
+                    connection.query(amort2, function (error, result) {
+                      connection.release();
+                      if (error)
+                        reject(error)
+                      resolve(result)
+                    });
+                  });
+                }
+              });
+            });
+          } else if (result[0].QTD > 0 && result[0].META + (body.valorCorrigir) <= 0) {
+
+            const sql3 = `UPDATE RECEITA SET
                                       ID_CATEGORIA =  ${body.categoria}, 
                                           ID_CONTA =  ${body.conta},
                                     DESCR_RECEITA = '${body.descrDespesa}',
@@ -302,33 +347,43 @@ module.exports = {
                                             STATUS = '${body.status}'
                                         WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
 
-          const amort3 = `DELETE
+            const amort3 = `DELETE
                                 FROM RECEITA
                                   WHERE  ID_USER = '${body.idUser}'
                                   AND ID_GRUPO = '${body.idGrupo}'
                                   AND DT_PREVISTO = '${body.dataPrevista}'
                                   AND STATUS IN ('Esperando Pagamento')`
 
-          connection.query(sql3, function (error) {
-            if (error) {
-              reject(error)
-            } else {
-              connection.query(amort3, function (error, result) {
+            mysql.getConnection((error, connection) => {
+              connection.query(sql3, function (error) {
+                connection.release();
+                if (error) {
+                  reject(error)
+                } else {
+                  mysql.getConnection((error, connection) => {
+                    connection.query(amort3, function (error, result) {
+                      connection.release();
+                      if (error)
+                        reject(error)
+                      resolve(result)
+                    });
+                  });
+                }
+              });
+            });
+          }
+          else {
+            mysql.getConnection((error, connection) => {
+              connection.query(sql, function (error, result) {
+                connection.release();
                 if (error)
                   reject(error)
                 resolve(result)
-              })
-            }
-          })
-        }
-        else {
-          connection.query(sql, function (error, result) {
-            if (error)
-              reject(error)
-            resolve(result)
-          })
-        }
-      })
+              });
+            });
+          }
+        });
+      });
     })
   },
 
@@ -343,15 +398,19 @@ module.exports = {
                                          AND ID_GRUPO = '${body.idGrupo}'
                                          AND DT_PREVISTO = '${body.dataPrevista}'
                                          AND STATUS IN ('Esperando Pagamento')`
-      connection.query(cont, function (error, result) {
-        if (error) {
-          reject(error)
-        } else if (result[0].QTD > 0) {
-          const amort1 = `DELETE FROM RECEITA
+
+      mysql.getConnection((error, connection) => {
+        connection.query(cont, function (error, result) {
+          connection.release();
+          if (error) {
+            reject(error)
+          } else if (result[0].QTD > 0) {
+
+            const amort1 = `DELETE FROM RECEITA
                                                   WHERE ID='${body.id}' 
                                                     AND ID_USER = '${body.idUser}'`
 
-          const amort2 = `UPDATE RECEITA SET
+            const amort2 = `UPDATE RECEITA SET
                                   VL_PREVISTO = VL_PREVISTO + ${body.valorReal}
                                       WHERE 
                                          ID_USER = '${body.idUser}'
@@ -359,34 +418,43 @@ module.exports = {
                                         AND DT_PREVISTO = '${body.dataPrevista}'
                                         AND STATUS IN ('Esperando Pagamento')`
 
-          connection.query(amort1, function (error) {
-            if (error) {
-              reject(error)
-            } else {
-              connection.query(amort2, function (error, result) {
-                if (error)
+            mysql.getConnection((error, connection) => {
+              connection.query(amort1, function (error) {
+                connection.release();
+                if (error) {
                   reject(error)
-                resolve(result)
-              })
-            }
-
-          })
-        } else {
-          const sql = `UPDATE RECEITA SET
+                } else {
+                  mysql.getConnection((error, connection) => {
+                    connection.query(amort2, function (error, result) {
+                      connection.release();
+                      if (error)
+                        reject(error)
+                      resolve(result)
+                    });
+                  });
+                }
+              });
+            });
+          } else {
+            const sql = `UPDATE RECEITA SET
                                     ID_CATEGORIA =  ${body.ID_CATEGORIA},
                                         ID_CONTA = null,
                                         VL_REAL =  null,
                                         DT_REAL =  null,
                                           STATUS = '${body.status}'
                                       WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
-          console.log(sql)
-          connection.query(sql, function (error, result, fields) {
-            if (error)
-              reject(error)
-            resolve(result)
-          })
-        }
-      })
+
+            mysql.getConnection((error, connection) => {
+              connection.query(sql, function (error, result, fields) {
+                connection.release();
+                if (error)
+                  reject(error)
+                resolve(result)
+              });
+            });
+          }
+        });
+      });
     })
   }
 }

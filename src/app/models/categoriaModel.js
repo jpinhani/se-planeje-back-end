@@ -1,4 +1,4 @@
-const connection = require('../../database/index')
+const mysql = require('../../database/index')
 
 module.exports = {
 
@@ -9,12 +9,11 @@ module.exports = {
                       COUNT(A.ID) Verify FROM CATEGORIA A
                         WHERE A.DEPENDENCIA = '${categoriaID}'`
 
-      console.log(sql)
-      connection.query(sql, function (error, result, fields) {
-        // console.log('Resultado esperado:', result[0].Verify)
-        if (error)
-          reject(error)
-        resolve(result)
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result) {
+          connection.release();
+          (error) ? reject(error) : resolve(result)
+        });
       })
     })
   },
@@ -28,12 +27,12 @@ module.exports = {
                               AND A.TIPO = ${tipo}
                               AND A.ENTRADA = 1`
 
-      console.log(sql)
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result) {
+          connection.release();
+          (error) ? reject(error) : resolve(result)
+        });
+      });
     })
   },
 
@@ -62,11 +61,12 @@ module.exports = {
                            LEFT OUTER JOIN CATEGORIA B ON (A.DEPENDENCIA = B.ID)
                            WHERE  A.ID_USER IN (${userID},0) AND A.ID > 3
                             ORDER BY A.DEPENDENCIA`
-      console.log(sql)
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
+
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          (error) ? reject(error) : resolve(result)
+        });
       })
     })
   },
@@ -97,12 +97,12 @@ module.exports = {
                            WHERE  A.ID_USER IN (${userID},0)
                              AND A.DESCR_CATEGORIA LIKE '%${categoriaID}%' AND A.ID > 3
                             ORDER BY A.DEPENDENCIA`
-      console.log(sql)
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          (error) ? reject(error) : resolve(result)
+        });
+      });
     })
   },
 
@@ -119,17 +119,18 @@ module.exports = {
                               '${body.agregacao}',
                               '${body.entrada}',
                               '${body.status}')`
-      console.log(sql)
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          (error) ? reject(error) : resolve(result)
+        });
+      });
     })
   },
 
-  insertCategoriaDefault(body) {
 
+  insertCategoriaDefault(body) {
     return new Promise((resolve, reject) => {
       const sql = `INSERT INTO CATEGORIA
                          VALUES (NULL,'${body.idUser}',2,'HABITAÇÃO',3,1,'+',1,'Ativo'),
@@ -227,13 +228,12 @@ module.exports = {
                     (NULL,${body.idUser},(SELECT A.ID FROM CATEGORIA  A
                                           WHERE A.DESCR_CATEGORIA = 'TRANSPORTE'
                                             AND A.ID_USER = ${body.idUser}),'FRETADO',4,1,'+',0,'Ativo')`
-
-      connection.query(sql, function (error, result, fields) {
-        console.log('sql', sql)
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result) {
+          connection.release();
+          (error) ? reject(error) : resolve(result)
+        });
+      });
     })
   },
 
@@ -251,12 +251,12 @@ module.exports = {
                               ENTRADA = '${body.entrada}',
                               STATUS ='${body.status}' 
                         WHERE ID='${body.id}'`
-      console.log(sql)
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result) {
+          connection.release();
+          (error) ? reject(error) : resolve(result)
+        });
+      });
     })
   },
 
@@ -264,12 +264,13 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
       const sql = `DELETE FROM CATEGORIA WHERE ID='${body.id}'`
-      console.log(sql)
-      connection.query(sql, function (error, result, fields) {
-        if (error)
-          reject(error)
-        resolve(result)
-      })
+
+      mysql.getConnection((error, connection) => {
+        connection.query(sql, function (error, result, fields) {
+          connection.release();
+          (error) ? reject(error) : resolve(result)
+        });
+      });
     })
   }
 }

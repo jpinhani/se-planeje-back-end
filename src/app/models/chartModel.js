@@ -1,4 +1,4 @@
-const connection = require('../../database/index')
+const mysql = require('../../database/index')
 
 module.exports = {
 
@@ -31,13 +31,17 @@ module.exports = {
                                         LEFT OUTER JOIN CONTA D ON (A.ID_CONTA = D.ID AND
                                                                     A.ID_USER = D.ID_USER)
                                      WHERE A.ID_USER = '${userID}'`
-            connection.query(sql, function (error, result) {
-                if (error)
-                    reject(error)
-                resolve(result)
-            })
+            mysql.getConnection((error, connection) => {
+                connection.query(sql, function (error, result) {
+                    connection.release();
+                    if (error)
+                        reject(error)
+                    resolve(result)
+                });
+            });
         })
     },
+
     getChartReceita(userID) {
         return new Promise((resolve, reject) => {
             const sql = `SELECT 
@@ -61,10 +65,13 @@ module.exports = {
                                         LEFT OUTER JOIN CONTA D ON (A.ID_CONTA = D.ID AND
                                                                     A.ID_USER = D.ID_USER)
                                      WHERE A.ID_USER = '${userID}'`
-            connection.query(sql, function (error, result) {
-                if (error)
-                    reject(error)
-                resolve(result)
+            mysql.getConnection((error, connection) => {
+                connection.query(sql, function (error, result) {
+                    connection.release();
+                    if (error)
+                        reject(error)
+                    resolve(result)
+                });
             })
         })
     }
