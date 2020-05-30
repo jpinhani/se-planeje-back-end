@@ -6,7 +6,7 @@ const app = require('./app')
 //DEV
 const port = process.env.PORT || 8082
 
-// const hostname = 'http://seplaneje-com.umbler.net';
+const hostname = 'http://localhost' || 'http://seplaneje-com.umbler.net';
 
 
 app.listen(port, () => {
