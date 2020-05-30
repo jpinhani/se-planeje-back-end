@@ -23,6 +23,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
     "mysql": "^2.18.1",
+    "pagarme": "^4.9.0",
     "react-scripts": "^3.4.0"
   },
   "devDependencies": {

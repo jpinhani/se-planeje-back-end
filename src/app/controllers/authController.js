@@ -1,6 +1,7 @@
 const userModel = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 
+
 module.exports = {
   async signIn(request, response) {
 
@@ -23,7 +24,7 @@ module.exports = {
 
     return response.json({
       user: user,
-      token: bearerToken
+      token: bearerToken,
     })
   }
 }
