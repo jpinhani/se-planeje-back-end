@@ -158,9 +158,9 @@ module.exports = {
 
 
   deleteReceita(request, response) {
-    console.log('body', request.body)
+    // console.log('body', request.body)
     request.body.id = request.params.id
-    console.log('body esta assim valueEdit', request.body)
+    // console.log('body esta assim valueEdit', request.body)
     if (request.body.valueEdit === 'Deletar Receita Selecionada') {
 
       ReceitaModel.deleteReceita(request.body).then(result => {

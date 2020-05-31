@@ -17,7 +17,7 @@ module.exports = {
   },
 
   insertVision(request, response) {
-    console.log('ENTROU')
+    // console.log('ENTROU')
     VisionModel.insertVision(request.body).then(result => {
       return response.json(result)
     })

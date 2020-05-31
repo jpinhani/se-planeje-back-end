@@ -295,36 +295,43 @@ module.exports = {
                                          AND ID_GRUPO = '${body.idGrupo}'
                                          AND DT_PREVISTO = '${body.dataPrevista}'
                                          AND STATUS IN ('Esperando Pagamento','Fatura Pendente')`
-      connection.query(cont, function (error, result) {
-        if (error) {
-          reject(error)
-        } else if (result[0].QTD > 0) {
-          const amort1 = `DELETE FROM DESPESA
+      mysql.getConnection((error, connection) => {
+        connection.query(cont, function (error, result) {
+          connection.release();
+          if (error) {
+            reject(error)
+          } else if (result[0].QTD > 0) {
+            const amort1 = `DELETE FROM DESPESA
                                                   WHERE ID='${body.id}' 
                                                     AND ID_USER = '${body.idUser}'`
 
-          const amort2 = `UPDATE DESPESA SET
+            const amort2 = `UPDATE DESPESA SET
                                   VL_PREVISTO = VL_PREVISTO + ${body.valorReal}
                                       WHERE 
                                          ID_USER = '${body.idUser}'
                                         AND ID_GRUPO = '${body.idGrupo}'
                                         AND DT_PREVISTO = '${body.dataPrevista}'
                                         AND STATUS IN ('Esperando Pagamento','Fatura Pendente')`
-
-          connection.query(amort1, function (error) {
-            if (error) {
-              reject(error)
-            } else {
-              connection.query(amort2, function (error, result) {
-                if (error)
+            mysql.getConnection((error, connection) => {
+              connection.query(amort1, function (error) {
+                connection.release();
+                if (error) {
                   reject(error)
-                resolve(result)
-              })
-            }
+                } else {
+                  mysql.getConnection((error, connection) => {
+                    connection.query(amort2, function (error, result) {
+                      connection.release();
+                      if (error)
+                        reject(error)
+                      resolve(result)
+                    });
+                  });
+                }
 
-          })
-        } else {
-          const sql = `UPDATE DESPESA SET
+              });
+            });
+          } else {
+            const sql = `UPDATE DESPESA SET
                                     ID_CATEGORIA =  ${body.ID_CATEGORIA},
                                       ID_CARTAO =   ${body.ID_CARTAO}, 
                                         ID_CONTA = null,
@@ -332,16 +339,17 @@ module.exports = {
                                         DT_REAL =  null,
                                           STATUS = '${body.status}'
                                       WHERE ID='${body.id}' AND ID_USER = '${body.idUser}'`
-
-          connection.query(sql, function (error, result, fields) {
-            if (error)
-              reject(error)
-            resolve(result)
-          })
-
-
-        }
-      })
+            mysql.getConnection((error, connection) => {
+              connection.query(sql, function (error, result, fields) {
+                connection.release();
+                if (error)
+                  reject(error)
+                resolve(result)
+              });
+            })
+          }
+        });
+      });
     })
   },
 
