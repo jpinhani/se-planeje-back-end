@@ -4,9 +4,10 @@ const app = require('./app')
 // const port = process.env.PORT || 3000;
 
 //DEV
-const port = process.env.PORT || 8082
-
-const hostname = 'http://localhost' || 'http://seplaneje-com.umbler.net';
+const port = 8082
+//process.env.PORT ||
+const hostname = 'http://localhost'
+//|| 'http://seplaneje-com.umbler.net';
 
 
 app.listen(port, () => {

@@ -7,14 +7,10 @@ module.exports = {
 
     const { email, password } = request.body
 
-    const user = (await userModel.getUserByEmail(email, password))[0]
+    const user = (await userModel.getUserByEmail(email, password))
 
-    if (!user)
-      return response.status(400).json({ message: 'date not found' })
-
-    // if (user.PASSWORD !== password)
-    //   return response.status(400).json({ message: 'Invalid password' })
-
+    if (user.length === 0)
+      return response.json({ status: 400 }) //.json({ message: 'date not found' })
 
     const idToken = {
       id: user.ID,
@@ -23,7 +19,7 @@ module.exports = {
     const bearerToken = jwt.sign({ idToken }, "BAE39995479EB", { expiresIn: "1h" });
 
     return response.json({
-      user: user,
+      user: user[0].ID,
       token: bearerToken,
     })
   }

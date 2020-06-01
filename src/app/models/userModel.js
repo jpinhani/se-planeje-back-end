@@ -9,6 +9,7 @@ module.exports = {
         conn.query(sql, (error, result) => {
           conn.release();
           (error) ? reject(error) : resolve(result)
+
         });
       });
     });
@@ -25,6 +26,7 @@ module.exports = {
       connection.getConnection((error, conn) => {
         conn.query(sql, function (error, result) {
           conn.release();
+          console.log(error)
           error ? reject(error) : resolve(result)
         });
       });
