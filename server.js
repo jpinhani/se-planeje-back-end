@@ -1,12 +1,14 @@
-const app = require('./app')
+require("dotenv").config();
+const app = require('./app');
+
 
 //PRD
 // const port = process.env.PORT || 3000;
 
 //DEV
-const port = 8082
+const port = process.env.SP_PORT_BACKEND
 //process.env.PORT ||
-const hostname = 'http://localhost'
+const hostname = process.env.SP_HOST_BACKEND
 //|| 'http://seplaneje-com.umbler.net';
 
 

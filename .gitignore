@@ -1,5 +1,6 @@
+.env
+
 node_modules/
-server.js
 package-lock.json
 # dependencies
 /node_modules
