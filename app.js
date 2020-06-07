@@ -18,7 +18,9 @@ const chartRoute = require('./src/app/routes/chartRoute')
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+    origin: process.env.SP_FRONT_END
+}))
 app.use(express.json())
 
 app.use(authRoute)
