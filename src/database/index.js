@@ -9,11 +9,3 @@ module.exports = mysql.createPool({
   password: process.env.SP_PSW,
   database: process.env.SP_DATABASE
 })
-// module.exports = mysql.createConnection({
-//   host: 'mysql669.umbler.com',
-//   port: 41890,
-//   user: 'sysplaneje',
-//   password: 'master123',
-//   database: 'bdsplan',
-//   multipleStatements: true
-// }) 
