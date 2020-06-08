@@ -3,9 +3,9 @@ const router = express.Router()
 const despesaController = require('../controllers/despesaController')
 const login = require('../middleware/login')
 
-router.get('/api/despesas/:idUser', despesaController.getDespesaAll)
-router.get('/api/despesas/category/:idUser', despesaController.getCategory)
-router.get('/api/despesas/cartao/:idUser', despesaController.getCartao)
+router.get('/api/despesas/:idUser', login, despesaController.getDespesaAll)
+router.get('/api/despesas/category/:idUser', login, despesaController.getCategory)
+router.get('/api/despesas/cartao/:idUser', login, despesaController.getCartao)
 
 router.post('/api/despesas', login, despesaController.insertDespesa)
 router.put('/api/despesas/:id', login, despesaController.updateDespesa)
@@ -16,9 +16,9 @@ router.post('/api/despesas/real', login, despesaController.insertDespesaReal)
 router.put('/api/despesas/real/:id', login, despesaController.updateDespesaReal)
 router.put('/api/despesas/delete/real/:id', login, despesaController.deleteDespesaReal)
 
-router.get('/api/despesas/paga/:idUser', despesaController.getDespesaAllPaga)
-router.get('/api/despesas/fatura/:idUser', despesaController.getDespesaAllFatura)
-router.get('/api/despesas/faturadetalhe/:idUser', despesaController.getDespesaAllFaturaDetalhe)
+router.get('/api/despesas/paga/:idUser', login, despesaController.getDespesaAllPaga)
+router.get('/api/despesas/fatura/:idUser', login, despesaController.getDespesaAllFatura)
+router.get('/api/despesas/faturadetalhe/:idUser', login, despesaController.getDespesaAllFaturaDetalhe)
 router.post('/api/despesas/fatura', login, despesaController.insertDespesaFatura)
 
 module.exports = router

@@ -26,7 +26,7 @@ module.exports = {
       connection.getConnection((error, conn) => {
         conn.query(sql, function (error, result) {
           conn.release();
-          console.log(error)
+          // console.log(error)
           error ? reject(error) : resolve(result)
         });
       });
