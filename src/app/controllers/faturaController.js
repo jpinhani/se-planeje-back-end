@@ -49,7 +49,7 @@ module.exports = {
 
       const novosDados = result.map((data) => {
         const dataVencimento = Moment(data.DT_VENCIMENTO, "YYYY/MM/DD").format("DD-MM-YYYY");
-        const dataReal = Moment(data.DT_REAL).format("DD-MM-YYYY");
+        const dataReal = Moment(data.DT_PAGAMENTO).format("DD-MM-YYYY");
 
         const vlReal = data.VL_REAL;
         const formatter = new Intl.NumberFormat('pt-BR', {
