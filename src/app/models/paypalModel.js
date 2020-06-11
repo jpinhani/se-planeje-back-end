@@ -6,9 +6,9 @@ const querystring = require('querystring');
 module.exports = {
 
     validate(body = {}) {
+
         return new Promise((resolve, reject) => {
-            // Prepend 'cmd=_notify-validate' flag to the post string
-            let postreq = 'cmd=_notify-validate';
+            let postreq = 'cmd=_notify-validate'
 
             // Iterate the original request payload object
             // and prepend its keys and values to the post string
@@ -19,11 +19,15 @@ module.exports = {
 
             const options = {
                 url: 'https://ipnpb.paypal.com/cgi-bin/webscr',
+                // url:'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr',
+
                 method: 'POST',
                 headers: {
                     'Content-Length': postreq.length,
+                    //   'Connection': 'close'
                 },
                 encoding: 'utf-8',
+                // body: postreq
                 body: postreq
             };
 
@@ -34,6 +38,7 @@ module.exports = {
                     return;
                 }
 
+                console.log('resBody', resBody)
                 // Validate the response from PayPal and resolve / reject the promise.
                 if (resBody.substring(0, 8) === 'VERIFIED') {
                     resolve(true);

@@ -18,6 +18,7 @@ module.exports = {
       }
 
       // IPN Message is validated!
+      console.log('body.txn_type', body.txn_type)
       const transactionType = body.txn_type;
 
       switch (transactionType) {
@@ -25,6 +26,7 @@ module.exports = {
         case 'subscr_payment':
           const status = body.payment_status;
           const amount = body.mc_gross;
+          console.log('body', body)
           // Validate that the status is completed, 
           // and the amount match your expectaions.
           break;
@@ -32,6 +34,7 @@ module.exports = {
         case 'subscr_cancel':
         case 'subscr_eot':
           // Update user profile
+          console.log('body1', body)
           break;
         case 'recurring_payment_suspended':
         case 'recurring_payment_suspended_due_to_max_failed_payment':
