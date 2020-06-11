@@ -23,11 +23,14 @@ const app = express()
 // Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// app.use(bodyParser.)
+
 // Parse application/json
 app.use(bodyParser.json());
 
 app.use(cors())
 app.use(express.urlencoded({ extended: false }));
+// app.use(express.w
 
 app.use(authRoute)
 app.use(userRoute)
