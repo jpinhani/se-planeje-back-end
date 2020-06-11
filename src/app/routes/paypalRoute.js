@@ -4,7 +4,7 @@ const paypallController = require('./../controllers/paypalController')
 
 
 
-router.post('/api/ipnPaypal', paypallController.default)
+router.post('/api/ipnPaypal', paypallController.index)
 
 
 
