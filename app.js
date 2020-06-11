@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require('express')
-import bodyParser from 'body-parser';
+const bodyParser = require('body-parser');
 const cors = require('cors')
 const authRoute = require('./src/app/routes/authRoute')
 const userRoute = require('./src/app/routes/userRoute')
