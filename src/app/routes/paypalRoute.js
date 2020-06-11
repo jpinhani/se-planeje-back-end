@@ -32,6 +32,7 @@ function getPaypalURI() {
  * @param {Object} req Cloud Function request context for IPN notification event.
  * @param {Object} res Cloud Function response context.
  */
+
 exports.ipnHandler = function ipnHandler(req, res) {
     console.log("IPN Notification Event Received");
 
@@ -83,5 +84,3 @@ exports.ipnHandler = function ipnHandler(req, res) {
     });
 };
 
-
-module.exports = router
