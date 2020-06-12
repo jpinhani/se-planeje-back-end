@@ -32,7 +32,7 @@ module.exports = {
 
                 method: 'POST',
                 headers: {
-                    'Content-Length': postreq.length,
+                    'Content-Length': verificationBody.length,
                     //   'Connection': 'close'
                 },
                 // encoding: 'utf-8',
