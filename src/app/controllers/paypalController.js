@@ -57,9 +57,11 @@ module.exports = {
     ipn.verify(body, function callback(err, msg) {
       if (err) {
         console.error('Erro', msg);
+        console.log('body', body)
       } else {
         //Do stuff with original params here
         console.log('msgSucess', msg);
+        console.log('body', body)
         if (req.body.payment_status == 'Completed') {
           //Payment has been confirmed as completed
         }
