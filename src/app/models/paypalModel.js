@@ -5,17 +5,25 @@ const querystring = require('querystring');
 
 module.exports = {
 
-    validate(body = {}) {
+    validate(body) {
 
         return new Promise((resolve, reject) => {
-            let postreq = 'cmd=_notify-validate'
+            // let postreq = 'cmd=_notify-validate'
+
+
+            // JSON object of the IPN message consisting of transaction details.
+            let ipnTransactionMessage = body;
+            // Convert JSON ipn data to a query string since Google Cloud Function does not expose raw request data.
+            let formUrlEncodedBody = querystring.stringify(ipnTransactionMessage);
+            // Build the body of the verification post message by prefixing 'cmd=_notify-validate'.
+            let verificationBody = `cmd=_notify-validate&${formUrlEncodedBody}`;
 
             // Iterate the original request payload object
             // and prepend its keys and values to the post string
-            Object.keys(body).map((key) => {
-                postreq = `${postreq}&${key}=${body[key]}`;
-                return key;
-            });
+            // Object.keys(body).map((key) => {
+            //     postreq = `${postreq}&${key}=${body[key]}`;
+            //     return key;
+            // });
 
             const options = {
                 // url: 'https://ipnpb.paypal.com/cgi-bin/webscr',
@@ -29,7 +37,12 @@ module.exports = {
                 },
                 // encoding: 'utf-8',
                 // body: postreq
-                body: postreq
+                // body: postreq
+                body: verificationBody,
+                strictSSL: true,
+                rejectUnauthorized: false,
+                requestCert: true,
+                agent: false
             };
 
             // Make a post request to PayPal

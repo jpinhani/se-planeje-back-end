@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require('express')
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const cors = require('cors')
 const authRoute = require('./src/app/routes/authRoute')
 const userRoute = require('./src/app/routes/userRoute')
@@ -21,15 +21,15 @@ const payPalRoute = require('./src/app/routes/paypalRoute')
 const app = express()
 
 // Parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 // app.use(bodyParser.)
 
 // Parse application/json
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 app.use(cors())
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 // app.use(express.w
 
 app.use(authRoute)
