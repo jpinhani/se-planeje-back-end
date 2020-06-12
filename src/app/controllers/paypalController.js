@@ -12,10 +12,10 @@ module.exports = {
     // Validate IPN message with PayPal
     try {
       const isValidated = await PayPalService.validate(body);
-      // if (!isValidated) {
-      //   console.error('Error validating IPN message.');
-      //   return;
-      // }
+      if (!isValidated) {
+        console.error('Error validating IPN message.');
+        return;
+      }
 
       // IPN Message is validated!
       console.log('body.txn_type', body.txn_type)

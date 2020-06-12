@@ -18,8 +18,8 @@ module.exports = {
             });
 
             const options = {
-                // url: 'https://ipnpb.paypal.com/cgi-bin/webscr',
                 url: 'https://ipnpb.paypal.com/cgi-bin/webscr',
+                // url: 'https://ipnpb.paypal.com/cgi-bin/webscr',
                 //    url: 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr',
 
                 method: 'POST',
@@ -34,10 +34,10 @@ module.exports = {
 
             // Make a post request to PayPal
             request(options, (error, response, resBody) => {
-                // if (error || response.statusCode !== 200) {
-                //     reject(new Error(error));
-                //     return;
-                // }
+                if (error || response.statusCode !== 200) {
+                    reject(new Error(error));
+                    return;
+                }
 
                 console.log('resBody', resBody)
                 // Validate the response from PayPal and resolve / reject the promise.
