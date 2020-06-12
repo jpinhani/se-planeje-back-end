@@ -52,10 +52,11 @@ module.exports = {
 
   novotest(req, res) {
 
+    const body = req.body || {};
 
-    ipn.verify(req.body, function callback(err, msg) {
+    ipn.verify(body, function callback(err, msg) {
       if (err) {
-        console.error(msg);
+        console.error('Erro', msg);
       } else {
         //Do stuff with original params here
         console.log('msgSucess', msg);
