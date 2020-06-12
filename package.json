@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "Yarn install"
+    "start": "yarn install"
   },
   "repository": {
     "type": "git",
