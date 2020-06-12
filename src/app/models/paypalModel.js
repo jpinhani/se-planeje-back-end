@@ -35,14 +35,14 @@ module.exports = {
                     'Content-Length': verificationBody.length,
                     //   'Connection': 'close'
                 },
-                // encoding: 'utf-8',
+                encoding: 'utf-8',
                 // body: postreq
                 // body: postreq
                 body: verificationBody,
-                strictSSL: true,
-                rejectUnauthorized: false,
-                requestCert: true,
-                agent: false
+                // strictSSL: true,
+                // rejectUnauthorized: false,
+                // requestCert: true,
+                // agent: false
             };
 
             // Make a post request to PayPal
