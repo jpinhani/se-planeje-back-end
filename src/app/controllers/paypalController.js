@@ -1,4 +1,5 @@
 const PayPalService = require('./../models/paypalModel')
+const ipn = require('paypal-ipn');
 module.exports = {
 
   async index(req, res) {
@@ -47,6 +48,24 @@ module.exports = {
       console.error(e);
     }
 
+  },
+
+  novotest(req, res) {
+
+
+    ipn.verify(req.body, function callback(err, msg) {
+      if (err) {
+        console.error(msg);
+      } else {
+        //Do stuff with original params here
+        console.log('msgSucess', msg);
+        if (req.body.payment_status == 'Completed') {
+          //Payment has been confirmed as completed
+        }
+      }
+
+    });
+    res.end();
   }
 }
 

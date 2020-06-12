@@ -27,6 +27,7 @@
     "mysql": "^2.18.1",
     "nodemailer": "^6.4.8",
     "pagarme": "^4.9.0",
+    "paypal-ipn": "^3.0.0",
     "react-scripts": "^3.4.0"
   },
   "devDependencies": {
