@@ -27,7 +27,7 @@ module.exports = {
                     'Content-Length': postreq.length,
                     //   'Connection': 'close'
                 },
-                encoding: 'utf-8',
+                // encoding: 'utf-8',
                 // body: postreq
                 body: postreq
             };
