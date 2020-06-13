@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+require("dotenv").config();
 
 
 module.exports = (req, res, next) => {
@@ -7,11 +8,9 @@ module.exports = (req, res, next) => {
         // console.log(req.headers.authorization)
         const token = req.headers.authorization.split(' ')[1]
         const user = req.headers.user
-        const decode = jwt.verify(token, "BAE39995479EB");
+        const decode = jwt.verify(token, process.env.SP_JWT);
 
         req.usuario = decode;
-        // console.log('decode', parseFloat(decode.id) === parseFloat(user))
-        // console.log('user', `${user}`)
         if (parseFloat(decode.id) === parseFloat(user))
             next();
     } catch (error) {

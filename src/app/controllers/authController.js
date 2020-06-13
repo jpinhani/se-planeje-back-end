@@ -1,5 +1,6 @@
 const userModel = require('../models/userModel')
 const jwt = require('jsonwebtoken')
+require("dotenv").config();
 
 
 module.exports = {
@@ -17,7 +18,7 @@ module.exports = {
       id: user[0].ID,
       EMAIL: user[0].EMAIL
     }
-    const bearerToken = jwt.sign(idToken, "BAE39995479EB", { expiresIn: "1h" });
+    const bearerToken = jwt.sign(idToken, process.env.SP_JWT, { expiresIn: "1h" });
 
     return response.json({
       user: user[0].ID,
