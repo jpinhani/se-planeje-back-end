@@ -12,11 +12,12 @@ module.exports = {
     if (user.length === 0)
       return response.json({ status: 400 }) //.json({ message: 'date not found' })
 
+    // console.log(user[0].ID)
     const idToken = {
-      id: user.ID,
-      EMAIL: user.EMAIL
+      id: user[0].ID,
+      EMAIL: user[0].EMAIL
     }
-    const bearerToken = jwt.sign({ idToken }, "BAE39995479EB", { expiresIn: "1h" });
+    const bearerToken = jwt.sign(idToken, "BAE39995479EB", { expiresIn: "1h" });
 
     return response.json({
       user: user[0].ID,
