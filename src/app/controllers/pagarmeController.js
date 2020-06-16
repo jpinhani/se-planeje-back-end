@@ -35,10 +35,10 @@ module.exports = {
             .postback
             .verifySignature(apiKey, verifyBody, signature)
         ) {
-            return res.json({ error: 'Invalid Postback' })
+            return response.json({ error: 'Invalid Postback' })
         }
 
-        return res.json({ message: 'postback válido' })
+        return response.json({ message: 'postback válido' })
 
 
     }
