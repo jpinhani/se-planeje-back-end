@@ -23,6 +23,9 @@ module.exports = {
         } catch (error) {
             return response.status(400).json(error)
         }
+    },
+    notificacoes(request, response) {
+        console.log("Chegou Algo")
     }
 
 }
