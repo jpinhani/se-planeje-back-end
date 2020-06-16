@@ -8,7 +8,7 @@ router.get('/api/fatura/detalhe/:idUser', login, faturaController.getfaturaDetal
 router.put('/api/fatura/contabilizada/:id', login, faturaController.deleteDespesaFatura)
 
 // getfaturaDetalhe
-
+// a
 
 module.exports = router
 
