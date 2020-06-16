@@ -1,5 +1,6 @@
 const pagarmeModel = require('../models/pagarmeModel')
-
+const pagarme = require('pagarme');
+const qs = require('querystring');
 module.exports = {
 
     assinatura(request, response) {
@@ -27,6 +28,22 @@ module.exports = {
     notificacoes(request, response) {
         console.log("Chegou Requestgi", request)
         console.log("Chegou Response", response)
+
+
+        const apiKey = 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA'
+        const verifyBody = qs.stringify(request.body)
+        const signature = request.headers['x-hub-signature'].replace('sha1=', '')
+
+        if (!pagarme
+            .postback
+            .verifySignature(apiKey, verifyBody, signature)
+        ) {
+            return res.json({ error: 'Invalid Postback' })
+        }
+
+        return res.json({ message: 'postback válido' })
+
+
     }
 
 }
