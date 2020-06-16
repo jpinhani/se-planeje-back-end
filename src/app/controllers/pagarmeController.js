@@ -25,7 +25,8 @@ module.exports = {
         }
     },
     notificacoes(request, response) {
-        console.log("Chegou Algo")
+        console.log("Chegou Requestgi", request)
+        console.log("Chegou Response", response)
     }
 
 }
