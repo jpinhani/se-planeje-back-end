@@ -33,7 +33,7 @@ module.exports = {
                             sex: body.CustomerSex,
                             born_at: body.CustomerBornAt
                         },
-                        postback_url: 'http://localhost:8082/api/postback'
+                        postback_url: 'http://seplaneje-com.umbler.net/api/postback'
 
                     }))/* .then(subscription => console.log(subscription)) */
 
