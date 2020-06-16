@@ -15,7 +15,7 @@ const transferencia = require('./src/app/routes/transferenciaRoute')
 const chartRoute = require('./src/app/routes/chartRoute')
 const payPalRoute = require('./src/app/routes/paypalRoute')
 // const emailRoute = require('./src/app/routes/EmailRoute')
-// const pagarmeRoute = require('./src/app/routes/pagarmeRoute')
+const pagarmeRoute = require('./src/app/routes/pagarmeRoute')
 
 
 const app = express()
@@ -46,6 +46,6 @@ app.use(transferencia)
 app.use(chartRoute)
 app.use(payPalRoute)
 // app.use(emailRoute)
-// app.use(pagarmeRoute)
+app.use(pagarmeRoute)
 
 module.exports = app 

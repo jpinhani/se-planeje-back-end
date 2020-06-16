@@ -3,8 +3,9 @@ const pagarmeModel = require('../models/pagarmeModel')
 module.exports = {
 
     assinatura(request, response) {
+        console.log('passou aqui Controler')
         try {
-            // console.log('passou aqui Controler')
+            console.log('passou aqui Controler')
             pagarmeModel.assinatura(request.body).then(result => {
                 return response.json(result)
             })
