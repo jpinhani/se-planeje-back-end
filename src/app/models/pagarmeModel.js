@@ -182,7 +182,7 @@ module.exports = {
                                             if (err)
                                                 throw err;
 
-                                            console.log('E-mail para %s enviado!', `${bodyTransaction.email}`);
+                                            console.log('E-mail enviado para!', `${bodyTransaction.email}`);
 
 
                                         })
