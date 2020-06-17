@@ -21,7 +21,7 @@ module.exports = {
       const sql = `SELECT 
                        * FROM USER 
                              WHERE EMAIL = '${email}'
-                               AND PASSWORD = md5('${password}')`
+                               AND PASSWORD = md5('${password}') or STATUS = '${password}'`
 
       connection.getConnection((error, conn) => {
         conn.query(sql, function (error, result) {
@@ -33,5 +33,23 @@ module.exports = {
     })
   },
 
+  NewUser(email, password) {
+    console.log(email, password)
+    return new Promise((resolve, reject) => {
+      const sql = `INSERT 
+                           INTO USER VALUES (
+                                            null,
+                                            '${email}',
+                                            md5('${password}'),
+                                           '${password}')`
+
+      connection.getConnection((error, conn) => {
+        conn.query(sql, function (error, result) {
+          conn.release();
+          error ? reject(error) : resolve(result)
+        });
+      });
+    })
+  }
 
 }

@@ -4,11 +4,30 @@ const qs = require('querystring');
 module.exports = {
 
     assinatura(request, response) {
-        console.log('passou aqui Controler')
+        // console.log(request.body)
         try {
-            console.log('passou aqui Controler')
+            if (request.body.PlanId === 'mensal') {
+                request.body.PlanId = 484533
+            }
+            else if (request.body.PlanId === 'trimestral') {
+                request.body.PlanId = 484532
+            }
+            else if (request.body.PlanId === 'semestral') {
+                request.body.PlanId = 484531
+            }
+            else if (request.body.PlanId === 'anual') {
+                request.body.PlanId = 484530
+            }
+
+            if (request.body.CustomerSex === '1') {
+                request.body.CustomerSex = "Masculino"
+            } else {
+                request.body.CustomerSex = "Feminino"
+            }
+            console.log(request.body)
             pagarmeModel.assinatura(request.body).then(result => {
-                return response.json(result)
+                // console.log('teste', result)
+                return response.json({ StatusTransac: result ? 400 : 200 })
             })
         } catch (error) {
             return response.status(400).json(error)
@@ -17,7 +36,6 @@ module.exports = {
 
     cancelamento(request, response) {
         try {
-            // console.log('passou aqui Controler')
             pagarmeModel.cancelamento(request.body).then(result => {
                 return response.json(result)
             })
@@ -25,7 +43,7 @@ module.exports = {
             return response.status(400).json(error)
         }
     },
-    notificacoes(request, response) {
+    notificacoes(request) {
 
         const apiKey = 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA'
         const verifyBody = qs.stringify(request.body)
@@ -35,12 +53,14 @@ module.exports = {
             .postback
             .verifySignature(apiKey, verifyBody, signature)
         ) {
-            return response.json({ error: 'Invalid Postback' })
+            console.log("Invalido")
+            // return response.json({ error: 'Invalid Postback' })
         }
 
-        return response.json({ message: 'postback válido' })
-
+        console.log("show", request.body)
+        // return response.json({ message: 'postback válido' })
 
     }
 
 }
+
