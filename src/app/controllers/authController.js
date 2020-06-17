@@ -8,7 +8,7 @@ module.exports = {
 
     const { email, password } = request.body
 
-    const user = (await userModel.getUserByEmail(email, password))
+    const user = await userModel.getUserByEmail(email, password)
 
     if (user.length === 0)
       return response.json({ status: 400 }) //.json({ message: 'date not found' })
