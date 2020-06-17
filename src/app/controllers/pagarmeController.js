@@ -1,6 +1,9 @@
 const pagarmeModel = require('../models/pagarmeModel')
 const pagarme = require('pagarme');
 const qs = require('querystring');
+
+
+
 module.exports = {
 
     assinatura(request, response) {

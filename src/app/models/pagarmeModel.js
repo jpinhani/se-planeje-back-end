@@ -154,7 +154,7 @@ module.exports = {
                                         var template =
                                             `<div>
                                                         <h1>Olá tudo bem?</h1>
-                                                    <p>Estamos muito feliz de você ter dado um passo para seu Planejamento Financeiro! :)</p>
+                                                    <p>Estamos muito felizes de você ter dado um passo para seu Planejamento Financeiro! :)</p>
                                                     <p>Queremos que sua experiência conosco seja à melhor possivel, dessa forma sempre que 
                                                     não conseguir resolver seus problemas no site ou aplicativo pode nos procurar no email
                                                     contato@seplaneje.com, iremos te atender o quanto antes.</p>
