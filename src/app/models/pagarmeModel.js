@@ -1,10 +1,16 @@
 const pagarme = require('pagarme');
 const mysql = require('../../database/index')
 const modelUser = require('./userModel')
+const nodemailer = require('nodemailer');
+
+
+const user = 'contato@seplaneje.com';
+const pass = 'Brasil123';
 
 module.exports = {
 
     async assinatura(body) {
+
         try {
 
             await
@@ -130,25 +136,65 @@ module.exports = {
                                                               '${bodyTransaction.manage_token}',
                                                               '${bodyTransaction.manage_url}')`
 
-                            console.log(sql)
+                            // console.log(sql)
                             mysql.getConnection((error, connection) => {
                                 connection.query(sql, function (error, result) {
                                     connection.release();
                                     if (error)
                                         reject(error)
-                                    else {
-                                        const ID = '_' + Math.random().toString(36).substr(2, 9)
-                                        modelUser.NewUser(bodyTransaction.email, ID).then(result => {
-                                            // console.log('teste', result)
-                                            // return response.json(result)
-                                            // console.log(result)
-                                            if (error)
-                                                reject(error)
-                                            resolve(result)
+
+                                    const ID = '_' + Math.random().toString(36).substr(2, 9)
+                                    modelUser.NewUser(bodyTransaction.email, ID).then(result => {
+
+                                        if (error)
+                                            reject(error)
+
+
+
+                                        var template =
+                                            `<div>
+                                                        <h1>Olá tudo bem?</h1>
+                                                    <p>Estamos muito feliz de você ter dado um passo para seu Planejamento Financeiro! :)</p>
+                                                    <p>Queremos que sua experiência conosco seja à melhor possivel, dessa forma sempre que 
+                                                    não conseguir resolver seus problemas no site ou aplicativo pode nos procurar no email
+                                                    contato@seplaneje.com, iremos te atender o quanto antes.</p>
+
+                                                    <strong>Para seu primeiro acesso, utilize as seguintes credenciais</strong>
+                                                    <p><strong>Usuário:</strong>${bodyTransaction.email}</p>
+                                                    <p><strong>Senha:</strong>${ID}</p>
+        
+                                            </div>`
+
+                                        const transporter = nodemailer.createTransport({
+                                            host: "smtp.umbler.com",
+                                            port: 587,
+                                            auth: { user, pass }
                                         })
-                                    }
+
+                                        transporter.sendMail({
+                                            from: user,
+                                            to: bodyTransaction.email,
+                                            replyTo: "contato@seplaneje.com",
+                                            subject: "Seplaneje - Credenciais para Acesso ao seu planejamento",
+                                            html: template
+                                        }, function (err) {
+
+                                            if (err)
+                                                throw err;
+
+                                            console.log('E-mail para %s enviado!', `${bodyTransaction.email}`);
+
+
+                                        })
+                                        if (error)
+                                            reject(error)
+
+                                        resolve(result)
+                                    })
+
                                 });
                             });
+
                         })
 
                     })

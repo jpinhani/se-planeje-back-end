@@ -4,7 +4,7 @@ const qs = require('querystring');
 module.exports = {
 
     assinatura(request, response) {
-        // console.log(request.body)
+
         try {
             if (request.body.PlanId === 'mensal') {
                 request.body.PlanId = 484533
@@ -24,9 +24,9 @@ module.exports = {
             } else {
                 request.body.CustomerSex = "Feminino"
             }
-            console.log(request.body)
+
             pagarmeModel.assinatura(request.body).then(result => {
-                // console.log('teste', result)
+                console.log('result_Controler', result)
                 return response.json({ StatusTransac: result ? 400 : 200 })
             })
         } catch (error) {
