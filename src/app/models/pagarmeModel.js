@@ -141,7 +141,9 @@ module.exports = {
                                         modelUser.NewUser(bodyTransaction.email, ID).then(result => {
                                             // console.log('teste', result)
                                             // return response.json(result)
-                                            console.log(result)
+                                            // console.log(result)
+                                            if (error)
+                                                reject(error)
                                             resolve(result)
                                         })
                                     }

@@ -21,7 +21,7 @@ module.exports = {
       const sql = `SELECT 
                        * FROM USER 
                              WHERE EMAIL = '${email}'
-                               AND PASSWORD = md5('${password}') or STATUS = '${password}'`
+                               AND (PASSWORD = md5('${password}') OR STATUS = '${password}')`
 
       connection.getConnection((error, conn) => {
         conn.query(sql, function (error, result) {
