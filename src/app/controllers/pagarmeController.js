@@ -59,7 +59,7 @@ module.exports = {
             // console.log("Invalido")
             return response.json({ error: 'Invalid Postback' })
         }
-
+        return response.json('ok')
 
 
         try {
