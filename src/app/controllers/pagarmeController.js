@@ -54,7 +54,7 @@ module.exports = {
 
 
         // Calculate signature:
-        const teste = await pagarme.postback.calculateSignature('X-Hub-Signature', 'postbackBody')
+        const teste = await pagarme.postback.calculateSignature(apiKey, 'postbackBody')
         // returns a hash
 
         // Verify signature:
