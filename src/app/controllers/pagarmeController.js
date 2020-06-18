@@ -61,6 +61,7 @@ module.exports = {
         }
 
         try {
+            console.log(request.body)
             pagarmeModel.notificacao(request.body).then(result => {
                 return response.json(result)
             })
