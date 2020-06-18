@@ -56,15 +56,19 @@ module.exports = {
             .postback
             .verifySignature(apiKey, verifyBody, signature)
         ) {
-            console.log("Invalido")
-            // return response.json({ error: 'Invalid Postback' })
+            // console.log("Invalido")
+            return response.json({ error: 'Invalid Postback' })
         }
+
+
 
         try {
             console.log(request.body)
             pagarmeModel.notificacao(request.body).then(result => {
-                return response.json(result)
+                return response.json({ message: 'postback válido' })
             })
+
+
         } catch (error) {
             return response.status(400).json(error)
         }
