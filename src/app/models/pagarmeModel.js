@@ -220,7 +220,9 @@ module.exports = {
         console.log(body.fingerprint)
         console.log(body.object)
         console.log(body)
-        console.log(body.payload)
+        console.log(body.subscription[object])
+        console.log(body.subscription[object])
+        console.log(body.subscription[plan][amount])
         // try {
         //     return new Promise((resolve, reject) => {
         //         const bodyTransaction = {
