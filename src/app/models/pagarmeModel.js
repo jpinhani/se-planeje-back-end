@@ -221,8 +221,7 @@ module.exports = {
         console.log(body.object)
         console.log(body)
         console.log(body.subscription[object])
-        console.log(body.subscription[object])
-        console.log(body.subscription[plan][amount])
+        console.log(body.object.subscription[plan][amount])
         // try {
         //     return new Promise((resolve, reject) => {
         //         const bodyTransaction = {
