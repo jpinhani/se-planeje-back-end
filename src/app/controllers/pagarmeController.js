@@ -59,16 +59,17 @@ module.exports = {
             // console.log("Invalido")
             return response.json({ error: 'Invalid Postback' })
         }
+        // return response.status(200)
 
 
 
         try {
             console.log(request.body)
             pagarmeModel.notificacao(request.body).then(result => {
-                return response.json({ message: 'postback válido' })
+                return response.status(200)
             })
 
-            return response.json('ok')
+            // return response.status(200)
         } catch (error) {
             return response.status(400).json(error)
         }
