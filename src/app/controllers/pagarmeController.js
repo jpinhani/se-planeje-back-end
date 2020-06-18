@@ -46,11 +46,22 @@ module.exports = {
             return response.status(400).json(error)
         }
     },
-    notificacoes(request, response) {
+    async notificacoes(request, response) {
 
         const apiKey = 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA'
         const verifyBody = qs.stringify(request.body)
         const signature = request.headers['x-hub-signature'].replace('sha1=', '')
+
+
+        // Calculate signature:
+        const teste = await pagarme.postback.calculateSignature('X-Hub-Signature', 'postbackBody')
+        // returns a hash
+
+        // Verify signature:
+        const teste2 = await pagarme.postback.verifySignature(signature, verifyBody, teste)
+
+        console.log('teste', teste)
+        console.log('teste2', teste2)
 
         if (!pagarme
             .postback
