@@ -66,7 +66,7 @@ module.exports = {
         try {
             console.log(request.body)
             pagarmeModel.notificacao(request.body).then(result => {
-                return response.status(200)
+                return response.status_code(200)
             })
 
             // return response.status(200)
