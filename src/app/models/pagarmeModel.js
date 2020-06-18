@@ -220,7 +220,7 @@ module.exports = {
         console.log('id JBI', body.fingerprint)
         console.log('id JBI', body.object)
         console.log('id JBI', body.subscription[object])
-        console.log('id JBI', body.subscription.plan.amount)
+        console.log('id JBI', body.subscription[object].plan.amount)
         // try {
         //     return new Promise((resolve, reject) => {
         //         const bodyTransaction = {
