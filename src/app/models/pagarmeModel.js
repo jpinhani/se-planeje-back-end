@@ -222,6 +222,7 @@ module.exports = {
         console.log('id JBI', body.old_status)
         console.log('id JBI', body.current_status)
         console.log('id JBI', body.object)
+        console.log('id JBI', body.payload)
         // try {
         //     return new Promise((resolve, reject) => {
         //         const bodyTransaction = {
