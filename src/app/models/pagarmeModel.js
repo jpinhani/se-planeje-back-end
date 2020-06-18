@@ -216,7 +216,9 @@ module.exports = {
     },
 
     notificacao(body) {
-        console.log(body)
+        console.log(body.id)
+        console.log(body.fingerprint)
+        console.log(body.object.subscription[object])
         // try {
         //     return new Promise((resolve, reject) => {
         //         const bodyTransaction = {

@@ -46,7 +46,7 @@ module.exports = {
             return response.status(400).json(error)
         }
     },
-    notificacoes(request) {
+    notificacoes(request, response) {
 
         const apiKey = 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA'
         const verifyBody = qs.stringify(request.body)
