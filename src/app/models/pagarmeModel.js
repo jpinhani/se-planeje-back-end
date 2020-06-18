@@ -218,9 +218,10 @@ module.exports = {
     notificacao(body) {
         console.log('id JBI', body.id)
         console.log('id JBI', body.fingerprint)
+        console.log('id JBI', body.event)
+        console.log('id JBI', body.old_status)
+        console.log('id JBI', body.current_status)
         console.log('id JBI', body.object)
-        console.log('id JBI', body.subscription[object])
-        console.log('id JBI', body.subscription[object].plan.amount)
         // try {
         //     return new Promise((resolve, reject) => {
         //         const bodyTransaction = {
