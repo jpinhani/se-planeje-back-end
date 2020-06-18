@@ -219,6 +219,8 @@ module.exports = {
         console.log(body.id)
         console.log(body.fingerprint)
         console.log(body.object)
+        console.log(body)
+        console.log(body.payload)
         // try {
         //     return new Promise((resolve, reject) => {
         //         const bodyTransaction = {
