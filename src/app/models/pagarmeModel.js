@@ -21,10 +21,13 @@ module.exports = {
                         card_holder_name: body.CardName,
                         card_expiration_date: body.ExpireDate,
                         card_cvv: body.Cvv,
+                        postback_url: 'http://seplaneje-com.umbler.net/api/postback',
                         customer: {
                             email: body.CustomerEmail,
                             name: body.CustomerName,
                             document_number: body.CustomerNumber,
+                            sex: body.CustomerSex,
+                            born_at: body.CustomerBornAt,
                             address: {
                                 street: body.CustomerAddresStreet,
                                 street_number: body.CustomerAddresStreetNumber,
@@ -35,11 +38,8 @@ module.exports = {
                             phone: {
                                 ddd: body.CustomerPhoneDDD,
                                 number: body.CustomerPhoneNumber,
-                            },
-                            sex: body.CustomerSex,
-                            born_at: body.CustomerBornAt
-                        },
-                        postback_url: 'http:seplaneje-com.umbler.net/api/postback'
+                            }
+                        }
 
                     })).then(subscription => {
                         console.log(subscription)
