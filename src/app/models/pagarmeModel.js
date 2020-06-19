@@ -224,121 +224,35 @@ module.exports = {
             console.log('id JBI', body.current_status)
             console.log('id JBI', body.object)
             console.log('id JBI', body.payload)
-            console.log('id JBI tete', body)
+            // console.log('id JBI tete', body)
 
-            if (error)
-                reject(error)
+            const sql = `INSERT
+                                 INTO TRANSACAOPOSTBACK
+                                         VALUES(  
+                                              null,
+                                                 '${bodyTransaction.idtrans}',
+                                                null,
+                                                     null,
+                                                     '${body.id}',
+                                                    '${body.fingerprint}',
+                                                    '${body.event}',          
+                                                    '${body.old_status}',          
+                                                    '${body.current_status}',          
+                                                    '${body.object}'  
+                                                     )`
 
-            resolve(result)
-        });
-        // try {
-        //      return new Promise((resolve, reject) => {
-        //          const bodyTransaction = {
-        //              idtrans: body.subscription.id,
-        //              object: body.subscription.object,
-        //              idPlan: body.subscription.plan.id,
-        //              amount: body.subscription.plan.amount,
-        //              days: body.subscription.plan.days,
-        //              namePlan: body.subscription.plan.name,
-        //              trialdays: body.subscription.plan.trial_days,
-        //              plancreated: body.subscription.plan.date_created,
-        //              current_transaction: body.subscription.current_transaction,
-        //              payment_method: body.subscription.payment_method,
-        //              card_brand: body.subscription.card_brand,
-        //              card_last_digits: body.subscription.card_last_digits,
-        //              period_start: body.subscription.current_period_start,
-        //              periodo_end: body.subscription.current_period_end,
-        //              charges: body.subscription.charges,
-        //              soft_descriptor: body.subscription.soft_descriptor,
-        //              status: body.subscription.status,
-        //              date_Created: body.subscription.date_created,
-        //              phoneddd: body.subscription.phone.ddd,
-        //              phoneNumber: body.subscription.phone.number,
-        //              street: body.subscription.address.street,
-        //              complementary: body.subscription.address.complementary,
-        //              street_number: body.subscription.address.street_number,
-        //              neighborhood: body.subscription.address.neighborhood,
-        //              city: body.subscription.address.city,
-        //              zipcode: body.subscription.address.zipcode,
-        //              country: body.subscription.address.country,
-        //              document_number: body.subscription.customer.document_number,
-        //              document_type: body.subscription.customer.document_type,
-        //              name: body.subscription.customer.name,
-        //              email: body.subscription.customer.email,
-        //              gender: body.subscription.customer.gender,
-        //              cardid: body.subscription.card.id,
-        //              brand: body.subscription.card.brand,
-        //              holder_name: body.subscription.card.holder_name,
-        //              first_digits: body.subscription.card.first_digits,
-        //              last_digits: body.subscription.card.last_digits,
-        //              fingerprint: body.subscription.card.fingerprint,
-        //              valid: body.subscription.card.valid,
-        //              expiration_date: body.subscription.card.expiration_date,
-        //              manage_token: body.subscription.manage_token,
-        //              manage_url: body.subscription.manage_url
-        //          }
+            console.log(sql)
+            mysql.getConnection((error, connection) => {
+                connection.query(sql, function (error, result) {
+                    connection.release();
+                    if (error)
+                        reject(error)
 
-        //          const sql = `INSERT
-        //                          INTO TRANSACAO
-        //                                  VALUES(  
-        //                                       null,
-        //                                          '${bodyTransaction.idtrans}',
-        //                                          '${bodyTransaction.object}',
-        //                                                        '${bodyTransaction.idPlan}',
-        //                                                        '${bodyTransaction.amount}',          
-        //                                                        '${bodyTransaction.days}',          
-        //                                                        '${bodyTransaction.namePlan}',                
-        //                                                        '${bodyTransaction.trialdays}',
-        //                                                        '${bodyTransaction.plancreated}',
-        //                                                        '${bodyTransaction.current_transaction}',
-        //                                                        '${bodyTransaction.payment_method}',
-        //                                                        '${bodyTransaction.card_brand}',
-        //                                                        '${bodyTransaction.card_last_digits}',          
-        //                                                        '${bodyTransaction.period_start}',          
-        //                                                        '${bodyTransaction.periodo_end}',                
-        //                                                        '${bodyTransaction.charges}',
-        //                                                        '${bodyTransaction.soft_descriptor}',
-        //                                                        '${bodyTransaction.status}',
-        //                                                        '${bodyTransaction.date_Created}',
-        //                                                        '${bodyTransaction.phoneddd}',          
-        //                                                        '${bodyTransaction.phoneNumber}',          
-        //                                                        '${bodyTransaction.street}',                
-        //                                                        '${bodyTransaction.complementary}',
-        //                                                        '${bodyTransaction.street_number}',                
-        //                                                        '${bodyTransaction.neighborhood}',                
-        //                                                        '${bodyTransaction.city}',                
-        //                                                        '${bodyTransaction.zipcode}',                
-        //                                                        '${bodyTransaction.country}',
-        //                                                        '${bodyTransaction.document_number}',                
-        //                                                        '${bodyTransaction.document_type}',
-        //                                                        '${bodyTransaction.name}',
-        //                                                        '${bodyTransaction.email}',
-        //                                                        '${bodyTransaction.gender}',
-        //                                                        '${bodyTransaction.cardid}',
-        //                                                        '${bodyTransaction.brand}',                
-        //                                                        '${bodyTransaction.holder_name}',  
-        //                                                        '${bodyTransaction.first_digits}',                  
-        //                                                        '${bodyTransaction.last_digits}',                  
-        //                                                        '${bodyTransaction.fingerprint}',   
-        //                                                        '${bodyTransaction.valid}',   
-        //                                                        '${bodyTransaction.expiration_date}',                   
-        //                                                        '${bodyTransaction.manage_token}',
-        //                                                        '${bodyTransaction.manage_url}')`
+                    resolve(result)
+                });
+            });
 
-        //           console.log(sql)
-        //          mysql.getConnection((error, connection) => {
-        //              connection.query(sql, function (error, result) {
-        //                  connection.release();
-        //                  if (error)
-        //                      reject(error)
+        })
 
-        //                  resolve(result)
-        //              });
-        //          });
-
-        //      })
-        //  } catch (e) {
-        //      console.log(e.response)
-        //  }
     }
 }
