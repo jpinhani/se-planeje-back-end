@@ -243,9 +243,9 @@ module.exports = {
                 connection.query(sql, function (error, result) {
                     connection.release();
                     if (error)
-                        reject(error)
+                        reject(error, { JBI: "Error" })
 
-                    resolve(result)
+                    resolve(result, { JBI: "Ok" })
                 });
             });
 
