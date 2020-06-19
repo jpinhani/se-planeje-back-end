@@ -230,10 +230,7 @@ module.exports = {
                                  INTO TRANSACAOPOSTBACK
                                          VALUES(  
                                               null,
-                                                 '${bodyTransaction.idtrans}',
-                                                null,
-                                                     null,
-                                                     '${body.id}',
+                                                    '${body.id}',
                                                     '${body.fingerprint}',
                                                     '${body.event}',          
                                                     '${body.old_status}',          
