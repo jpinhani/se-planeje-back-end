@@ -58,10 +58,11 @@ module.exports = {
         // returns a hash
 
         // Verify signature:
-        const teste2 = await pagarme.postback.verifySignature(signature, verifyBody, teste)
+        const teste2 = await pagarme.postback.verifySignature(teste, verifyBody, signature)
 
         console.log('teste', teste)
         console.log('teste2', teste2)
+        console.log('Esta Assim', pagarme.postback.verifySignature(apiKey, verifyBody, signature))
 
         if (!pagarme
             .postback
@@ -73,12 +74,11 @@ module.exports = {
 
 
         try {
-
             pagarmeModel.notificacao(request.body).then(result => {
                 return response.status(200).json(result)
             })
 
-            // return response.status(200)
+            // return response.status(sss200)
         } catch (error) {
             return response.status(400).json(error)
         }
