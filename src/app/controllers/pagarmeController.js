@@ -49,34 +49,29 @@ module.exports = {
 
     async notificacoes(request, response) {
 
-        console.log('CHegou Aqui')
+
         const apiKey = 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA'
         const verifyBody = qs.stringify(request.body)
 
         const signature = request.headers['x-hub-signature'].replace('sha1=', '')
 
-        console.log('validation', pagarme
-            .postback
-            .verifySignature(apiKey, verifyBody, signature))
 
         if (!pagarme
             .postback
             .verifySignature(apiKey, verifyBody, signature)
         ) {
-            // console.log("Invalido")
-            // return response.json({ error: 'Invalid Postback' })
             return response.status(400).end()
         }
 
-        return response.status(200).end()
-        // try {
 
-        //     pagarmeModel.notificacao(request.body)
+        try {
 
-        //     return response.status(200).end()
-        // } catch (error) {
-        //     return response.status(400).json(error)
-        // }
+            const teste = await pagarmeModel.notificacao(request.body)
+            console.log('teste', teste)
+            return response.status(200).end()
+        } catch (error) {
+            return response.status(400).json(error)
+        }
 
     }
 
