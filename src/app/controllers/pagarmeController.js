@@ -49,6 +49,7 @@ module.exports = {
 
     async notificacoes(request, response) {
 
+        console.log('CHegou Aqui')
         const apiKey = 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA'
         const verifyBody = qs.stringify(request.body)
 
@@ -67,6 +68,7 @@ module.exports = {
         }
 
         try {
+
             pagarmeModel.notificacao(request.body)
 
             return response.status(200).end()
