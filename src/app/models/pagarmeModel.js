@@ -245,7 +245,7 @@ module.exports = {
                     if (error)
                         reject(error, { JBI: "Error" })
 
-                    resolve(result, { JBI: "Ok" })
+                    resolve("ok")
                 });
             });
 
