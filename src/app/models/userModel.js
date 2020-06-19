@@ -18,10 +18,29 @@ module.exports = {
 
   getUserByEmail(email, password) {
     return new Promise((resolve, reject) => {
-      const sql = `SELECT 
-                       * FROM USER 
-                             WHERE EMAIL = '${email}'
-                               AND (PASSWORD = md5('${password}') OR STATUS = '${password}')`
+      // const sql = `SELECT 
+      //                  * FROM USER 
+      //                        WHERE EMAIL = '${email}'
+      //                          AND (PASSWORD = md5('${password}') OR STATUS = '${password}')`
+
+      const sql = `SELECT
+                      C.ID,
+                      C.EMAIL,
+                      C.PASSWORD,
+                      C.STATUS,
+                      A.idtrans,
+                      CASE WHEN (B.old_status IS NULL AND B.current_status IS NULL) THEN
+                              A.status ELSE B.CURRENT_STATUS END PAYSTATUS
+                          FROM 
+                            USER C,
+                            TRANSACAO A
+                              LEFT OUTER JOIN TRANSACAOPOSTBACK B ON (A.idtrans = B.idTransacao)
+                    WHERE C.EMAIL = A.email 
+                        AND C.EMAIL = '${email}' 
+                        AND (PASSWORD = md5('${password}') OR STATUS = '${password}')
+                      AND (B.id = (SELECT MAX(B1.id) from TRANSACAOPOSTBACK B1
+                                            WHERE B.ID = B1.id and
+                                                  B.idTransacao = B1.idTransacao) or B.id is null)`
 
       connection.getConnection((error, conn) => {
         conn.query(sql, function (error, result) {

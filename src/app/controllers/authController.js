@@ -13,6 +13,9 @@ module.exports = {
     if (user.length === 0)
       return response.json({ status: 400 }) //.json({ message: 'date not found' })
 
+    if (user[0].PAYSTATUS === 'canceled' || user[0].PAYSTATUS === 'unpaid')
+      return response.json({ status: 401 })
+
     // console.log(user[0].ID)
     const idToken = {
       id: user[0].ID,
