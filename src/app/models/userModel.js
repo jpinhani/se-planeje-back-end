@@ -37,7 +37,7 @@ module.exports = {
                               LEFT OUTER JOIN TRANSACAOPOSTBACK B ON (A.idtrans = B.idTransacao)
                     WHERE C.EMAIL = A.email 
                         AND C.EMAIL = '${email}' 
-                        AND (PASSWORD = md5('${password}') OR STATUS = '${password}')
+                        AND (C.PASSWORD = md5('${password}') OR C.STATUS = '${password}')
                       AND (B.id = (SELECT MAX(B1.id) from TRANSACAOPOSTBACK B1
                                             WHERE B.ID = B1.id and
                                                   B.idTransacao = B1.idTransacao) or B.id is null)`
