@@ -46,6 +46,7 @@ module.exports = {
             return response.status(400).json(error)
         }
     },
+
     async notificacoes(request, response) {
 
         const apiKey = 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA'
@@ -53,31 +54,21 @@ module.exports = {
 
         const signature = request.headers['x-hub-signature'].replace('sha1=', '')
 
-
-        // Calculate signature:
-        const teste = await pagarme.postback.calculateSignature(apiKey, 'postbackBody')
-        // returns a hash
-
-        // Verify signature:
-        const teste2 = await pagarme.postback.verifySignature(teste, verifyBody, signature)
-
-        console.log('teste', teste)
-        console.log('teste2', teste2)
-        console.log('Esta Assim', pagarme.postback.verifySignature(apiKey, verifyBody, signature))
-
-        if (!pagarme
-            .postback
-            .verifySignature(apiKey, verifyBody, signature)
-        ) {
-            // console.log("Invalido")
-            return response.json({ error: 'Invalid Postback' })
-        }
-
-
         try {
+            if (!pagarme
+                .postback
+                .verifySignature(apiKey, verifyBody, signature)
+            ) {
+                // console.log("Invalido")
+                return response.json({ error: 'Invalid Postback' })
+            }
+
+
+
             pagarmeModel.notificacao(request.body).then(result => {
-                return response.status(200).end()
+                console.log(result)
             })
+
 
             return response.status(200).end()
         } catch (error) {
