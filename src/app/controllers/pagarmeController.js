@@ -50,6 +50,7 @@ module.exports = {
 
         const apiKey = 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA'
         const verifyBody = qs.stringify(request.body)
+
         const signature = request.headers['x-hub-signature'].replace('sha1=', '')
 
 
