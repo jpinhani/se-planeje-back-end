@@ -76,10 +76,10 @@ module.exports = {
 
         try {
             pagarmeModel.notificacao(request.body).then(result => {
-                return response.status(200).json(result)
+                return response.status(200).end()
             })
 
-            // return response.status(sss200)
+            return response.status(200).end()
         } catch (error) {
             return response.status(400).json(error)
         }
