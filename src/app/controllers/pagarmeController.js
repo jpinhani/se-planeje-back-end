@@ -54,6 +54,9 @@ module.exports = {
 
         const signature = request.headers['x-hub-signature'].replace('sha1=', '')
 
+        console.log('validation', pagarme
+            .postback
+            .verifySignature(apiKey, verifyBody, signature))
         try {
             if (!pagarme
                 .postback
