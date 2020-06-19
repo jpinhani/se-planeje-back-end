@@ -64,7 +64,7 @@ module.exports = {
             }
 
 
-            pagarmeModel.notificacao(request.body)
+            // pagarmeModel.notificacao(request.body)
 
             return response.status(200).end()
         } catch (error) {
