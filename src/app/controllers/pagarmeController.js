@@ -57,17 +57,17 @@ module.exports = {
         console.log('validation', pagarme
             .postback
             .verifySignature(apiKey, verifyBody, signature))
+
+        if (!pagarme
+            .postback
+            .verifySignature(apiKey, verifyBody, signature)
+        ) {
+            // console.log("Invalido")
+            return response.json({ error: 'Invalid Postback' })
+        }
+
         try {
-            if (!pagarme
-                .postback
-                .verifySignature(apiKey, verifyBody, signature)
-            ) {
-                // console.log("Invalido")
-                return response.json({ error: 'Invalid Postback' })
-            }
-
-
-            // pagarmeModel.notificacao(request.body)
+            pagarmeModel.notificacao(request.body)
 
             return response.status(200).end()
         } catch (error) {
