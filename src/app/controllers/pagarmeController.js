@@ -29,7 +29,7 @@ module.exports = {
             }
 
             pagarmeModel.assinatura(request.body).then(result => {
-                console.log('result_Controler', result)
+
                 return response.json({ StatusTransac: result ? 400 : 200 })
             })
         } catch (error) {
@@ -64,11 +64,7 @@ module.exports = {
             }
 
 
-
-            pagarmeModel.notificacao(request.body).then(result => {
-                console.log(result)
-            })
-
+            pagarmeModel.notificacao(request.body)
 
             return response.status(200).end()
         } catch (error) {
