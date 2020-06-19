@@ -216,14 +216,21 @@ module.exports = {
     },
 
     notificacao(body) {
-        console.log('id JBI', body.id)
-        console.log('id JBI', body.fingerprint)
-        console.log('id JBI', body.event)
-        console.log('id JBI', body.old_status)
-        console.log('id JBI', body.current_status)
-        console.log('id JBI', body.object)
-        console.log('id JBI', body.payload)
-        console.log('id JBI tete', body)
+        return new Promise((resolve, reject) => {
+            console.log('id JBI', body.id)
+            console.log('id JBI', body.fingerprint)
+            console.log('id JBI', body.event)
+            console.log('id JBI', body.old_status)
+            console.log('id JBI', body.current_status)
+            console.log('id JBI', body.object)
+            console.log('id JBI', body.payload)
+            console.log('id JBI tete', body)
+
+            if (error)
+                reject(error)
+
+            resolve(result)
+        });
         // try {
         //      return new Promise((resolve, reject) => {
         //          const bodyTransaction = {
