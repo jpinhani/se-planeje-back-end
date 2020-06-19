@@ -64,17 +64,19 @@ module.exports = {
             .verifySignature(apiKey, verifyBody, signature)
         ) {
             // console.log("Invalido")
-            return response.json({ error: 'Invalid Postback' })
+            // return response.json({ error: 'Invalid Postback' })
+            return response.status(400).end()
         }
 
-        try {
+        return response.status(200).end()
+        // try {
 
-            pagarmeModel.notificacao(request.body)
+        //     pagarmeModel.notificacao(request.body)
 
-            return response.status(200).end()
-        } catch (error) {
-            return response.status(400).json(error)
-        }
+        //     return response.status(200).end()
+        // } catch (error) {
+        //     return response.status(400).json(error)
+        // }
 
     }
 
