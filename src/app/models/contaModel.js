@@ -33,7 +33,7 @@ module.exports = {
   insertConta(body) {
 
     return new Promise((resolve, reject) => {
-      const sql = `INSERT INTO CONTA VALUES (null, '${body.idUser}','${body.descrConta}', '${body.status}')`
+      const sql = `INSERT INTO CONTA VALUES (null, '${body.idUser}','${body.descrConta}', '${body.status}','${body.saldo}','${body.data}')`
       mysql.getConnection((error, connection) => {
         connection.query(sql, function (error, result, fields) {
           connection.release();
@@ -50,6 +50,8 @@ module.exports = {
     return new Promise((resolve, reject) => {
       const sql = `UPDATE CONTA 
                        SET DESCR_CONTA = '${body.descrConta}', 
+                           SALDO = '${body.saldo}',
+                           DTSALDO = '${body.data}',
                            STATUS ='${body.status}' 
                            WHERE ID='${body.id}'`
       mysql.getConnection((error, connection) => {
