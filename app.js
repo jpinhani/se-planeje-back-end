@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require('express')
-// const bodyParser = require('body-parser');
 const cors = require('cors')
 const authRoute = require('./src/app/routes/authRoute')
 const userRoute = require('./src/app/routes/userRoute')
@@ -20,15 +19,14 @@ const pagarmeRoute = require('./src/app/routes/pagarmeRoute')
 
 const app = express()
 
-// Parse application/x-www-form-urlencoded
-// app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use(bodyParser.)
+// app.use(cors({
+//     origin: ["http://localhost:3000", "https://sys.seplaneje.com"],
+//     methods: ["GET", "POST", "PUT", "DELETE"]
+//     // allowedHeaders: ["Content-Type"]
+// }));
 
-// Parse application/json
-// app.use(bodyParser.json());
-
-app.use(cors())
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(express.w
