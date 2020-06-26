@@ -60,7 +60,7 @@ module.exports = {
     })
   },
 
-  insertDespesaReal(request, response) {
+  async insertDespesaReal(request, response) {
     const date = Moment(request.body.dataReal)
     request.body.dataReal = date.format("YYYY-MM-DD")
 
@@ -70,10 +70,29 @@ module.exports = {
     const conta = request.body.conta.length === 0 ? null : request.body.conta
     request.body.conta = conta
 
-    DespesaModel.insertDespesaReal(request.body).then(result => {
+    const num = request.body.parcela
+    const valor = request.body.valorReal / num
 
-      return response.json(result)
-    })
+    let cont = 1
+    while (cont <= num) {
+      request.body.valorReal = valor
+      request.body.parcela = cont
+
+      const valida = await DespesaModel.insertDespesaReal(request.body)
+      if (valida.affectedRows !== 1)
+        return response.json(400)
+
+      const data = Moment(request.body.dataReal)
+      data.add(1, 'month')
+      request.body.dataReal = data.format("YYYY-MM-DD")
+      cont = cont + 1
+    }
+
+    if (cont === num)
+      return response.json(200)
+
+    else
+      return response.json(400)
   },
 
   updateDespesaReal(request, response) {

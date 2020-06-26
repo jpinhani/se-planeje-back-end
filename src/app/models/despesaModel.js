@@ -141,9 +141,7 @@ module.exports = {
       mysql.getConnection((error, connection) => {
         connection.query(sql, function (error, result, fields) {
           connection.release();
-          if (error)
-            reject(error)
-          resolve(result)
+          (error) ? reject(error) : resolve(result)
         });
       })
     })
