@@ -15,6 +15,33 @@ module.exports = {
     });
   },
 
+  vrfyPagamento(idUser) {
+    return new Promise((resolve, reject) => {
+      const sql = `SELECT
+                      C.ID,
+                      C.EMAIL,
+                      C.PASSWORD,
+                      C.STATUS,
+                      A.idtrans,
+                      CASE WHEN (B.old_status IS NULL AND B.current_status IS NULL) THEN
+                              A.status ELSE B.CURRENT_STATUS END PAYSTATUS
+                          FROM 
+                            USER C,
+                            TRANSACAO A
+                              LEFT OUTER JOIN TRANSACAOPOSTBACK B ON (A.idtrans = B.idTransacao)
+                    WHERE C.EMAIL = A.email 
+                        AND C.ID = ${idUser}
+                      AND (B.id = (SELECT MAX(B1.id) from TRANSACAOPOSTBACK B1
+                                            WHERE B.ID = B1.id and
+                                                  B.idTransacao = B1.idTransacao) or B.id is null)`
+      connection.getConnection((error, conn) => {
+        conn.query(sql, function (error, result) {
+          conn.release();
+          error ? reject(error) : resolve(result)
+        });
+      });
+    })
+  },
 
   getUserByEmail(email, password) {
     return new Promise((resolve, reject) => {
@@ -53,7 +80,7 @@ module.exports = {
   },
 
   NewUser(email, password) {
-    console.log(email, password)
+    // console.log(email, password)
     return new Promise((resolve, reject) => {
       const sql = `INSERT 
                            INTO USER VALUES (
@@ -69,6 +96,20 @@ module.exports = {
         });
       });
     })
+  },
+  alterpsw(body) {
+    return new Promise((resolve, reject) => {
+      const sql = `UPDATE USER 
+                            SET PASSWORD = md5('${body.password}'),
+                                STATUS = 'Ativo'
+                                   WHERE  ID = '${body.id}'`
+      connection.getConnection((error, conn) => {
+        conn.query(sql, (error, result) => {
+          conn.release();
+          error ? reject(error) : resolve(result)
+        });
+      });
+    });
   }
 
 }
