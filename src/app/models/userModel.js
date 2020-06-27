@@ -45,10 +45,7 @@ module.exports = {
 
   getUserByEmail(email, password) {
     return new Promise((resolve, reject) => {
-      // const sql = `SELECT 
-      //                  * FROM USER 
-      //                        WHERE EMAIL = '${email}'
-      //                          AND (PASSWORD = md5('${password}') OR STATUS = '${password}')`
+
 
       const sql = `SELECT
                       C.ID,
@@ -61,13 +58,14 @@ module.exports = {
                           FROM 
                             USER C,
                             TRANSACAO A
-                              LEFT OUTER JOIN TRANSACAOPOSTBACK B ON (A.idtrans = B.idTransacao)
+                              LEFT OUTER JOIN TRANSACAOPOSTBACK B ON (A.idtrans = B.idTransacao AND B.event = 'subscription_status_changed')
                     WHERE C.EMAIL = A.email 
                         AND C.EMAIL = '${email}' 
                         AND (C.PASSWORD = md5('${password}') OR C.STATUS = '${password}')
                       AND (B.id = (SELECT MAX(B1.id) from TRANSACAOPOSTBACK B1
-                                            WHERE B.ID = B1.id and
-                                                  B.idTransacao = B1.idTransacao) or B.id is null)`
+                                            WHERE  B.idTransacao = B1.idTransacao
+                                               AND B.event = B1.event
+                                               ) or B.id is null)`
 
       connection.getConnection((error, conn) => {
         conn.query(sql, function (error, result) {
@@ -78,6 +76,43 @@ module.exports = {
       });
     })
   },
+
+  getUserDetails(idUser) {
+    return new Promise((resolve, reject) => {
+
+
+      const sql = `SELECT
+                      C.ID,
+                      C.EMAIL,
+                      C.STATUS,
+                      A.idtrans,
+                      A.namePlan,
+                      A.date_Created,
+                      A.manage_url,
+                      B.old_status,
+                      CASE WHEN (B.old_status IS NULL AND B.current_status IS NULL) THEN
+                              A.status ELSE B.CURRENT_STATUS END PAYSTATUS
+                          FROM 
+                            USER C,
+                            TRANSACAO A
+                              LEFT OUTER JOIN TRANSACAOPOSTBACK B ON (A.idtrans = B.idTransacao AND B.event = 'subscription_status_changed')
+                    WHERE C.EMAIL = A.email AND
+                          C.ID = ${idUser} 
+                      AND (B.id = (SELECT MAX(B1.id) from TRANSACAOPOSTBACK B1
+                                            WHERE B.idTransacao = B1.idTransacao
+                                              AND B.event = B1.event
+                                                   )
+                                             or B.id is null)`
+
+      connection.getConnection((error, conn) => {
+        conn.query(sql, function (error, result) {
+          conn.release();
+          error ? reject(error) : resolve(result)
+        });
+      });
+    })
+  },
+
 
   NewUser(email, password) {
     // console.log(email, password)

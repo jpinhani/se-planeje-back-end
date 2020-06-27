@@ -13,5 +13,10 @@ module.exports = {
     userModel.alterpsw(request.body).then(result => {
       return response.json(result)
     })
+  },
+  getUserDetails(request, response) {
+    userModel.getUserDetails(request.params.id).then(result => {
+      return response.json(result)
+    })
   }
 }
