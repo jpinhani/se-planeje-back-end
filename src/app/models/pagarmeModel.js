@@ -231,8 +231,8 @@ module.exports = {
             //                                         '${body.object}'  
             //                                          )`
 
-
-            var objeto = JSON.parse(body);
+            console.log("Veio até a construção do Objeto")
+            let objeto = JSON.parse(body);
             console.log('objetoobjetoobjetoobjetoobjetoobjetoobjetoobjetoobjetoobjetoobjetoobjeto', objeto)
 
             const bodyTransaction = {

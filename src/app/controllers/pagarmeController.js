@@ -60,17 +60,19 @@ module.exports = {
             .postback
             .verifySignature(apiKey, verifyBody, signature)
         ) {
-            console.log("Entrou direto aqui")
+            console.log("Problema na Validação")
             return response.status(400).end()
         }
 
 
         try {
-
+            console.log("Passou a Validação")
             const result = await pagarmeModel.notificacao(request.body)
-            console.log(result)
+
+            console.log("Result VEio assim", result)
             return response.status(result === "ok" ? 200 : 400).end()
         } catch (error) {
+            console.log('Caiu Aqui essa POrra')
             return response.status(400).json(error)
         }
 
