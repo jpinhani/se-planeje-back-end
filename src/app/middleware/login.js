@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
         if (Vrfy.length === 0)
             return res.json({ status: 400 })
 
-        if (Vrfy[0].PAYSTATUS === 'canceled' || Vrfy[0].PAYSTATUS === 'unpaid')
+        if (Vrfy[0].status === 'canceled' || Vrfy[0].PAYSTATUS === 'unpaid')
             return res.json({ status: 402 })
 
         const decode = jwt.verify(token, process.env.SP_JWT);
@@ -23,7 +23,7 @@ module.exports = async (req, res, next) => {
         if (parseFloat(decode.id) === parseFloat(user))
             next();
     } catch (error) {
-        // return res.status(401).send({ mensagem: 'Falha na Autenticação do Token' }).json(error)
+
         return res.status(401).json(error)
     }
 

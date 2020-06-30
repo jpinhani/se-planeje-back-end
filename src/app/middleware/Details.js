@@ -6,7 +6,7 @@ require("dotenv").config();
 module.exports = async (req, res, next) => {
 
     try {
-        // console.log(req.headers.authorization)
+
         const token = req.headers.authorization.split(' ')[1]
         const user = req.headers.user
 
