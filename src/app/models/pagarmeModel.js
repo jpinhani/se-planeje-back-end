@@ -359,8 +359,8 @@ module.exports = {
                 })
 
         } catch (e) {
-            return e.response
-            // console.log(e.response)
+            // return e.response
+            console.log(e.response)
         }
     }
 }

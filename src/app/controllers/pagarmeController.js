@@ -76,7 +76,6 @@ module.exports = {
             // console.log('result2', result2)
             if (result2 === undefined)
                 return response.status(200).end()
-
             return response.status(400).end()
 
         } catch (error) {
