@@ -215,7 +215,7 @@ module.exports = {
         }
     },
 
-    notificacao(bodyTransaction) {
+    notificacao(subscription) {
         return new Promise((resolve, reject) => {
 
 
@@ -230,6 +230,51 @@ module.exports = {
             //                                         '${body.current_status}',          
             //                                         '${body.object}'  
             //                                          )`
+
+            const bodyTransaction = {
+                idtrans: subscription.id,
+                object: subscription.object,
+                idPlan: subscription.plan.id,
+                amount: subscription.plan.amount,
+                days: subscription.plan.days,
+                namePlan: subscription.plan.name,
+                trialdays: subscription.plan.trial_days,
+                plancreated: subscription.plan.date_created,
+                current_transaction: subscription.current_transaction,
+                payment_method: subscription.payment_method,
+                card_brand: subscription.card_brand,
+                card_last_digits: subscription.card_last_digits,
+                period_start: subscription.current_period_start,
+                periodo_end: subscription.current_period_end,
+                charges: subscription.charges,
+                soft_descriptor: subscription.soft_descriptor,
+                status: subscription.status,
+                date_Created: subscription.date_created,
+                phoneddd: subscription.phone.ddd,
+                phoneNumber: subscription.phone.number,
+                street: subscription.address.street,
+                complementary: subscription.address.complementary,
+                street_number: subscription.address.street_number,
+                neighborhood: subscription.address.neighborhood,
+                city: subscription.address.city,
+                zipcode: subscription.address.zipcode,
+                country: subscription.address.country,
+                document_number: subscription.customer.document_number,
+                document_type: subscription.customer.document_type,
+                name: subscription.customer.name,
+                email: subscription.customer.email,
+                gender: subscription.customer.gender,
+                cardid: subscription.card.id,
+                brand: subscription.card.brand,
+                holder_name: subscription.card.holder_name,
+                first_digits: subscription.card.first_digits,
+                last_digits: subscription.card.last_digits,
+                fingerprint: subscription.card.fingerprint,
+                valid: subscription.card.valid,
+                expiration_date: subscription.card.expiration_date,
+                manage_token: subscription.manage_token,
+                manage_url: subscription.manage_url
+            }
 
             const sql = `INSERT
                                                 INTO TRANSACAOPOST
