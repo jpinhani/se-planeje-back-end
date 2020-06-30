@@ -66,7 +66,7 @@ module.exports = {
 
         try {
 
-            const teste = await pagarmeModel.notificacao(request.body)
+            const teste = await pagarmeModel.notificacao(response)
 
             return response.status(teste === "ok" ? 200 : 400).end()
         } catch (error) {

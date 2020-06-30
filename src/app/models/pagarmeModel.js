@@ -215,20 +215,69 @@ module.exports = {
         }
     },
 
-    notificacao(body) {
+    notificacao(bodyTransaction) {
         return new Promise((resolve, reject) => {
 
+
+            // const sql = `INSERT
+            //                      INTO TRANSACAOPOSTBACK
+            //                              VALUES(  
+            //                                   null,
+            //                                         '${body.id}',
+            //                                         '${body.fingerprint}',
+            //                                         '${body.event}',          
+            //                                         '${body.old_status}',          
+            //                                         '${body.current_status}',          
+            //                                         '${body.object}'  
+            //                                          )`
+
             const sql = `INSERT
-                                 INTO TRANSACAOPOSTBACK
-                                         VALUES(  
-                                              null,
-                                                    '${body.id}',
-                                                    '${body.fingerprint}',
-                                                    '${body.event}',          
-                                                    '${body.old_status}',          
-                                                    '${body.current_status}',          
-                                                    '${body.object}'  
-                                                     )`
+                                                INTO TRANSACAOPOST
+                                                        VALUES(  
+                                                               null,
+                                                              '${bodyTransaction.idtrans}',
+                                                              '${bodyTransaction.object}',
+                                                              '${bodyTransaction.idPlan}',
+                                                              '${bodyTransaction.amount}',          
+                                                              '${bodyTransaction.days}',          
+                                                              '${bodyTransaction.namePlan}',                
+                                                              '${bodyTransaction.trialdays}',
+                                                              '${bodyTransaction.plancreated}',
+                                                              '${bodyTransaction.current_transaction}',
+                                                              '${bodyTransaction.payment_method}',
+                                                              '${bodyTransaction.card_brand}',
+                                                              '${bodyTransaction.card_last_digits}',          
+                                                              '${bodyTransaction.period_start}',          
+                                                              '${bodyTransaction.periodo_end}',                
+                                                              '${bodyTransaction.charges}',
+                                                              '${bodyTransaction.soft_descriptor}',
+                                                              '${bodyTransaction.status}',
+                                                              '${bodyTransaction.date_Created}',
+                                                              '${bodyTransaction.phoneddd}',          
+                                                              '${bodyTransaction.phoneNumber}',          
+                                                              '${bodyTransaction.street}',                
+                                                              '${bodyTransaction.complementary}',
+                                                              '${bodyTransaction.street_number}',                
+                                                              '${bodyTransaction.neighborhood}',                
+                                                              '${bodyTransaction.city}',                
+                                                              '${bodyTransaction.zipcode}',                
+                                                              '${bodyTransaction.country}',
+                                                              '${bodyTransaction.document_number}',                
+                                                              '${bodyTransaction.document_type}',
+                                                              '${bodyTransaction.name}',
+                                                              '${bodyTransaction.email}',
+                                                              '${bodyTransaction.gender}',
+                                                              '${bodyTransaction.cardid}',
+                                                              '${bodyTransaction.brand}',                
+                                                              '${bodyTransaction.holder_name}',  
+                                                              '${bodyTransaction.first_digits}',                  
+                                                              '${bodyTransaction.last_digits}',                  
+                                                              '${bodyTransaction.fingerprint}',   
+                                                              '${bodyTransaction.valid}',   
+                                                              '${bodyTransaction.expiration_date}',                   
+                                                              '${bodyTransaction.manage_token}',
+                                                              '${bodyTransaction.manage_url}')`
+
 
             mysql.getConnection((error, connection) => {
                 connection.query(sql, function (error, result) {
