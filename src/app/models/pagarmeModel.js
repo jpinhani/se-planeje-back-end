@@ -2,6 +2,7 @@ const pagarme = require('pagarme');
 const mysql = require('../../database/index')
 const modelUser = require('./userModel')
 const nodemailer = require('nodemailer');
+const { json } = require('body-parser');
 
 
 const user = 'contato@seplaneje.com';
@@ -232,6 +233,7 @@ module.exports = {
             //                                          )`
 
             console.log("Veio até a construção do Objeto")
+            console.log(JSON.parse(body))
             let objeto = JSON.parse(body);
             console.log('objetoobjetoobjetoobjetoobjetoobjetoobjetoobjetoobjetoobjetoobjetoobjeto', objeto)
 
