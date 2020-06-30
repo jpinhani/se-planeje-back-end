@@ -229,7 +229,7 @@ module.exports = {
                                                     '${body.current_status}',          
                                                     '${body.object}'  
                                                      )`
-
+            console.log('sql', sql)
             mysql.getConnection((error, connection) => {
                 connection.query(sql, function (error, result) {
                     connection.release();

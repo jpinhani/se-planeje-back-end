@@ -66,11 +66,14 @@ module.exports = {
         try {
 
             const result = await pagarmeModel.notificacao(request.body)
+            console.log('result', result)
             if (result.status !== "ok")
                 return response.status(400).end()
 
 
+            console.log('foi para o result 2')
             const result2 = await pagarmeModel.AtualizaAssinatura(request.body)
+            console.log('result2', result2)
             if (result2.status === "ok")
                 return response.status(200).end()
 
