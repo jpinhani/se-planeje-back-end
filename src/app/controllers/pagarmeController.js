@@ -66,15 +66,15 @@ module.exports = {
         try {
 
             const result = await pagarmeModel.notificacao(request.body)
-            console.log('result', result)
+            // console.log('result', result)
             if (result !== "ok")
                 return response.status(400).end()
 
 
-            console.log('foi para o result 2')
+            // console.log('foi para o result 2')
             const result2 = await pagarmeModel.AtualizaAssinatura(request.body)
-            console.log('result2', result2)
-            if (result2 === "ok")
+            // console.log('result2', result2)
+            if (result2 === undefined)
                 return response.status(200).end()
 
             return response.status(400).end()

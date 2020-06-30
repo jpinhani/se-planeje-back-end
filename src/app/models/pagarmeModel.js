@@ -346,7 +346,7 @@ module.exports = {
                                                               '${bodyTransaction.manage_token}',
                                                               '${bodyTransaction.manage_url}')`
 
-                    console.log(sql)
+
                     mysql.getConnection((error, connection) => {
                         connection.query(sql, function (error, result) {
                             connection.release();
@@ -356,10 +356,11 @@ module.exports = {
                             return ("ok")
                         });
                     });
-                }).then(res => console.log(res))
+                })
 
         } catch (e) {
-            console.log(e.response)
+            return e.response
+            // console.log(e.response)
         }
     }
 }
