@@ -60,6 +60,7 @@ module.exports = {
             .postback
             .verifySignature(apiKey, verifyBody, signature)
         ) {
+            console.log("Entrou direto aqui")
             return response.status(400).end()
         }
 
@@ -67,7 +68,7 @@ module.exports = {
         try {
 
             const result = await pagarmeModel.notificacao(request.body)
-
+            console.log(result)
             return response.status(result === "ok" ? 200 : 400).end()
         } catch (error) {
             return response.status(400).json(error)
