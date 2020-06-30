@@ -49,7 +49,6 @@ module.exports = {
 
     async notificacoes(request, response) {
 
-
         const apiKey = 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA'
         const verifyBody = qs.stringify(request.body)
 
@@ -60,19 +59,25 @@ module.exports = {
             .postback
             .verifySignature(apiKey, verifyBody, signature)
         ) {
-            console.log("Problema na Validação")
+
             return response.status(400).end()
         }
 
-
         try {
-            console.log("Passou a Validação")
-            const result = await pagarmeModel.notificacao(request.body)
 
-            console.log("Result VEio assim", result)
-            return response.status(result === "ok" ? 200 : 400).end()
+            const result = await pagarmeModel.notificacao(request.body)
+            if (result.status !== "ok")
+                return response.status(400).end()
+
+
+            const result2 = await pagarmeModel.AtualizaAssinatura(request.body)
+            if (result2.status === "ok")
+                return response.status(200).end()
+
+            return response.status(400).end()
+
         } catch (error) {
-            console.log('Caiu Aqui essa POrra')
+
             return response.status(400).json(error)
         }
 
