@@ -247,7 +247,7 @@ module.exports = {
     async AtualizaAssinatura(body) {
 
         try {
-            await
+            const result = await
                 pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
                     .then(client => client.subscriptions.find({ id: body.id }))
                     .then(subscription => {
@@ -357,6 +357,7 @@ module.exports = {
                             });
                         });
                     })
+            return result
         } catch (e) {
             console.log(e.response)
         }
