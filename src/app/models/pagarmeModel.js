@@ -215,7 +215,7 @@ module.exports = {
         }
     },
 
-    notificacao(bodyTransaction) {
+    notificacao(body) {
         return new Promise((resolve, reject) => {
 
 
@@ -230,6 +230,55 @@ module.exports = {
             //                                         '${body.current_status}',          
             //                                         '${body.object}'  
             //                                          )`
+
+
+            var objeto = JSON.parse(body);
+            console.log('objetoobjetoobjetoobjetoobjetoobjetoobjetoobjetoobjetoobjetoobjetoobjeto', objeto)
+
+            const bodyTransaction = {
+                idtrans: objeto.id,
+                object: objeto.object,
+                idPlan: objeto.plan.id,
+                amount: objeto.plan.amount,
+                days: objeto.plan.days,
+                namePlan: objeto.plan.name,
+                trialdays: objeto.plan.trial_days,
+                plancreated: objeto.plan.date_created,
+                current_transaction: objeto.current_transaction,
+                payment_method: objeto.payment_method,
+                card_brand: objeto.card_brand,
+                card_last_digits: objeto.card_last_digits,
+                period_start: objeto.current_period_start,
+                periodo_end: objeto.current_period_end,
+                charges: objeto.charges,
+                soft_descriptor: objeto.soft_descriptor,
+                status: objeto.status,
+                date_Created: objeto.date_created,
+                phoneddd: objeto.phone.ddd,
+                phoneNumber: objeto.phone.number,
+                street: objeto.address.street,
+                complementary: objeto.address.complementary,
+                street_number: objeto.address.street_number,
+                neighborhood: objeto.address.neighborhood,
+                city: objeto.address.city,
+                zipcode: objeto.address.zipcode,
+                country: objeto.address.country,
+                document_number: objeto.customer.document_number,
+                document_type: objeto.customer.document_type,
+                name: objeto.customer.name,
+                email: objeto.customer.email,
+                gender: objeto.customer.gender,
+                cardid: objeto.card.id,
+                brand: objeto.card.brand,
+                holder_name: objeto.card.holder_name,
+                first_digits: objeto.card.first_digits,
+                last_digits: objeto.card.last_digits,
+                fingerprint: objeto.card.fingerprint,
+                valid: objeto.card.valid,
+                expiration_date: objeto.card.expiration_date,
+                manage_token: objeto.manage_token,
+                manage_url: objeto.manage_url
+            }
 
 
 
