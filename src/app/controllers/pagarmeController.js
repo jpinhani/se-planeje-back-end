@@ -111,6 +111,7 @@ module.exports = {
                 manage_url: response.manage_url
             }
 
+            console.log('bodyTransactionbodyTransactionbodyTransactionbodyTransactionbodyTransactionbodyTransactionbodyTransaction', bodyTransaction)
             const teste = await pagarmeModel.notificacao(bodyTransaction)
 
             return response.status(teste === "ok" ? 200 : 400).end()
