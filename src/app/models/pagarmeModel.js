@@ -298,8 +298,8 @@ module.exports = {
                             manage_url: subscription.manage_url
                         }
 
-                        return new Promise((resolve, reject) => {
-                            const sql = `INSERT
+
+                        const sql = `INSERT
                                                 INTO TRANSACAOPOST
                                                         VALUES(  
                                                                null,
@@ -346,16 +346,16 @@ module.exports = {
                                                               '${bodyTransaction.manage_token}',
                                                               '${bodyTransaction.manage_url}')`
 
-                            console.log(sql)
-                            mysql.getConnection((error, connection) => {
-                                connection.query(sql, function (error, result) {
-                                    connection.release();
-                                    if (error)
-                                        reject(error, { JBI: "Error" })
-                                    resolve("ok")
-                                });
+                        console.log(sql)
+                        mysql.getConnection((error, connection) => {
+                            connection.query(sql, function (error, result) {
+                                connection.release();
+                                if (error)
+                                    return (error, { JBI: "Error" })
+
+                                return ("ok")
                             });
-                        })
+                        });
                     })
         } catch (e) {
             console.log(e.response)
