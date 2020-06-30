@@ -67,6 +67,7 @@ module.exports = {
                                                AND B.event = B1.event
                                                ) or B.id is null)`
 
+
       connection.getConnection((error, conn) => {
         conn.query(sql, function (error, result) {
           conn.release();

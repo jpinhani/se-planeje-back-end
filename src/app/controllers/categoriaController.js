@@ -57,26 +57,21 @@ module.exports = {
     })
   },
 
-  deleteCategoria(request, response) {
+  async deleteCategoria(request, response) {
     try {
 
       request.body.id = request.params.id
 
-      CategoriaModel.getVerifyDependencia(request.params.id).then(result => {
+      const result = await CategoriaModel.getVerifyDependencia(request.params.id)
 
-        switch (result[0].Verify) {
-          case 0:
-            CategoriaModel.deleteCategoria(request.body).then(result => {
-              return response.json(result)
-            })
-            break;
+      if (result[0].NUM > 0)
+        return response.json(401)
 
-          default: return response.json({
-            message: 'Não é possivel excluir uma categoria que possui niveis Abaixo',
-            error: true
-          })
-        }
+      CategoriaModel.deleteCategoria(request.body).then(result => {
+        return response.json(result)
       })
+
+
     } catch (error) {
       return response.status(400).json(error)
     }

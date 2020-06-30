@@ -6,8 +6,8 @@ module.exports = {
   getVerifyDependencia(categoriaID) {
     return new Promise((resolve, reject) => {
       const sql = `SELECT
-                      COUNT(A.ID) Verify FROM CATEGORIA A
-                        WHERE A.DEPENDENCIA = '${categoriaID}'`
+                      COUNT(A.ID) NUM FROM DESPESA A
+                        WHERE A.ID_CATEGORIA = '${categoriaID}'`
 
       mysql.getConnection((error, connection) => {
         connection.query(sql, function (error, result) {
