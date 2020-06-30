@@ -66,7 +66,52 @@ module.exports = {
 
         try {
 
-            const teste = await pagarmeModel.notificacao(response)
+            const bodyTransaction = {
+                idtrans: response.id,
+                object: response.object,
+                idPlan: response.plan.id,
+                amount: response.plan.amount,
+                days: response.plan.days,
+                namePlan: response.plan.name,
+                trialdays: response.plan.trial_days,
+                plancreated: response.plan.date_created,
+                current_transaction: response.current_transaction,
+                payment_method: response.payment_method,
+                card_brand: response.card_brand,
+                card_last_digits: response.card_last_digits,
+                period_start: response.current_period_start,
+                periodo_end: response.current_period_end,
+                charges: response.charges,
+                soft_descriptor: response.soft_descriptor,
+                status: response.status,
+                date_Created: response.date_created,
+                phoneddd: response.phone.ddd,
+                phoneNumber: response.phone.number,
+                street: response.address.street,
+                complementary: response.address.complementary,
+                street_number: response.address.street_number,
+                neighborhood: response.address.neighborhood,
+                city: response.address.city,
+                zipcode: response.address.zipcode,
+                country: response.address.country,
+                document_number: response.customer.document_number,
+                document_type: response.customer.document_type,
+                name: response.customer.name,
+                email: response.customer.email,
+                gender: response.customer.gender,
+                cardid: response.card.id,
+                brand: response.card.brand,
+                holder_name: response.card.holder_name,
+                first_digits: response.card.first_digits,
+                last_digits: response.card.last_digits,
+                fingerprint: response.card.fingerprint,
+                valid: response.card.valid,
+                expiration_date: response.card.expiration_date,
+                manage_token: response.manage_token,
+                manage_url: response.manage_url
+            }
+
+            const teste = await pagarmeModel.notificacao(bodyTransaction)
 
             return response.status(teste === "ok" ? 200 : 400).end()
         } catch (error) {
