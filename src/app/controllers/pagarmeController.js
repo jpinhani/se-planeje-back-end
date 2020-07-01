@@ -6,7 +6,7 @@ const qs = require('querystring');
 
 module.exports = {
 
-    UpdateAssinatura(request, response) {
+    async UpdateAssinatura(request, response) {
         try {
             if (request.body.PlanId === 'mensal') {
                 request.body.PlanId = 484533
