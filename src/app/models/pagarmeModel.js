@@ -15,7 +15,7 @@ module.exports = {
             console.log("Chegou até o model", body)
             pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
                 .then(client => client.subscriptions.update({
-                    id: 'subscription_id',
+                    id: body.id,
                     plan_id: body.PlanId,
                     card_number: body.CardNumber,
                     card_holder_name: body.CardName,
