@@ -23,7 +23,7 @@ module.exports = {
                     card_cvv: body.Cvv,
                     postback_url: 'http://seplaneje-com.umbler.net/api/postback'
                 }))
-                .then(subscription => console.log(subscription))
+                .then(AtualizaAssinatura(body.id))
 
         } catch (error) {
             return error.response.status
