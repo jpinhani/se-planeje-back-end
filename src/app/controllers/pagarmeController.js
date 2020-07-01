@@ -21,10 +21,14 @@ module.exports = {
                 request.body.PlanId = 484530
             }
 
-            pagarmeModel.UpdateAssinatura(request.body).then(result => {
-                console.log("Responseeeeeeeeeee", result)
-                return response.json(result)
-            })
+            const atualizacao = await pagarmeModel.UpdateAssinatura(request.body)
+            console.log('atualizacao', atualizacao)
+            const result2 = await pagarmeModel.AtualizaAssinatura(request.body)
+            // console.log('result2', result2)
+            if (result2 === undefined)
+                return response.status(200).end()
+            return response.status(400).end()
+
         } catch (error) {
             return response.status(400).json(error)
         }

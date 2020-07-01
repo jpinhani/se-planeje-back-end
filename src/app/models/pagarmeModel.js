@@ -15,7 +15,7 @@ module.exports = {
         try {
 
 
-            await pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
+            return await pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
                 .then(client => client.subscriptions.update({
                     id: body.id,
                     plan_id: body.PlanId,
@@ -24,7 +24,7 @@ module.exports = {
                     card_expiration_date: body.ExpireDate,
                     card_cvv: body.Cvv,
                     postback_url: 'http://seplaneje-com.umbler.net/api/postback'
-                })).then(AtualizaAssinatura(body))
+                }))
 
 
 
