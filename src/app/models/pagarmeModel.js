@@ -251,6 +251,8 @@ module.exports = {
                                                     '${body.current_status}',          
                                                     '${body.object}'  
                                                      )`
+
+
             console.log('sql', sql)
             mysql.getConnection((error, connection) => {
                 connection.query(sql, function (error, result) {
@@ -372,10 +374,13 @@ module.exports = {
                     mysql.getConnection((error, connection) => {
                         connection.query(sql, function (error, result) {
                             connection.release();
-                            if (error)
+                            if (error) {
                                 return (error, { JBI: "Error" })
-
-                            return ("ok")
+                            } else {
+                                const Rs = await modelUser.CanceledUser(bodyTransaction.email)
+                                console.log(Rs)
+                                return ("ok")
+                            }
                         });
                     });
                 })

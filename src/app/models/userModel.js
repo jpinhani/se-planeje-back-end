@@ -96,6 +96,21 @@ module.exports = {
         });
       });
     });
+  },
+  CanceledUser(email) {
+
+    return new Promise((resolve, reject) => {
+      const sql = `UPDATE 
+                         USER SET STATUS = 'Inativo'
+                              WHERE EMAIL = '${email}'`
+
+      connection.getConnection((error, conn) => {
+        conn.query(sql, function (error, result) {
+          conn.release();
+          error ? reject(error) : resolve(result)
+        });
+      });
+    })
   }
 
 }
