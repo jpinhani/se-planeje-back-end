@@ -6,7 +6,6 @@ require("dotenv").config();
 module.exports = async (req, res, next) => {
 
     try {
-        // console.log(req.headers.authorization)
         const token = req.headers.authorization.split(' ')[1]
         const user = req.headers.user
 
@@ -14,7 +13,7 @@ module.exports = async (req, res, next) => {
         if (Vrfy.length === 0)
             return res.json({ status: 400 })
 
-        if (Vrfy[0].status === 'canceled' || Vrfy[0].PAYSTATUS === 'unpaid')
+        if (Vrfy[0].status === 'canceled' || Vrfy[0].status === 'unpaid' || Vrfy[0].status === 'pending_payment')
             return res.json({ status: 402 })
 
         const decode = jwt.verify(token, process.env.SP_JWT);
