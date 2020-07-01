@@ -12,8 +12,7 @@ module.exports = {
 
     async UpdateAssinatura(body) {
 
-
-        const res = pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
+        const res = await pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
             .then(client => client.subscriptions.update({
                 id: body.id,
                 plan_id: body.PlanId,
