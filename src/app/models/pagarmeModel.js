@@ -12,7 +12,7 @@ module.exports = {
 
     async UpdateAssinatura(body) {
         try {
-
+            console.log("Chegou até o model", body)
             pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
                 .then(client => client.subscriptions.update({
                     id: 'subscription_id',

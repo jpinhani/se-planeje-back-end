@@ -22,6 +22,7 @@ module.exports = {
             }
 
             pagarmeModel.UpdateAssinatura(request.body).then(result => {
+                console.log("Responseeeeeeeeeee")
                 return response.json(result)
             })
         } catch (error) {
