@@ -4,7 +4,19 @@ module.exports = {
 
   getUser(userId) {
     return new Promise((resolve, reject) => {
-      const sql = `SELECT * FROM USER WHERE ID = ${userId}`
+      const sql = `SELECT * FROM USER WHERE (ID = '${userId}' OR EMAIL = '${userId}')`
+      connection.getConnection((error, conn) => {
+        conn.query(sql, (error, result) => {
+          conn.release();
+          (error) ? reject(error) : resolve(result)
+
+        });
+      });
+    });
+  },
+  getUserMail(userId) {
+    return new Promise((resolve, reject) => {
+      const sql = `SELECT * FROM USER WHERE (EMAIL = '${userId}')`
       connection.getConnection((error, conn) => {
         conn.query(sql, (error, result) => {
           conn.release();

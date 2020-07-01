@@ -35,7 +35,7 @@ module.exports = {
         }
     },
 
-    assinatura(request, response) {
+    async assinatura(request, response) {
 
         try {
             if (request.body.PlanId === 'mensal') {
@@ -57,8 +57,17 @@ module.exports = {
                 request.body.CustomerSex = "Feminino"
             }
 
-            pagarmeModel.assinatura(request.body).then(result => {
+            const vrfyEmail = await UserModel.getUserMail(request.body.CustomerEmail)
+            if (vrfyEmail.length > 0) {
 
+                if (vrfyEmail[0].STATUS === 'Ativo')
+                    return response.json({ message: 'Já Existe Uma Conta', StatusTransac: 401 })
+
+                if (vrfyEmail[0].STATUS === 'Inativo')
+                    return response.json({ message: 'Conta Existente Inativada', StatusTransac: 402 })
+            }
+
+            pagarmeModel.assinatura(request.body).then(result => {
                 return response.json({ StatusTransac: result ? 400 : 200 })
             })
         } catch (error) {
