@@ -10,6 +10,25 @@ const pass = 'Brasil123';
 
 module.exports = {
 
+    async UpdateAssinatura(body) {
+        try {
+
+            pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
+                .then(client => client.subscriptions.update({
+                    id: 'subscription_id',
+                    plan_id: body.PlanId,
+                    card_number: body.CardNumber,
+                    card_holder_name: body.CardName,
+                    card_expiration_date: body.ExpireDate,
+                    card_cvv: body.Cvv,
+                    postback_url: 'http://seplaneje-com.umbler.net/api/postback'
+                }))
+                .then(subscription => console.log(subscription))
+
+        } catch (error) {
+            return error.response.status
+        }
+    },
     async assinatura(body) {
 
         try {

@@ -6,6 +6,29 @@ const qs = require('querystring');
 
 module.exports = {
 
+    UpdateAssinatura(request, response) {
+        try {
+            if (request.body.PlanId === 'mensal') {
+                request.body.PlanId = 484533
+            }
+            else if (request.body.PlanId === 'trimestral') {
+                request.body.PlanId = 484532
+            }
+            else if (request.body.PlanId === 'semestral') {
+                request.body.PlanId = 484531
+            }
+            else if (request.body.PlanId === 'anual') {
+                request.body.PlanId = 484530
+            }
+
+            pagarmeModel.UpdateAssinatura(request.body).then(result => {
+                return response.json(result)
+            })
+        } catch (error) {
+            return response.status(400).json(error)
+        }
+    },
+
     assinatura(request, response) {
 
         try {
