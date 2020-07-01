@@ -377,9 +377,13 @@ module.exports = {
                             if (error) {
                                 return (error, { JBI: "Error" })
                             } else {
-                                const Rs = await modelUser.CanceledUser(bodyTransaction.email)
-                                console.log(Rs)
-                                return ("ok")
+                                modelUser.CanceledUser(bodyTransaction.email).then(result => {
+
+                                    if (error)
+                                        return ("Error")
+
+                                    return ("ok")
+                                })
                             }
                         });
                     });
