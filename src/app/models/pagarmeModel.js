@@ -11,23 +11,20 @@ const pass = 'Brasil123';
 module.exports = {
 
     async UpdateAssinatura(body) {
-        try {
-            console.log("Chegou até o model", body)
-            pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
-                .then(client => client.subscriptions.update({
-                    id: body.id,
-                    plan_id: body.PlanId,
-                    card_number: body.CardNumber,
-                    card_holder_name: body.CardName,
-                    card_expiration_date: body.ExpireDate,
-                    card_cvv: body.Cvv,
-                    postback_url: 'http://seplaneje-com.umbler.net/api/postback'
-                }))
-                .then(AtualizaAssinatura(body.id))
 
-        } catch (error) {
-            return error.response.status
-        }
+
+        const res = pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
+            .then(client => client.subscriptions.update({
+                id: body.id,
+                plan_id: body.PlanId,
+                card_number: body.CardNumber,
+                card_holder_name: body.CardName,
+                card_expiration_date: body.ExpireDate,
+                card_cvv: body.Cvv,
+                postback_url: 'http://seplaneje-com.umbler.net/api/postback'
+            }))
+        console.log("res", res)
+
     },
     async assinatura(body) {
 
