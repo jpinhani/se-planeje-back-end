@@ -492,7 +492,11 @@ module.exports = {
                         A.DT_PREVISTO,
                         A.DT_REAL,
                         A.STATUS ,
-                         IFNULL(CASE WHEN 
+                         IFNULL(CASE WHEN (C.DIA_COMPRA > C.DT_VENCIMENTO AND MONTH(A.DT_REAL) < 12)  THEN
+							CAST(CONCAT(YEAR(A.DT_REAL),'-',(MONTH(A.DT_REAL) + 1),'-',C.DT_VENCIMENTO) AS DATE)
+                            WHEN (C.DIA_COMPRA > C.DT_VENCIMENTO AND MONTH(A.DT_REAL) = 12)  THEN
+							CAST(CONCAT((YEAR(A.DT_REAL) + 1),'-','1','-',C.DT_VENCIMENTO) AS DATE)
+                         WHEN 
                       ((A.DT_REAL < CAST(CONCAT(YEAR(A.DT_REAL),'-',MONTH(A.DT_REAL),'-',C.DIA_COMPRA) AS DATE))
 				          AND (A.DT_REAL IS NOT NULL))
                          THEN
@@ -514,7 +518,7 @@ module.exports = {
                                   LEFT OUTER JOIN CATEGORIA B ON (A.ID_CATEGORIA = B.ID AND A.ID_USER = B.ID_USER)
                                   LEFT OUTER JOIN CARTAO C ON (A.ID_CARTAO = C.ID AND A.ID_USER = C.ID_USER)
                                   LEFT OUTER JOIN CONTA D ON (A.ID_CONTA = D.ID AND A.ID_USER = D.ID_USER)
-                              WHERE A.STATUS IN ('Pagamento Realizado','Fatura Pronta Para Pagamento')
+                              WHERE A.STATUS IN ('Pagamento Realizado','Fatura Pronta Para Pagamento','Fatura Paga')
                               AND A.ID_USER = ${idUser}`
       mysql.getConnection((error, connection) => {
         connection.query(sql, function (error, result, fields) {

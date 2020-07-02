@@ -63,8 +63,10 @@ module.exports = {
                 if (vrfyEmail[0].STATUS === 'Ativo')
                     return response.json({ message: 'Já Existe Uma Conta', StatusTransac: 401 })
 
-                if (vrfyEmail[0].STATUS === 'Inativo')
+                if (vrfyEmail[0].STATUS === 'Inativo') {
+
                     return response.json({ message: 'Conta Existente Inativada', StatusTransac: 402 })
+                }
             }
 
             pagarmeModel.assinatura(request.body).then(result => {
