@@ -58,16 +58,16 @@ module.exports = {
             }
 
             const vrfyEmail = await UserModel.getUserMail(request.body.CustomerEmail)
+            request.body.REATIVAR = 0
             if (vrfyEmail.length > 0) {
 
                 if (vrfyEmail[0].STATUS === 'Ativo')
                     return response.json({ message: 'Já Existe Uma Conta', StatusTransac: 401 })
 
-                if (vrfyEmail[0].STATUS === 'Inativo') {
-
-                    return response.json({ message: 'Conta Existente Inativada', StatusTransac: 402 })
-                }
+                if (vrfyEmail[0].STATUS === 'Inativo')
+                    request.body.REATIVAR = 1;
             }
+
 
             pagarmeModel.assinatura(request.body).then(result => {
                 return response.json({ StatusTransac: result ? 400 : 200 })

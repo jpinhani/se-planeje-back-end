@@ -143,7 +143,7 @@ module.exports = {
   },
 
 
-  NewUser(email, password) {
+  NewUser(email, password, reativar) {
 
     return new Promise((resolve, reject) => {
       const sql = `INSERT 
@@ -153,8 +153,12 @@ module.exports = {
                                             md5('${password}'),
                                            'Ativo')`
 
+
+      const sqlReativar = `UPDATE USER SET
+                                          STATUS = 'Ativo', 
+                                          PASSWORD = md5('${password}') WHERE EMAIL = '${email}'`
       connection.getConnection((error, conn) => {
-        conn.query(sql, function (error, result) {
+        conn.query(reativar === 0 ? sql : sqlReativar, function (error, result) {
           conn.release();
           error ? reject(error) : resolve(result)
         });

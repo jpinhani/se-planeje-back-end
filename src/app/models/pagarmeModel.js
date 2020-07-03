@@ -159,15 +159,61 @@ module.exports = {
                                                               '${bodyTransaction.manage_token}',
                                                               '${bodyTransaction.manage_url}')`
 
-                            console.log(sql)
+                            const sqlReativar = `INSERT
+                                                INTO TRANSACAOPOST
+                                                        VALUES(  
+                                                               null,
+                                                              '${bodyTransaction.idtrans}',
+                                                              '${bodyTransaction.object}',
+                                                              '${bodyTransaction.idPlan}',
+                                                              '${bodyTransaction.amount}',          
+                                                              '${bodyTransaction.days}',          
+                                                              '${bodyTransaction.namePlan}',                
+                                                              '${bodyTransaction.trialdays}',
+                                                              '${bodyTransaction.plancreated}',
+                                                              '${bodyTransaction.current_transaction}',
+                                                              '${bodyTransaction.payment_method}',
+                                                              '${bodyTransaction.card_brand}',
+                                                              '${bodyTransaction.card_last_digits}',          
+                                                              '${bodyTransaction.period_start}',          
+                                                              '${bodyTransaction.periodo_end}',                
+                                                              '${bodyTransaction.charges}',
+                                                              '${bodyTransaction.soft_descriptor}',
+                                                              '${bodyTransaction.status}',
+                                                              '${bodyTransaction.date_Created}',
+                                                              '${bodyTransaction.phoneddd}',          
+                                                              '${bodyTransaction.phoneNumber}',          
+                                                              '${bodyTransaction.street}',                
+                                                              '${bodyTransaction.complementary}',
+                                                              '${bodyTransaction.street_number}',                
+                                                              '${bodyTransaction.neighborhood}',                
+                                                              '${bodyTransaction.city}',                
+                                                              '${bodyTransaction.zipcode}',                
+                                                              '${bodyTransaction.country}',
+                                                              '${bodyTransaction.document_number}',                
+                                                              '${bodyTransaction.document_type}',
+                                                              '${bodyTransaction.name}',
+                                                              '${bodyTransaction.email}',
+                                                              '${bodyTransaction.gender}',
+                                                              '${bodyTransaction.cardid}',
+                                                              '${bodyTransaction.brand}',                
+                                                              '${bodyTransaction.holder_name}',  
+                                                              '${bodyTransaction.first_digits}',                  
+                                                              '${bodyTransaction.last_digits}',                  
+                                                              '${bodyTransaction.fingerprint}',   
+                                                              '${bodyTransaction.valid}',   
+                                                              '${bodyTransaction.expiration_date}',                   
+                                                              '${bodyTransaction.manage_token}',
+                                                              '${bodyTransaction.manage_url}')`
+
                             mysql.getConnection((error, connection) => {
-                                connection.query(sql, function (error, result) {
+                                connection.query(body.REATIVAR === 0 ? sql : sqlReativar, function (error, result) {
                                     connection.release();
                                     if (error)
                                         reject(error)
 
                                     const ID = '_' + Math.random().toString(36).substr(2, 9)
-                                    modelUser.NewUser(bodyTransaction.email, ID).then(result => {
+                                    modelUser.NewUser(bodyTransaction.email, ID, body.REATIVAR).then(result => {
 
                                         if (error)
                                             reject(error)
@@ -187,6 +233,22 @@ module.exports = {
                                                     <p><strong>Senha:</strong>${ID}</p>
         
                                             </div>`
+
+                                        if (body.REATIVAR === 1) {
+                                            template = `<div>
+                                                        <h1>Olá tudo bem?</h1>
+                                                    <p>Estamos muito felizes de você ter retornado para seu Planejamento Financeiro! :)</p>
+                                                    <p>Queremos que sua experiência conosco seja à melhor possivel, dessa forma sempre que 
+                                                    não conseguir resolver seus problemas no site ou aplicativo pode nos procurar no email
+                                                    contato@seplaneje.com, iremos te atender o quanto antes.</p>
+
+                                                    <strong>Para seu primeiro acesso, utilize as seguintes credenciais</strong>
+                                                    <p><strong>Usuário:</strong>${bodyTransaction.email}</p>
+                                                    <p><strong>Senha:</strong>${ID}</p>
+        
+                                            </div>`
+                                        }
+
 
                                         const transporter = nodemailer.createTransport({
                                             host: "smtp.umbler.com",
