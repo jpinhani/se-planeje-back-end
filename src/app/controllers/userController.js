@@ -18,5 +18,14 @@ module.exports = {
     userModel.getUserDetails(request.params.id).then(result => {
       return response.json(result)
     })
+  },
+  async envpsw(request, response) {
+    const rs = await userModel.envpsw(request.body)
+    if (rs.length === 0)
+      return response.json('error')
+
+    userModel.envpswmail(rs)
+    return response.json('ok')
+
   }
 }
