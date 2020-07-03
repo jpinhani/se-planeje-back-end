@@ -3,9 +3,11 @@ const emailModel = require('./../models/EmailModel')
 const moment = require('moment');
 const router = express.Router()
 const nodemailer = require('nodemailer');
+require("dotenv").config();
 
-const user = 'contato@seplaneje.com';
-const pass = 'Brasil123';
+
+const user = process.env.SP_MAIL_USER;
+const pass = process.env.SP_MAIL_PASS;
 
 
 async function itensGeral() {

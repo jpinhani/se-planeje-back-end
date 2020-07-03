@@ -2,11 +2,11 @@ const pagarme = require('pagarme');
 const mysql = require('../../database/index')
 const modelUser = require('./userModel')
 const nodemailer = require('nodemailer');
-const { json } = require('body-parser');
+require("dotenv").config();
 
 
-const user = 'contato@seplaneje.com';
-const pass = 'Brasil123';
+const user = process.env.SP_MAIL_USER;
+const pass = process.env.SP_MAIL_PASS;
 
 module.exports = {
 
@@ -15,7 +15,7 @@ module.exports = {
         try {
 
 
-            return await pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
+            return await pagarme.client.connect({ api_key: process.env.SP_API_KEY })
                 .then(client => client.subscriptions.update({
                     id: body.id,
                     plan_id: body.PlanId,
@@ -37,7 +37,7 @@ module.exports = {
         try {
 
             await
-                pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
+                pagarme.client.connect({ api_key: process.env.SP_API_KEY })
                     .then(client => client.subscriptions.create({
                         plan_id: body.PlanId,
                         card_number: body.CardNumber,
@@ -292,7 +292,7 @@ module.exports = {
     async cancelamento(body) {
         try {
             await
-                pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
+                pagarme.client.connect({ api_key: process.env.SP_API_KEY })
                     .then(client => client.subscriptions.cancel({ id: body.IdTransaction }))
                     .then(subscription => console.log(subscription))
         } catch (e) {
@@ -334,7 +334,7 @@ module.exports = {
 
         try {
 
-            pagarme.client.connect({ api_key: 'ak_test_MH0vQmPWdS1f3jIvmOKDW8mB6WycrA' })
+            pagarme.client.connect({ api_key: process.env.SP_API_KEY })
                 .then(client => client.subscriptions.find({ id: body.id }))
                 .then(subscription => {
 
@@ -452,7 +452,6 @@ module.exports = {
                 })
 
         } catch (e) {
-            // return e.response
             console.log(e.response)
         }
     }
