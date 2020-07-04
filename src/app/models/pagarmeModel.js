@@ -23,7 +23,7 @@ module.exports = {
                     card_holder_name: body.CardName,
                     card_expiration_date: body.ExpireDate,
                     card_cvv: body.Cvv,
-                    postback_url: 'http://seplaneje-com.umbler.net/api/postback'
+                    postback_url: process.env.SP_API_POSTBACK
                 }))
 
 
@@ -44,7 +44,7 @@ module.exports = {
                         card_holder_name: body.CardName,
                         card_expiration_date: body.ExpireDate,
                         card_cvv: body.Cvv,
-                        postback_url: 'http://seplaneje-com.umbler.net/api/postback',
+                        postback_url: process.env.SP_API_POSTBACK,
                         customer: {
                             email: body.CustomerEmail,
                             name: body.CustomerName,
@@ -330,15 +330,14 @@ module.exports = {
 
     },
 
-    async AtualizaAssinatura(body) {
+    async AtualizaAssinatura(body, apiKey) {
 
         try {
 
-            pagarme.client.connect({ api_key: process.env.SP_API_KEY })
+            pagarme.client.connect({ api_key: apiKey })
                 .then(client => client.subscriptions.find({ id: body.id }))
                 .then(subscription => {
 
-                    console.log(subscription)
                     const bodyTransaction = {
                         idtrans: subscription.id,
                         object: subscription.object,
