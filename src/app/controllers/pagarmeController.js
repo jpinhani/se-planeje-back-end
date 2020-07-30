@@ -88,6 +88,40 @@ module.exports = {
 
     async notificacoes(request, response) {
 
+        const apiKey = process.env.SP_API_KEY_TEST;
+        const verifyBody = qs.stringify(request.body)
+
+        const signature = request.headers['x-hub-signature'].replace('sha1=', '')
+
+
+        if (!pagarme
+            .postback
+            .verifySignature(apiKey, verifyBody, signature)
+        ) {
+
+            return response.status(400).end()
+        }
+
+        try {
+
+            const result = await pagarmeModel.notificacao(request.body)
+            if (result !== "ok")
+                return response.status(400).end()
+
+
+            const result2 = await pagarmeModel.AtualizaAssinatura(request.body, apiKey)
+            if (result2 === undefined)
+                return response.status(200).end()
+            return response.status(400).end()
+
+        } catch (error) {
+
+            return response.status(400).json(error)
+        }
+
+    },
+    async notificacoesLive(request, response) {
+
         const apiKey = process.env.SP_API_KEY;
         const verifyBody = qs.stringify(request.body)
 
@@ -109,7 +143,7 @@ module.exports = {
                 return response.status(400).end()
 
 
-            const result2 = await pagarmeModel.AtualizaAssinatura(request.body)
+            const result2 = await pagarmeModel.AtualizaAssinatura(request.body, apiKey)
             if (result2 === undefined)
                 return response.status(200).end()
             return response.status(400).end()
