@@ -7,6 +7,7 @@ module.exports = {
 
       const novosDados = result.map((data) => {
         const dataTransferencia = Moment(data.DATA_TRANSFERENCIA, "YYYY/MM/DD").format("DD-MM-YYYY");
+       
         const valorTransferencia = data.VALOR;
 
         const formatter = new Intl.NumberFormat('pt-BR', {
@@ -42,7 +43,7 @@ module.exports = {
   },
 
   insertTransferencia(request, response) {
-    request.body.cartao = request.body.cartao
+
     Model.insertTransferencia(request.body).then(result => {
       return response.json(result)
     })
