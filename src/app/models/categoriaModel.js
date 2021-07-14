@@ -23,7 +23,7 @@ module.exports = {
       const sql = `SELECT
                     A.* FROM CATEGORIA A
                             WHERE A.NIVEL = ${nivel}-1
-                              AND A.ID_USER IN (${userID},0)
+                              AND A.ID_USER IN (${userID})
                               AND A.TIPO = ${tipo}
                               AND A.ENTRADA = 1`
 
@@ -59,7 +59,7 @@ module.exports = {
                       A.ENTRADA,
                       A.STATUS FROM CATEGORIA A 
                            LEFT OUTER JOIN CATEGORIA B ON (A.DEPENDENCIA = B.ID)
-                           WHERE  A.ID_USER IN (${userID},0) AND A.ID > 3
+                           WHERE  A.ID_USER IN (${userID}) AND A.ID > 3
                             ORDER BY A.DEPENDENCIA`
 
       mysql.getConnection((error, connection) => {
@@ -94,7 +94,7 @@ module.exports = {
                       A.ENTRADA,
                       A.STATUS FROM CATEGORIA A 
                            LEFT OUTER JOIN CATEGORIA B ON (A.DEPENDENCIA = B.ID)
-                           WHERE  A.ID_USER IN (${userID},0)
+                           WHERE  A.ID_USER IN (${userID})
                              AND A.DESCR_CATEGORIA LIKE '%${categoriaID}%' AND A.ID > 3
                             ORDER BY A.DEPENDENCIA`
       mysql.getConnection((error, connection) => {
