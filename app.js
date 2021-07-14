@@ -25,6 +25,7 @@ const app = express()
 //     origin: ["http://localhost:3000", "https://sys.seplaneje.com"],
 //     methods: ["GET", "POST", "PUT", "DELETE"]
 //     // allowedHeaders: ["Content-Type"]
+// Teste de Deploy
 // }));
 
 app.use(cors());
