@@ -10,7 +10,7 @@ const port = process.env.SP_PORT_BACKEND
 const hostname = process.env.SP_HOST_BACKEND
 
 
-app.listen(port, () => {
+app.listen(process.env.PORT||port, () => {
   console.log(`App running running at ${port}`);
 })
 
