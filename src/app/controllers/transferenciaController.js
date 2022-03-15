@@ -43,7 +43,7 @@ module.exports = {
   },
 
   insertTransferencia(request, response) {
-
+    //  console.log(request.body)
     Model.insertTransferencia(request.body).then(result => {
       return response.json(result)
     })
