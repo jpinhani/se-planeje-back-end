@@ -22,7 +22,7 @@ const app = express()
 
 
 app.use(cors({
-    origin: ["http://localhost:3000", "https://sys.seplaneje.com","http://localhost:3001","https://elegant-fermi-7a916d.netlify.app/"],
+    origin: ["http://localhost:3000", "https://sys.seplaneje.com","http://localhost:3001","https://elegant-fermi-7a916d.netlify.app"],
     methods: ["GET", "POST", "PUT", "DELETE"]
     // allowedHeaders: ["Content-Type"]
 
